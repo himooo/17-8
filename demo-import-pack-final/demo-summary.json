@@ -1,0 +1,18 @@
+{
+  "className": "رابعة ابتدائي — رياضيات — فصل التجربة",
+  "students": 12,
+  "groups": 3,
+  "lessons": 4,
+  "ideas": 12,
+  "questions": 48,
+  "sessions": 1,
+  "games": 4,
+  "gameParticipants": 48,
+  "activities": 24,
+  "notes": 6,
+  "celebrations": 8,
+  "importMethods": [
+    "Settings > نسخة JSON > استعادة",
+    "Curriculum > استيراد شرائح HTML"
+  ]
+}

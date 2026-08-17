@@ -1,0 +1,769 @@
+{
+  "base": "http://127.0.0.1:3056",
+  "mock": "http://127.0.0.1:3020/v1",
+  "total": 21,
+  "passed": 21,
+  "failed": 0,
+  "results": [
+    {
+      "name": "rejects short AI key",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "payload": {
+          "ok": false,
+          "error": "رابط API مطلوب للمزود المخصص"
+        }
+      }
+    },
+    {
+      "name": "rejects custom key without baseUrl",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "payload": {
+          "ok": false,
+          "error": "رابط API مطلوب للمزود المخصص"
+        }
+      }
+    },
+    {
+      "name": "creates failing custom key",
+      "ok": true,
+      "detail": {
+        "status": 201,
+        "payload": {
+          "ok": true,
+          "data": {
+            "id": "cmswe1b7k0000kjikgz4rycb6",
+            "label": "aiqa-1786920008651-fail",
+            "provider": "custom",
+            "apiKind": "openai-compatible",
+            "baseUrl": "http://127.0.0.1:3020/v1",
+            "modelsUrl": null,
+            "keyHint": "mock••••0000",
+            "model": "mock-math-fast",
+            "isActive": true,
+            "priority": 0,
+            "status": "active"
+          }
+        }
+      }
+    },
+    {
+      "name": "creates healthy custom key",
+      "ok": true,
+      "detail": {
+        "status": 201,
+        "payload": {
+          "ok": true,
+          "data": {
+            "id": "cmswe1b9b0001kjikvq8in93q",
+            "label": "aiqa-1786920008651-good",
+            "provider": "custom",
+            "apiKind": "openai-compatible",
+            "baseUrl": "http://127.0.0.1:3020/v1",
+            "modelsUrl": null,
+            "keyHint": "mock••••0000",
+            "model": "mock-math-pro",
+            "isActive": true,
+            "priority": 1,
+            "status": "active"
+          }
+        }
+      }
+    },
+    {
+      "name": "modelsPreview discovers paginated mock models",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": [
+            {
+              "id": "mock-math-fast",
+              "name": "mock-math-fast",
+              "displayName": "mock-math-fast",
+              "provider": "custom",
+              "inputTokenLimit": 8192,
+              "ownedBy": "qa-provider",
+              "supportsTextGeneration": true
+            },
+            {
+              "id": "mock-math-pro",
+              "name": "mock-math-pro",
+              "displayName": "mock-math-pro",
+              "provider": "custom",
+              "inputTokenLimit": 32768,
+              "ownedBy": "qa-provider",
+              "supportsTextGeneration": true
+            },
+            {
+              "id": "mock-page-2",
+              "name": "mock-page-2",
+              "displayName": "mock-page-2",
+              "provider": "custom",
+              "ownedBy": "qa-provider"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "persisted key model discovery works",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": [
+            {
+              "id": "mock-math-fast",
+              "name": "mock-math-fast",
+              "displayName": "mock-math-fast",
+              "provider": "custom",
+              "inputTokenLimit": 8192,
+              "ownedBy": "qa-provider",
+              "supportsTextGeneration": true
+            },
+            {
+              "id": "mock-math-pro",
+              "name": "mock-math-pro",
+              "displayName": "mock-math-pro",
+              "provider": "custom",
+              "inputTokenLimit": 32768,
+              "ownedBy": "qa-provider",
+              "supportsTextGeneration": true
+            },
+            {
+              "id": "mock-page-2",
+              "name": "mock-page-2",
+              "displayName": "mock-page-2",
+              "provider": "custom",
+              "ownedBy": "qa-provider"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "rotation falls through failed key to healthy key",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "text": "جاهز من Mock API",
+            "provider": "custom",
+            "model": "mock-math-pro",
+            "keyId": "cmswe1b9b0001kjikvq8in93q",
+            "usage": {
+              "inputTokens": 6,
+              "outputTokens": 4,
+              "totalTokens": 10,
+              "estimatedCostUsd": 0.000009,
+              "pricingSource": "custom:mock-math-pro"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "failed key enters cooldown and healthy key records success",
+      "ok": true,
+      "detail": {
+        "failRow": {
+          "id": "cmswe1b7k0000kjikgz4rycb6",
+          "label": "aiqa-1786920008651-fail",
+          "provider": "custom",
+          "apiKind": "openai-compatible",
+          "baseUrl": "http://127.0.0.1:3020/v1",
+          "modelsUrl": null,
+          "chatUrl": null,
+          "keyHint": "mock••••0000",
+          "model": "mock-math-fast",
+          "isActive": true,
+          "priority": 0,
+          "status": "cooldown",
+          "specialty": "general",
+          "scopesJson": "[\"generate\"]",
+          "capabilitiesJson": "[\"text\"]",
+          "cooldownUntil": "2026-08-16T22:40:24.109Z",
+          "rpmLimit": null,
+          "dailyLimit": null,
+          "maxConcurrency": 1,
+          "lastUsedAt": null,
+          "lastSuccessAt": null,
+          "lastErrorAt": "2026-08-16T22:40:09.109Z",
+          "lastErrorCode": "503",
+          "lastError": "حدث خطأ مؤقت في مزود AI",
+          "successCount": 0,
+          "failureCount": 1,
+          "consecutiveFailures": 1,
+          "createdAt": "2026-08-16T22:40:08.960Z",
+          "updatedAt": "2026-08-16T22:40:09.111Z",
+          "inFlight": 0
+        },
+        "goodRow": {
+          "id": "cmswe1b9b0001kjikvq8in93q",
+          "label": "aiqa-1786920008651-good",
+          "provider": "custom",
+          "apiKind": "openai-compatible",
+          "baseUrl": "http://127.0.0.1:3020/v1",
+          "modelsUrl": null,
+          "chatUrl": null,
+          "keyHint": "mock••••0000",
+          "model": "mock-math-pro",
+          "isActive": true,
+          "priority": 1,
+          "status": "active",
+          "specialty": "general",
+          "scopesJson": "[\"generate\"]",
+          "capabilitiesJson": "[\"text\"]",
+          "cooldownUntil": null,
+          "rpmLimit": null,
+          "dailyLimit": null,
+          "maxConcurrency": 2,
+          "lastUsedAt": "2026-08-16T22:40:09.116Z",
+          "lastSuccessAt": "2026-08-16T22:40:09.116Z",
+          "lastErrorAt": null,
+          "lastErrorCode": null,
+          "lastError": null,
+          "successCount": 1,
+          "failureCount": 0,
+          "consecutiveFailures": 0,
+          "createdAt": "2026-08-16T22:40:09.023Z",
+          "updatedAt": "2026-08-16T22:40:09.118Z",
+          "inFlight": 0
+        }
+      }
+    },
+    {
+      "name": "keys endpoint never returns encrypted key",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "keys": [
+              {
+                "id": "cmswe1b7k0000kjikgz4rycb6",
+                "label": "aiqa-1786920008651-fail",
+                "provider": "custom",
+                "apiKind": "openai-compatible",
+                "baseUrl": "http://127.0.0.1:3020/v1",
+                "modelsUrl": null,
+                "chatUrl": null,
+                "keyHint": "mock••••0000",
+                "model": "mock-math-fast",
+                "isActive": true,
+                "priority": 0,
+                "status": "cooldown",
+                "specialty": "general",
+                "scopesJson": "[\"generate\"]",
+                "capabilitiesJson": "[\"text\"]",
+                "cooldownUntil": "2026-08-16T22:40:24.109Z",
+                "rpmLimit": null,
+                "dailyLimit": null,
+                "maxConcurrency": 1,
+                "lastUsedAt": null,
+                "lastSuccessAt": null,
+                "lastErrorAt": "2026-08-16T22:40:09.109Z",
+                "lastErrorCode": "503",
+                "lastError": "حدث خطأ مؤقت في مزود AI",
+                "successCount": 0,
+                "failureCount": 1,
+                "consecutiveFailures": 1,
+                "createdAt": "2026-08-16T22:40:08.960Z",
+                "updatedAt": "2026-08-16T22:40:09.111Z",
+                "inFlight": 0
+              },
+              {
+                "id": "cmswe1b9b0001kjikvq8in93q",
+                "label": "aiqa-1786920008651-good",
+                "provider": "custom",
+                "apiKind": "openai-compatible",
+                "baseUrl": "http://127.0.0.1:3020/v1",
+                "modelsUrl": null,
+                "chatUrl": null,
+                "keyHint": "mock••••0000",
+                "model": "mock-math-pro",
+                "isActive": true,
+                "priority": 1,
+                "status": "active",
+                "specialty": "general",
+                "scopesJson": "[\"generate\"]",
+                "capabilitiesJson": "[\"text\"]",
+                "cooldownUntil": null,
+                "rpmLimit": null,
+                "dailyLimit": null,
+                "maxConcurrency": 2,
+                "lastUsedAt": "2026-08-16T22:40:09.116Z",
+                "lastSuccessAt": "2026-08-16T22:40:09.116Z",
+                "lastErrorAt": null,
+                "lastErrorCode": null,
+                "lastError": null,
+                "successCount": 1,
+                "failureCount": 0,
+                "consecutiveFailures": 0,
+                "createdAt": "2026-08-16T22:40:09.023Z",
+                "updatedAt": "2026-08-16T22:40:09.118Z",
+                "inFlight": 0
+              }
+            ],
+            "envConfigured": false,
+            "providers": [
+              {
+                "id": "google",
+                "defaultModel": "gemini-2.5-flash"
+              },
+              {
+                "id": "groq",
+                "defaultModel": "llama-3.3-70b-versatile"
+              },
+              {
+                "id": "openai",
+                "defaultModel": "gpt-4o-mini"
+              },
+              {
+                "id": "mistral",
+                "defaultModel": "mistral-small-latest"
+              },
+              {
+                "id": "custom",
+                "defaultModel": "custom-model"
+              },
+              {
+                "id": "openrouter",
+                "defaultModel": "openai/gpt-4o-mini"
+              },
+              {
+                "id": "anthropic",
+                "defaultModel": "claude-sonnet-4-6"
+              },
+              {
+                "id": "together",
+                "defaultModel": "meta-llama/Llama-3.3-70B-Instruct-Turbo"
+              },
+              {
+                "id": "fireworks",
+                "defaultModel": "accounts/fireworks/models/llama-v3p1-70b-instruct"
+              },
+              {
+                "id": "deepseek",
+                "defaultModel": "deepseek-chat"
+              },
+              {
+                "id": "cohere",
+                "defaultModel": "command-r-plus"
+              },
+              {
+                "id": "perplexity",
+                "defaultModel": "sonar"
+              },
+              {
+                "id": "replicate",
+                "defaultModel": ""
+              },
+              {
+                "id": "huggingface",
+                "defaultModel": ""
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "freeform generate returns text",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "text": "جاهز من Mock API",
+            "provider": "custom",
+            "model": "mock-math-pro",
+            "keyId": "cmswe1b9b0001kjikvq8in93q",
+            "usage": {
+              "inputTokens": 2,
+              "outputTokens": 4,
+              "totalTokens": 6,
+              "estimatedCostUsd": 0.000007,
+              "pricingSource": "custom:mock-math-pro"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "analyzeLesson parses structured JSON",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "result": {
+              "summary": "تحليل درس الكسور التجريبي",
+              "objectives": [
+                "تمييز الكسر"
+              ],
+              "concepts": [
+                "البسط والمقام"
+              ],
+              "risks": [
+                "الخلط بينهما"
+              ],
+              "activities": [
+                "تمثيل نصف"
+              ],
+              "suggestedQuestions": [
+                "ما بسط 1/2؟"
+              ]
+            },
+            "provider": "custom",
+            "model": "mock-math-pro",
+            "keyId": "cmswe1b9b0001kjikvq8in93q"
+          }
+        }
+      }
+    },
+    {
+      "name": "generateQuestions validates and returns two questions",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "questions": [
+              {
+                "lessonId": "qa-lesson",
+                "text": "ما قيمة 1/2؟",
+                "correctAnswer": "0.5",
+                "optionsJson": "[\"0.25\",\"0.5\",\"1\",\"2\"]",
+                "questionType": "mcq",
+                "solutionStepsJson": "[]",
+                "solutionScript": "النصف يساوي 0.5",
+                "imageJson": "[]",
+                "rewardPoints": 3,
+                "difficulty": "easy",
+                "tags": [
+                  "fractions"
+                ],
+                "gameReady": true,
+                "ideaId": null,
+                "ideaTitle": null,
+                "stepNumber": null,
+                "externalRefId": null,
+                "options": [
+                  "0.25",
+                  "0.5",
+                  "1",
+                  "2"
+                ],
+                "explanation": "النصف يساوي 0.5"
+              },
+              {
+                "lessonId": "qa-lesson",
+                "text": "ما بسط 3/4؟",
+                "correctAnswer": "3",
+                "optionsJson": "[\"3\",\"4\",\"7\",\"1\"]",
+                "questionType": "mcq",
+                "solutionStepsJson": "[]",
+                "solutionScript": "البسط هو العدد العلوي",
+                "imageJson": "[]",
+                "rewardPoints": 3,
+                "difficulty": "medium",
+                "tags": [
+                  "fractions"
+                ],
+                "gameReady": true,
+                "ideaId": null,
+                "ideaTitle": null,
+                "stepNumber": null,
+                "externalRefId": null,
+                "options": [
+                  "3",
+                  "4",
+                  "7",
+                  "1"
+                ],
+                "explanation": "البسط هو العدد العلوي"
+              }
+            ],
+            "rejected": [],
+            "provider": "custom",
+            "model": "mock-math-pro",
+            "keyId": "cmswe1b9b0001kjikvq8in93q"
+          }
+        }
+      }
+    },
+    {
+      "name": "whiteboardAssist parses safe suggestion",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "result": {
+              "kind": "equation",
+              "title": "تبسيط كسر",
+              "text": "تبسيط 2/4",
+              "latex": "\\frac{2}{4}=\\frac{1}{2}",
+              "steps": [
+                "اقسم البسط والمقام على 2"
+              ],
+              "warnings": []
+            },
+            "provider": "custom",
+            "model": "mock-math-pro",
+            "keyId": "cmswe1b9b0001kjikvq8in93q"
+          }
+        }
+      }
+    },
+    {
+      "name": "keys.test succeeds against mock provider",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "connected": true,
+            "provider": "custom",
+            "model": "mock-math-pro",
+            "keyId": "cmswe1b9b0001kjikvq8in93q",
+            "preview": "جاهز من Mock API"
+          }
+        }
+      }
+    },
+    {
+      "name": "usage telemetry records successful and failed provider calls",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": [
+            {
+              "id": "cmswe1beo0008kjikrjqobjzf",
+              "provider": "custom",
+              "model": "mock-math-pro",
+              "operation": "key-test",
+              "keyId": "cmswe1b9b0001kjikvq8in93q",
+              "ok": true,
+              "inputChars": 25,
+              "outputChars": 16,
+              "inputTokens": 7,
+              "outputTokens": 4,
+              "estimatedCostUsd": 0.00001,
+              "actualCostUsd": null,
+              "requestId": null,
+              "errorCode": null,
+              "createdAt": "2026-08-16T22:40:09.216Z"
+            },
+            {
+              "id": "cmswe1bea0007kjik1flwn9mh",
+              "provider": "custom",
+              "model": "mock-math-pro",
+              "operation": "whiteboardAssist",
+              "keyId": "cmswe1b9b0001kjikvq8in93q",
+              "ok": true,
+              "inputChars": 32,
+              "outputChars": 145,
+              "inputTokens": 8,
+              "outputTokens": 37,
+              "estimatedCostUsd": 0.00006,
+              "actualCostUsd": null,
+              "requestId": null,
+              "errorCode": null,
+              "createdAt": "2026-08-16T22:40:09.202Z"
+            },
+            {
+              "id": "cmswe1bdt0006kjikwojhj15n",
+              "provider": "custom",
+              "model": "mock-math-pro",
+              "operation": "generateQuestions",
+              "keyId": "cmswe1b9b0001kjikvq8in93q",
+              "ok": true,
+              "inputChars": 27,
+              "outputChars": 353,
+              "inputTokens": 7,
+              "outputTokens": 89,
+              "estimatedCostUsd": 0.000137,
+              "actualCostUsd": null,
+              "requestId": null,
+              "errorCode": null,
+              "createdAt": "2026-08-16T22:40:09.186Z"
+            },
+            {
+              "id": "cmswe1bdd0005kjikp6dpclox",
+              "provider": "custom",
+              "model": "mock-math-pro",
+              "operation": "analyzeLesson",
+              "keyId": "cmswe1b9b0001kjikvq8in93q",
+              "ok": true,
+              "inputChars": 24,
+              "outputChars": 186,
+              "inputTokens": 6,
+              "outputTokens": 47,
+              "estimatedCostUsd": 0.000073,
+              "actualCostUsd": null,
+              "requestId": null,
+              "errorCode": null,
+              "createdAt": "2026-08-16T22:40:09.169Z"
+            },
+            {
+              "id": "cmswe1bct0004kjiksjbrnebo",
+              "provider": "custom",
+              "model": "mock-math-pro",
+              "operation": "assistant",
+              "keyId": "cmswe1b9b0001kjikvq8in93q",
+              "ok": true,
+              "inputChars": 7,
+              "outputChars": 16,
+              "inputTokens": 2,
+              "outputTokens": 4,
+              "estimatedCostUsd": 0.000007,
+              "actualCostUsd": null,
+              "requestId": null,
+              "errorCode": null,
+              "createdAt": "2026-08-16T22:40:09.149Z"
+            },
+            {
+              "id": "cmswe1bbz0003kjik4m3ktpej",
+              "provider": "custom",
+              "model": "mock-math-pro",
+              "operation": "qa-rotation",
+              "keyId": "cmswe1b9b0001kjikvq8in93q",
+              "ok": true,
+              "inputChars": 21,
+              "outputChars": 16,
+              "inputTokens": 6,
+              "outputTokens": 4,
+              "estimatedCostUsd": 0.000009,
+              "actualCostUsd": null,
+              "requestId": null,
+              "errorCode": null,
+              "createdAt": "2026-08-16T22:40:09.120Z"
+            },
+            {
+              "id": "cmswe1bbt0002kjiko8wdxhuf",
+              "provider": "custom",
+              "model": "mock-math-fast",
+              "operation": "qa-rotation",
+              "keyId": "cmswe1b7k0000kjikgz4rycb6",
+              "ok": false,
+              "inputChars": 21,
+              "outputChars": 0,
+              "inputTokens": 6,
+              "outputTokens": 0,
+              "estimatedCostUsd": 0,
+              "actualCostUsd": null,
+              "requestId": null,
+              "errorCode": "503",
+              "createdAt": "2026-08-16T22:40:09.113Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "rejects empty generation input",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "payload": {
+          "ok": false,
+          "error": "نص الطلب مطلوب"
+        }
+      }
+    },
+    {
+      "name": "rejects unknown AI action",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "payload": {
+          "ok": false,
+          "error": "إجراء AI غير معروف"
+        }
+      }
+    },
+    {
+      "name": "updates key priority and concurrency",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "id": "cmswe1b9b0001kjikvq8in93q",
+            "label": "aiqa-1786920008651-good-updated",
+            "provider": "custom",
+            "apiKind": "openai-compatible",
+            "specialty": "general",
+            "scopesJson": "[\"generate\"]",
+            "capabilitiesJson": "[\"text\"]",
+            "keyHint": "mock••••0000",
+            "model": "mock-math-pro",
+            "isActive": true,
+            "priority": 2,
+            "status": "active"
+          }
+        }
+      }
+    },
+    {
+      "name": "reactivates failed key explicitly",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "id": "cmswe1b7k0000kjikgz4rycb6",
+            "status": "active",
+            "isActive": true
+          }
+        }
+      }
+    },
+    {
+      "name": "deletes mock failing key",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "deleted": true
+          }
+        }
+      }
+    },
+    {
+      "name": "deletes mock healthy key and cleans fixture",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "deleted": true
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الكسور الكاملة - أفكار متداخلة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body {
+      width: 100vw; height: 100vh; overflow: hidden;
+      background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+      color: #1A1A1A;
+    }
+
+    .slide-container {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px; position: relative;
+    }
+
+    .step-content { display: none; }
+    .step-content.active {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1.5rem;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title {
+      font-size: 3rem; font-weight: 800;
+      color: #0142A0; text-align: center;
+    }
+    .content {
+      font-size: 1.6rem; text-align: center;
+      max-width: 900px; line-height: 1.7;
+    }
+
+    .math-display {
+      font-family: 'Times New Roman', serif;
+      font-size: 3.5rem; color: #0142A0;
+      background: white; padding: 1.5rem 2.5rem;
+      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      direction: ltr; display: inline-block;
+      border: 3px solid #0142A0;
+    }
+
+    .idea-badge {
+      position: absolute; top: 20px; left: 20px;
+      padding: 8px 16px; border-radius: 20px;
+      font-size: 14px; font-weight: 700;
+      color: white;
+    }
+    .idea-1 { background: #3b82f6; }
+    .idea-2 { background: #10b981; }
+    .idea-3 { background: #f59e0b; }
+
+    .step-counter {
+      position: absolute; top: 20px; right: 20px;
+      background: #0142A0; color: white;
+      padding: 8px 18px; border-radius: 20px;
+      font-size: 14px; font-weight: 600;
+    }
+    .step-counter .num { color: #fbbf24; font-weight: 800; }
+
+    .options-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1rem; max-width: 700px; width: 100%;
+    }
+    .option {
+      background: white; border: 4px solid #0142A0;
+      padding: 1.5rem 2rem; border-radius: 16px;
+      font-size: 1.6rem; font-weight: 700; color: #0142A0;
+      text-align: center; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option:hover { transform: translateY(-2px); }
+    .option.correct {
+      background: #10b981; color: white; border-color: #10b981;
+      animation: pulse 0.6s ease-in-out;
+    }
+    .option.wrong {
+      background: #ef4444; color: white; border-color: #ef4444;
+      animation: shake 0.4s;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    .pizza-svg {
+      width: 300px; height: 300px;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container" id="slide-container">
+    <div class="step-counter">
+      خطوة <span class="num" id="stepNum">1</span> من <span class="num" id="totalNum">3</span>
+    </div>
+    <div class="idea-badge idea-1" id="ideaBadge">الفكرة 1</div>
+
+    <!-- ============ IDEA 1: تعريف الكسر ============ -->
+    <!-- Step 1.1 -->
+    <div class="step-content active" data-step="1" data-idea="idea-1">
+      <h1 class="title">تعريف الكسر</h1>
+      <div class="content">
+        الكسر هو جزء من كل. لو عندنا بيتزا كاملة مقسومة 4 أجزاء متساوية،
+        كل جزء بيساوي ربع.
+      </div>
+      <div class="math-display">1 ÷ 4 = ¼</div>
+    </div>
+
+    <!-- Step 1.2 -->
+    <div class="step-content" data-step="2" data-idea="idea-1">
+      <h1 class="title">مثال على الكسر</h1>
+      <svg class="pizza-svg" viewBox="0 0 320 320">
+        <circle cx="160" cy="160" r="150" fill="#d97706" stroke="#92400e" stroke-width="8"/>
+        <circle cx="160" cy="160" r="135" fill="#fbbf24"/>
+        <line x1="160" y1="25" x2="160" y2="295" stroke="#92400e" stroke-width="4"/>
+        <line x1="25" y1="160" x2="295" y2="160" stroke="#92400e" stroke-width="4"/>
+        <circle cx="100" cy="100" r="12" fill="#dc2626"/>
+        <circle cx="220" cy="100" r="12" fill="#dc2626"/>
+        <circle cx="100" cy="220" r="12" fill="#dc2626"/>
+        <circle cx="220" cy="220" r="12" fill="#dc2626"/>
+      </svg>
+      <div class="math-display">4/4 = 1 كامل</div>
+    </div>
+
+    <!-- Step 1.3 -->
+    <div class="step-content" data-step="3" data-idea="idea-1">
+      <h1 class="title">سؤال: كام جزء؟</h1>
+      <div class="content">لو أكلنا قطعة من 4 قطع، كام باقي؟</div>
+      <div class="options-grid">
+        <div class="option" data-correct="false">1/4</div>
+        <div class="option" data-correct="true">3/4</div>
+        <div class="option" data-correct="false">2/4</div>
+        <div class="option" data-correct="false">4/4</div>
+      </div>
+    </div>
+
+    <!-- ============ IDEA 2: جمع الكسور ============ -->
+    <!-- Step 2.1 -->
+    <div class="step-content" data-step="1" data-idea="idea-2">
+      <h1 class="title">جمع الكسور</h1>
+      <div class="content">لجمع كسرين بنفس المقام، نجمع البسط ونثبت المقام.</div>
+      <div class="math-display">1/4 + 2/4 = 3/4</div>
+    </div>
+
+    <!-- Step 2.2 -->
+    <div class="step-content" data-step="2" data-idea="idea-2">
+      <h1 class="title">مثال على الجمع</h1>
+      <div class="content">عندنا 1/4 من البيتزا. أكل صديق 2/4. المجموع؟</div>
+      <div class="math-display">1/4 + 2/4 = 3/4</div>
+    </div>
+
+    <!-- Step 2.3 -->
+    <div class="step-content" data-step="3" data-idea="idea-2">
+      <h1 class="title">سؤال: حسب الناتج</h1>
+      <div class="content">2/5 + 2/5 = ؟</div>
+      <div class="options-grid">
+        <div class="option" data-correct="false">4/10</div>
+        <div class="option" data-correct="true">4/5</div>
+        <div class="option" data-correct="false">2/5</div>
+        <div class="option" data-correct="false">1/5</div>
+      </div>
+    </div>
+
+    <!-- ============ IDEA 3: طرح الكسور ============ -->
+    <!-- Step 3.1 -->
+    <div class="step-content" data-step="1" data-idea="idea-3">
+      <h1 class="title">طرح الكسور</h1>
+      <div class="content">لطرح كسرين بنفس المقام، نطرح البسط ونثبت المقام.</div>
+      <div class="math-display">3/4 - 1/4 = 2/4</div>
+    </div>
+
+    <!-- Step 3.2 -->
+    <div class="step-content" data-step="2" data-idea="idea-3">
+      <h1 class="title">سؤال: حسب الناتج</h1>
+      <div class="content">5/6 - 2/6 = ؟</div>
+      <div class="options-grid">
+        <div class="option" data-correct="false">3/12</div>
+        <div class="option" data-correct="true">3/6</div>
+        <div class="option" data-correct="false">7/6</div>
+        <div class="option" data-correct="false">2/6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MANIFEST - مع أفكار متداخلة
+       ============================================================ -->
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "fractions-complete",
+    "title": "الكسور الكاملة - أفكار متداخلة",
+    "subtitle": "تعريف + جمع + طرح في درس واحد",
+    "contentType": "html",
+    "totalSteps": 8,
+    "currentStep": 1,
+    "currentIdeaId": "idea-1",
+    "aspectRatio": "16:9",
+    "targetAge": "primary-upper",
+    "ideas": [
+      {
+        "id": "idea-1",
+        "title": "تعريف الكسر",
+        "description": "مفهوم الكسر وأمثلة أساسية",
+        "color": "blue",
+        "steps": [
+          {
+            "step": 1,
+            "title": "تعريف الكسر",
+            "type": "content",
+            "script": "الفكرة الأولى: تعريف الكسر. الكسر هو جزء من كل. لو عندنا بيتزا مقسومة 4 أجزاء متساوية، كل جزء بيساوي ربع.",
+            "notes": "ابدأ بسؤال الطلاب عن تجربتهم مع تقسيم الأشياء. اشرح البسط والمقام.",
+            "autoSlideMs": 8000
+          },
+          {
+            "step": 2,
+            "title": "مثال على الكسر",
+            "type": "content",
+            "script": "شوفوا البيتزا دي. مقسومة 4 أجزاء متساوية. كل الأجزاء موجودة يعني 4 على 4 يساوي 1 كامل.",
+            "notes": "ارسم بيتزا على السبورة. استخدم أداة الأشكال (S) لرسم دائرة. اطلب من طالب يلون ربعها.",
+            "autoSlideMs": 9000
+          },
+          {
+            "step": 3,
+            "title": "سؤال تفاعلي 1",
+            "type": "question",
+            "script": "السؤال الأول: لو أكلنا قطعة من 4 قطع، كام باقي؟ اختاروا الإجابة الصحيحة.",
+            "notes": "اضغط R لاختيار طالب عشوائي. الإجابة الصحيحة: 3/4. لو الطالب جاوب صح، اضغط زر الإجابة الصحيحة في الشريط السفلي.",
+            "question": {
+              "text": "لو أكلنا قطعة من 4 قطع، كام باقي؟",
+              "correctAnswer": "3/4",
+              "options": ["1/4", "3/4", "2/4", "4/4"],
+              "rewardPoints": 3
+            },
+            "effect": "confetti",
+            "autoSlideMs": 0
+          }
+        ]
+      },
+      {
+        "id": "idea-2",
+        "title": "جمع الكسور",
+        "description": "جمع كسور بنفس المقام",
+        "color": "green",
+        "steps": [
+          {
+            "step": 1,
+            "title": "قاعدة الجمع",
+            "type": "content",
+            "script": "الفكرة الثانية: جمع الكسور. لجمع كسرين بنفس المقام، نجمع البسط ونثبت المقام.",
+            "notes": "اكتب القاعدة على السبورة: بسط + بسط / مقام ثابت. استخدم ألوان مختلفة للبسط والمقام.",
+            "autoSlideMs": 9000
+          },
+          {
+            "step": 2,
+            "title": "مثال على الجمع",
+            "type": "content",
+            "script": "عندنا ربع بيتزا. أكل صديق 2 ربع. المجموع 3 أرباع. واحد على أربعة زائد اثنين على أربعة يساوي 3 على 4.",
+            "notes": "ارسم بيتزا واظهر الأجزاء بالألوان. اطلب من الطلاب يحسبوا مع بعض.",
+            "autoSlideMs": 10000
+          },
+          {
+            "step": 3,
+            "title": "سؤال تفاعلي 2",
+            "type": "question",
+            "script": "السؤال: اثنين على خمسة زائد اثنين على خمسة يساوي كام؟ اختاروا الإجابة.",
+            "notes": "الإجابة: 4/5. نبه الطلاب أن المقام يثبت، بسنجمع البسط فقط.",
+            "question": {
+              "text": "2/5 + 2/5 = ؟",
+              "correctAnswer": "4/5",
+              "options": ["4/10", "4/5", "2/5", "1/5"],
+              "rewardPoints": 3
+            },
+            "effect": "confetti",
+            "autoSlideMs": 0
+          }
+        ]
+      },
+      {
+        "id": "idea-3",
+        "title": "طرح الكسور",
+        "description": "طرح كسور بنفس المقام",
+        "color": "amber",
+        "steps": [
+          {
+            "step": 1,
+            "title": "قاعدة الطرح",
+            "type": "content",
+            "script": "الفكرة الثالثة: طرح الكسور. لطرح كسرين بنفس المقام، نطرح البسط ونثبت المقام.",
+            "notes": "مثل الجمع تماماً بس بدل الجمع، الطرح. المقام ثابت دائماً.",
+            "autoSlideMs": 9000
+          },
+          {
+            "step": 2,
+            "title": "سؤال تفاعلي 3",
+            "type": "question",
+            "script": "السؤال الأخير: خمسة على ستة ناقص اثنين على ستة يساوي كام؟",
+            "notes": "الإجابة: 3/6 = 1/2. اشرب أن 3/6 يمكن تبسيطها لـ 1/2.",
+            "question": {
+              "text": "5/6 - 2/6 = ؟",
+              "correctAnswer": "3/6",
+              "options": ["3/12", "3/6", "7/6", "2/6"],
+              "rewardPoints": 5
+            },
+            "effect": "confetti",
+            "autoSlideMs": 0
+          }
+        ]
+      }
+    ],
+    "assets": [
+      {
+        "id": "img_01_02_01",
+        "description": "رسم بيتزا كاملة مقسمة 4 أجزاء متساوية",
+        "type": "illustration",
+        "status": "final"
+      },
+      {
+        "id": "img_02_02_01",
+        "description": "رسم بيتزا توضح جمع الكسور (1/4 + 2/4 = 3/4)",
+        "type": "illustration",
+        "status": "placeholder"
+      }
+    ]
+  }
+  </script>
+
+  <!-- ============================================================
+       CONTROLLER - يدعم الأفكار المتداخلة
+       ============================================================ -->
+  <script>
+    (function() {
+      let currentStep = 1;
+      let currentIdeaId = 'idea-1';
+
+      function getManifest() {
+        const el = document.getElementById('slide-manifest');
+        if (!el) return null;
+        try { return JSON.parse(el.textContent); } catch { return null; }
+      }
+
+      function getCurrentIdea() {
+        const m = getManifest();
+        if (!m || !m.ideas) return null;
+        return m.ideas.find(i => i.id === currentIdeaId) || m.ideas[0];
+      }
+
+      function showStep(step, ideaId) {
+        if (ideaId) currentIdeaId = ideaId;
+        currentStep = step;
+
+        // Hide all steps
+        document.querySelectorAll('.step-content').forEach(el => {
+          el.classList.remove('active');
+        });
+
+        // Show target step in current idea
+        const selector = ideaId
+          ? `.step-content[data-idea="${ideaId}"][data-step="${step}"]`
+          : `.step-content[data-step="${step}"]`;
+        const target = document.querySelector(selector);
+        if (target) target.classList.add('active');
+
+        // Update UI
+        const idea = getCurrentIdea();
+        const totalSteps = idea ? idea.steps.length : 1;
+        const stepNum = document.getElementById('stepNum');
+        const totalNum = document.getElementById('totalNum');
+        const ideaBadge = document.getElementById('ideaBadge');
+        if (stepNum) stepNum.textContent = step;
+        if (totalNum) totalNum.textContent = totalSteps;
+        if (ideaBadge) {
+          ideaBadge.textContent = idea ? idea.title : '';
+          ideaBadge.className = 'idea-badge idea-' + (ideaId || '').split('-')[1];
+        }
+
+        // Notify Shell
+        window.parent.postMessage({
+          type: 'STEP_CHANGED',
+          step: step,
+          totalSteps: totalSteps,
+          ideaId: currentIdeaId
+        }, '*');
+      }
+
+      function nextStep() {
+        const idea = getCurrentIdea();
+        if (!idea) return;
+        const m = getManifest();
+        if (currentStep < idea.steps.length) {
+          showStep(currentStep + 1, currentIdeaId);
+        } else {
+          // Move to next idea
+          const idx = m.ideas.findIndex(i => i.id === currentIdeaId);
+          if (idx < m.ideas.length - 1) {
+            const nextIdea = m.ideas[idx + 1];
+            showStep(1, nextIdea.id);
+          }
+        }
+      }
+
+      function prevStep() {
+        const m = getManifest();
+        if (currentStep > 1) {
+          showStep(currentStep - 1, currentIdeaId);
+        } else {
+          // Move to previous idea's last step
+          const idx = m.ideas.findIndex(i => i.id === currentIdeaId);
+          if (idx > 0) {
+            const prevIdea = m.ideas[idx - 1];
+            showStep(prevIdea.steps.length, prevIdea.id);
+          }
+        }
+      }
+
+      window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (!data || !data.type) return;
+        switch (data.type) {
+          case 'GOTO_STEP':
+            showStep(data.step, data.ideaId);
+            break;
+          case 'NEXT':
+            nextStep();
+            break;
+          case 'PREV':
+            prevStep();
+            break;
+          case 'GOTO_IDEA':
+            showStep(data.step || 1, data.ideaId);
+            break;
+          case 'REQUEST_MANIFEST':
+            const m = getManifest();
+            if (m) {
+              m.currentStep = currentStep;
+              m.currentIdeaId = currentIdeaId;
+              window.parent.postMessage({ type: 'MANIFEST', payload: m }, '*');
+            }
+            break;
+        }
+      });
+
+      // Handle option clicks
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('option')) {
+          const isCorrect = e.target.dataset.correct === 'true';
+          document.querySelectorAll('.option').forEach(opt => {
+            opt.classList.remove('correct', 'wrong');
+          });
+          if (isCorrect) {
+            e.target.classList.add('correct');
+            window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'success' }, '*');
+          } else {
+            e.target.classList.add('wrong');
+            window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'error' }, '*');
+          }
+        }
+      });
+
+      window.addEventListener('load', function() {
+        window.parent.postMessage({ type: 'READY' }, '*');
+        const m = getManifest();
+        if (m) {
+          m.currentStep = currentStep;
+          m.currentIdeaId = currentIdeaId;
+          window.parent.postMessage({ type: 'MANIFEST', payload: m }, '*');
+        }
+        showStep(1, currentIdeaId);
+      });
+    })();
+  </script>
+</body>
+</html>

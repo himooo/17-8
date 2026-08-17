@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>عنوان الدرس هنا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body { 
+      width: 100vw; height: 100vh; overflow: hidden; 
+      background: #ffffff; color: #1A1A1A;
+    }
+
+    .slide-container {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px; position: relative;
+    }
+
+    /* أخفِ كل الخطوات افتراضياً */
+    .step-content { display: none; }
+    .step-content.active { 
+      display: flex; flex-direction: column; 
+      align-items: center; gap: 1.5rem;
+      animation: fadeIn 0.5s ease-out; 
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== الأنماط الأساسية (عدّلها كما تريد) ===== */
+    .title { 
+      font-size: 3rem; font-weight: 800; 
+      color: #0142A0; text-align: center;
+    }
+    .content { 
+      font-size: 1.6rem; text-align: center; 
+      max-width: 900px; line-height: 1.7; color: #1A1A1A;
+    }
+    .math {
+      font-family: 'Times New Roman', serif;
+      font-size: 3rem; color: #0142A0;
+      background: #f8fafc; padding: 1rem 2rem;
+      border-radius: 12px; border-right: 4px solid #0142A0;
+      direction: ltr; display: inline-block;
+    }
+
+    /* عداد الخطوات */
+    .step-counter {
+      position: absolute; top: 20px; right: 20px;
+      background: #0142A0; color: white;
+      padding: 8px 18px; border-radius: 20px;
+      font-size: 14px; font-weight: 600;
+    }
+    .step-counter .num { color: #fbbf24; font-weight: 800; }
+
+    .options-grid { display: grid; grid-template-columns: repeat(2, minmax(180px, 1fr)); gap: 12px; width: min(720px, 90vw); }
+    .option { border: 2px solid #cbd5e1; background: #f8fafc; color: #1e293b; border-radius: 12px; padding: 14px 18px; font-size: 1.2rem; cursor: pointer; transition: transform .16s ease, background .16s ease, border-color .16s ease; }
+    .option:hover { transform: translateY(-2px); border-color: #0142A0; }
+    .option.correct { background: #dcfce7; border-color: #16a34a; color: #166534; }
+    .option.wrong { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+
+    /* ===== أضف أنماطك الخاصة هنا ===== */
+  </style>
+</head>
+<body>
+  <div class="slide-container" id="slide-container">
+    <div class="step-counter">
+      خطوة <span class="num" id="stepNum">1</span> من <span class="num">3</span>
+    </div>
+
+    <!-- ====== الخطوة 1 ====== -->
+    <div class="step-content active" data-step="1">
+      <h1 class="title">عنوان الخطوة الأولى</h1>
+      <p class="content">اكتب محتوى الخطوة الأولى هنا</p>
+    </div>
+
+    <!-- ====== الخطوة 2 ====== -->
+    <div class="step-content" data-step="2">
+      <h1 class="title">عنوان الخطوة الثانية</h1>
+      <p class="content">اكتب محتوى الخطوة الثانية هنا</p>
+    </div>
+
+    <!-- ====== الخطوة 3 ====== -->
+    <div class="step-content" data-step="3">
+      <h1 class="title">عنوان الخطوة الثالثة</h1>
+      <p class="content">اكتب نص السؤال هنا، ثم اختر الإجابة المناسبة.</p>
+      <div class="options-grid" aria-label="خيارات السؤال">
+        <button class="option" type="button" data-correct="false">خيار 1</button>
+        <button class="option" type="button" data-correct="true">خيار 2</button>
+        <button class="option" type="button" data-correct="false">خيار 3</button>
+        <button class="option" type="button" data-correct="false">خيار 4</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MANIFEST - عدّل البيانات حسب درسك
+       ============================================================ -->
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "lesson-template",
+    "title": "عنوان الدرس",
+    "subtitle": "وصف مختصر للدرس",
+    "totalSteps": 3,
+    "currentStep": 1,
+    "aspectRatio": "16:9",
+    "targetAge": "preparatory",
+    "steps": [
+      {
+        "step": 1,
+        "title": "عنوان الخطوة الأولى",
+        "type": "content",
+        "script": "اكتب السكريبت هنا. كل جملة تنتهي بنقطة هتظهر بلون مختلف.",
+        "notes": "ملاحظات المدرس التفصيلية للخطوة الأولى.",
+        "autoSlideMs": 8000
+      },
+      {
+        "step": 2,
+        "title": "عنوان الخطوة الثانية",
+        "type": "content",
+        "script": "سكريبت الخطوة الثانية. اكتب الجمل بشكل طبيعي.",
+        "notes": "ملاحظات المدرس للخطوة الثانية.",
+        "autoSlideMs": 9000
+      },
+      {
+        "step": 3,
+        "title": "سؤال تفاعلي",
+        "type": "question",
+        "script": "السؤال: اكتب السؤال هنا؟ فكروا كويس قبل ما تجاوبوا.",
+        "notes": "اضغط R لاختيار طالب عشوائي.",
+        "question": {
+          "text": "اكتب نص السؤال الكامل",
+          "correctAnswer": "خيار 2",
+          "options": ["خيار 1", "خيار 2", "خيار 3", "خيار 4"],
+          "rewardPoints": 3
+        },
+        "effect": "confetti",
+        "autoSlideMs": 0
+      }
+    ],
+    "assets": []
+  }
+  </script>
+
+  <!-- ============================================================
+       CONTROLLER - لا تعدّل هذا الكود
+       ============================================================ -->
+  <script>
+    (function() {
+      let currentStep = 1;
+      const manifestEl = document.getElementById('slide-manifest');
+      
+      function getManifest() {
+        if (!manifestEl) return null;
+        try { return JSON.parse(manifestEl.textContent); } catch { return null; }
+      }
+      
+      function getTotalSteps() {
+        const m = getManifest();
+        return m ? m.totalSteps : 1;
+      }
+      
+      function showStep(step) {
+        currentStep = step;
+        document.querySelectorAll('.step-content').forEach(el => {
+          el.classList.remove('active');
+        });
+        const target = document.querySelector(`.step-content[data-step="${step}"]`);
+        if (target) target.classList.add('active');
+        
+        const numEl = document.getElementById('stepNum');
+        if (numEl) numEl.textContent = step;
+        
+        notifyShell({ type: 'STEP_CHANGED', step: step, totalSteps: getTotalSteps() });
+      }
+      
+      function notifyShell(msg) {
+        window.parent.postMessage(msg, '*');
+      }
+      
+      document.addEventListener('click', function(event) {
+        const target = event.target.closest('.option');
+        if (!target) return;
+        document.querySelectorAll('.option').forEach((option) => option.classList.remove('correct', 'wrong'));
+        const isCorrect = target.dataset.correct === 'true';
+        target.classList.add(isCorrect ? 'correct' : 'wrong');
+        notifyShell({ type: 'REQUEST_SOUND', sound: isCorrect ? 'success' : 'error' });
+      });
+
+      window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (!data || !data.type) return;
+        const total = getTotalSteps();
+        
+        switch (data.type) {
+          case 'GOTO_STEP':
+            showStep(data.step);
+            break;
+          case 'NEXT':
+            if (currentStep < total) showStep(currentStep + 1);
+            break;
+          case 'PREV':
+            if (currentStep > 1) showStep(currentStep - 1);
+            break;
+          case 'REQUEST_MANIFEST':
+            const m = getManifest();
+            if (m) { m.currentStep = currentStep; notifyShell({ type: 'MANIFEST', payload: m }); }
+            break;
+        }
+      });
+      
+      window.addEventListener('load', function() {
+        notifyShell({ type: 'READY' });
+        const m = getManifest();
+        if (m) { m.currentStep = currentStep; notifyShell({ type: 'MANIFEST', payload: m }); }
+        showStep(1);
+      });
+    })();
+  </script>
+</body>
+</html>

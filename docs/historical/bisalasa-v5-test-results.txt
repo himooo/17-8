@@ -1,0 +1,33 @@
+Bisalasa V5 final verification
+Fri Aug 14 04:56:23 UTC 2026
+[tsc] PASS
+[lint] PASS — 0 errors, 2 pre-existing img warnings
+[build] PASS
+PASS reject zero denominator
+PASS reject unsafe expression
+PASS reject division by zero
+SUMMARY 17 passed, 0 failed
+invalid bulk empty PASS questions.bulkCreate: يجب إرسال 1 إلى 500 سؤال
+class stats read PASS ok
+settings read PASS ok
+{"total": 10, "passed": 10, "failed": 0}
+  "passed": 10000,
+  "failed": 0,
+  "playable": 5060,
+  "blocked_or_empty": 4940,
+  "coverage": {
+    "math-challenge": 1112,
+    "hot-potato": 1089,
+    "reaction": 1158,
+    "memory": 1118,
+    "question-challenge": 1109,
+    "quick-fire": 1117,
+    "dice": 1130,
+    "mystery-box": 1115,
+    "quiz-show": 1052
+  },
+  "failures": [],
+  "failure_count": 0
+}
+[ssr] student_sensitive=ABSENT student_marker=FOUND normal_rail=PRESENT
+[browser] previous visual student/normal checks passed; final browser session unavailable after timeout

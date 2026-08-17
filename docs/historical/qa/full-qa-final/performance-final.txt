@@ -1,0 +1,13 @@
+Final performance verification after all fixes
+
+Largest client page chunk: approximately 465KB
+Total static assets: approximately 3.07MB
+/: HTTP 200, TTFB approximately 84ms
+/grades: HTTP 200, TTFB approximately 23ms
+/?view=student: HTTP 200, TTFB approximately 10ms
+reports.class with 100 students: approximately 275ms, 100 rows
+live-sync concurrency: 20 requests, 1 accepted, 19 duplicates, attempts=1
+server validation log: clean for missing-name and duplicate-studentCode validation cases
+security headers: nosniff, strict-origin-when-cross-origin, camera/geolocation/microphone disabled, SAMEORIGIN
+
+Historical note: an earlier pre-fix baseline log contained a Prisma unique-constraint entry for duplicate studentCode. The route was then hardened with explicit validation; the final validation server log contains no prisma:error, unhandled exception, or timeout.

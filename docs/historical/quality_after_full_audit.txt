@@ -1,0 +1,91 @@
+=== tsc ===
+
+TS_STATUS=0
+
+=== lint ===
+$ eslint .
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/ClassLeaderboardView.tsx
+  71:7  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/HotPotatoGame.tsx
+  131:21  warning  The ref value 'timeoutsRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'timeoutsRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+  153:6   warning  React Hook useEffect has a missing dependency: 'safeTimeout'. Either include it or remove the dependency array                                                                                                                                                         react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/IframeStage.tsx
+  423:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/MemoryGame.tsx
+  159:6  warning  React Hook useEffect has a missing dependency: 'safeTimeout'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/MysteryBoxGame.tsx
+  133:6  warning  React Hook useCallback has a missing dependency: 'safeTimeout'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/StudentCard.tsx
+  383:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+✖ 7 problems (0 errors, 7 warnings)
+
+
+LINT_STATUS=0
+
+=== build ===
+$ mkdir -p data && if [ ! -f data/custom.db ]; then cp prisma/db/custom.db data/custom.db; fi && next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/
+▲ Next.js 16.3.0 (Turbopack)
+- Environments: .env
+✓ Running next.config.ts took 27ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.0s
+  Running TypeScript ...
+  Finished TypeScript in 2.8s ...
+  Collecting page data using 5 workers ...
+  Generating static pages using 5 workers (0/6) ...
+  Generating static pages using 5 workers (1/6) 
+  Generating static pages using 5 workers (2/6) 
+  Generating static pages using 5 workers (4/6) 
+✓ Generating static pages using 5 workers (6/6) in 444ms
+Turbopack build encountered 1 warning:
+./src/app/api/backup/route.ts:214:32
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m212 |[0m ...[90meam the .db file directly[0m
+  [90m213 |[0m ...
+[33m[1m>[0m [90m214 |[0m ...[36mt[0m fileBuffer = [36mawait[0m fs.readFile([33mDB_FILE_PATH[0m);
+  [90m    |[0m                         [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m215 |[0m ...[90m4: name backup files using Cairo local time (Africa/Cairo), not UTC[0m
+  [90m216 |[0m ...[36mt[0m cairoStamp = [36mnew[0m [33mDate[0m().toLocaleString([32m"sv-SE"[0m, { timeZone: [32m"Afr...[0m
+  [90m217 |[0m ...[90mecord this backup[0m
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.readFile(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import trace:
+  App Route:
+    ./src/app/api/backup/route.ts
+    ./src/app/api/backup/route.ts
+
+
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api
+├ ƒ /api/ai
+├ ƒ /api/backup
+├ ƒ /api/db/[operation]
+├ ƒ /api/tts
+└ ƒ /grades
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+BUILD_STATUS=0

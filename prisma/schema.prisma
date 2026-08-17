@@ -1,0 +1,1442 @@
+// ====================================================================
+//  Bisalasa v6.0 - Prisma Schema (Local SQLite)
+//  Single source of truth for all persistent data
+// ====================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ====================================================================
+//  School Structure: Classes -> Students -> Groups
+// ====================================================================
+
+model ClassRoom {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @default("")
+  color       String   @default("#0142A0")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  students   Student[]
+  groups     StudentGroup[]
+  sessions   Session[]
+  attendance AttendanceRecord[]
+
+  @@map("classes")
+}
+
+model Student {
+  id                     String    @id @default(cuid())
+  classId                String?
+  name                   String
+  studentCode            String?   @unique
+  parentTelegramChatId   String?
+  parentTelegramUsername String?
+  parentPhone            String?
+  points                 Int       @default(0)
+  correctAnswers         Int       @default(0)
+  wrongAnswers           Int       @default(0)
+  attempts               Int       @default(0)
+  title                  String? // اللقب الحالي (عبقري، بطل، نجم...)
+  isAbsent               Boolean   @default(false)
+  lastAbsentAt           DateTime?
+  moodleUserId           Int?
+  moodleUsername         String?
+  moodleCourseId         Int?
+  lastCalled             DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  class            ClassRoom?               @relation(fields: [classId], references: [id], onDelete: Cascade)
+  badges           StudentBadge[]
+  badgeProgress    StudentBadgeProgress[]
+  achievements     StudentAchievement[]
+  rewardEvents     RewardEvent[]
+  gifts            StudentGift[]
+  gameResults      GameResultParticipant[]
+  sessionSnapshots SessionStudentSnapshot[]
+  // C37 fix (2026-AUG): add missing relations so cascade/delete work.
+  activities       StudentActivity[]
+  notes            StudentNote[]
+  celebrationEvents CelebrationEvent[]
+  teacherInteractions TeacherInteraction[]
+
+  @@index([classId])
+  @@index([classId, name])
+  @@index([name])
+  @@index([moodleUserId])
+  @@index([parentTelegramChatId])
+  @@index([lastAbsentAt])
+  @@map("students")
+}
+
+model StudentGroup {
+  id          String   @id @default(cuid())
+  classId     String
+  name        String
+  color       String   @default("#0142A0")
+  groupPoints Int      @default(0)
+  studentIds  String // JSON array of student IDs
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  class ClassRoom @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@index([classId])
+  @@map("student_groups")
+}
+
+model StudentBadge {
+  id        String   @id @default(cuid())
+  studentId String
+  type      String // correct | good-try | fast | creative | helper | star | wrong
+  note      String?
+  awardedAt DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([type])
+  @@map("student_badges")
+}
+
+model StudentGift {
+  id        String   @id @default(cuid())
+  studentId String
+  giftId    String
+  giftName  String
+  giftImage String
+  awardedAt DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@map("student_gifts")
+}
+
+model StudentBadgeProgress {
+  id        String   @id @default(cuid())
+  studentId String
+  badgeId   String
+  level     String   @default("bronze")
+  count     Int      @default(1)
+  awardedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, badgeId])
+  @@index([badgeId, level])
+  @@map("student_badge_progress")
+}
+
+model CustomBadge {
+  id          String   @id @default(cuid())
+  name        String
+  icon        String   @default("badge")
+  color       String   @default("#fbbf24")
+  description String   @default("")
+  condition   String   @default("manual")
+  metric      String?
+  threshold   Int?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@map("custom_badges")
+}
+
+model Achievement {
+  id           String   @id @default(cuid())
+  name         String
+  description  String   @default("")
+  icon         String   @default("achievement")
+  metric       String
+  threshold    Int
+  rewardPoints Int      @default(0)
+  badgeId      String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  students StudentAchievement[]
+
+  @@index([metric, threshold])
+  @@map("achievements")
+}
+
+model StudentAchievement {
+  id            String   @id @default(cuid())
+  studentId     String
+  achievementId String
+  unlockedAt    DateTime @default(now())
+  rewardApplied Boolean  @default(false)
+
+  student     Student     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, achievementId])
+  @@index([achievementId])
+  @@map("student_achievements")
+}
+
+model GiftCombo {
+  id            String   @id @default(cuid())
+  name          String
+  giftId        String
+  celebrationId String
+  badgeId       String?
+  points        Int      @default(0)
+  enabled       Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([enabled])
+  @@map("gift_combos")
+}
+
+model GameTemplate {
+  id         String   @id @default(cuid())
+  name       String
+  type       String
+  configJson String   @default("{}")
+  isPublic   Boolean  @default(false)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([type, isActive])
+  @@map("game_templates")
+}
+
+model Tournament {
+  id               String   @id @default(cuid())
+  name             String
+  status           String   @default("draft")
+  participantsJson String   @default("[]")
+  roundsJson       String   @default("[]")
+  currentRound     Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([status, updatedAt])
+  @@map("tournaments")
+}
+
+model RewardEvent {
+  id            String   @id @default(cuid())
+  eventKey      String   @unique
+  studentId     String
+  sessionId     String?
+  kind          String
+  points        Int      @default(0)
+  giftId        String?
+  badgeId       String?
+  celebrationId String?
+  metadataJson  String   @default("{}")
+  createdAt     DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId, createdAt])
+  @@index([kind])
+  @@map("reward_events")
+}
+
+model CelebrationSequence {
+  id         String   @id @default(cuid())
+  name       String
+  enabled    Boolean  @default(true)
+  durationMs Int      @default(3000)
+  stepsJson  String   @default("[]")
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([enabled, isDefault])
+  @@map("celebration_sequences")
+}
+
+model AudioProfile {
+  id           String   @id @default(cuid())
+  name         String
+  enabled      Boolean  @default(true)
+  masterVolume Float    @default(0.7)
+  channelsJson String   @default("{}")
+  ambiance     String   @default("none")
+  haptics      Boolean  @default(false)
+  ttsProvider  String?
+  ttsVoice     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("audio_profiles")
+}
+
+model AttendanceRecord {
+  id               String   @id @default(cuid())
+  classId          String
+  date             String // YYYY-MM-DD
+  absentStudentIds String // JSON array
+  createdAt        DateTime @default(now())
+
+  class ClassRoom @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@index([classId, date])
+  @@map("attendance_records")
+}
+
+// ====================================================================
+//  Curriculum: Lessons + Questions (imported HTML slides)
+// ====================================================================
+
+model ImportedLesson {
+  id           String   @id @default(cuid())
+  lessonId     String // original lessonId from manifest
+  fileName     String
+  title        String
+  subtitle     String   @default("")
+  content      String // full HTML content
+  manifestJson String // JSON-serialized SlideManifest
+  importedAt   DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  questions LessonQuestion[]
+
+  @@index([lessonId])
+  @@index([title])
+  @@map("imported_lessons")
+}
+
+model LessonQuestion {
+  id                String   @id @default(cuid())
+  lessonId          String // FK to ImportedLesson
+  externalRefId     String? // optional external reference
+  ideaId            String? // which idea this question belongs to
+  ideaTitle         String?
+  stepNumber        Int? // step number inside the idea
+  text              String
+  correctAnswer     String?
+  optionsJson       String? // JSON array for MCQ/cloze/drag-drop
+  questionType      String   @default("mcq") // mcq | true-false | essay | cloze | drag-drop
+  rewardPoints      Int      @default(3)
+  difficulty        String   @default("medium") // easy | medium | hard
+  tags              String   @default("[]") // JSON array of strings
+  solutionStepsJson String   @default("[]")
+  solutionScript    String   @default("")
+  imageJson         String   @default("[]") // [{url,alt,type}]
+  gameReady         Boolean  @default(true)
+  createdAt         DateTime @default(now())
+
+  lesson      ImportedLesson       @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  gameResults GameResultQuestion[]
+
+  @@index([lessonId])
+  @@index([ideaId])
+  @@index([difficulty])
+  @@index([questionType])
+  @@index([tags])
+  @@map("lesson_questions")
+}
+
+// ====================================================================
+//  Curriculum Factory — teacher-owned authoring drafts
+// ====================================================================
+// The factory keeps raw input and reviewable artifacts local. AI suggestions
+// remain drafts until the teacher explicitly approves and bakes the lesson.
+model CurriculumFactoryDraft {
+  id               String   @id @default(cuid())
+  title            String   @default("")
+  grade            String   @default("")
+  subject          String   @default("")
+  academicYear     String   @default("")
+  curriculumKey    String   @default("")
+  lessonKey        String   @default("")
+  sourceText       String   @default("")
+  sourceImagesJson String   @default("[]")
+  stage            Int      @default(1)
+  status           String   @default("draft") // draft | review | baked | archived
+  manifestJson     String   @default("{}")
+  questionsJson    String   @default("[]")
+  metadataJson     String   @default("{}")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([updatedAt])
+  @@index([status, updatedAt])
+  @@index([curriculumKey, lessonKey])
+  @@map("curriculum_factory_drafts")
+}
+
+model CurriculumPromptTemplate {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  label         String
+  content       String
+  examplesJson  String   @default("[]") // [{input,output}]
+  variablesJson String   @default("[]") // [{name,description}]
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([isDefault])
+  @@map("curriculum_prompt_templates")
+}
+
+model CurriculumDraftVersion {
+  id            String   @id @default(cuid())
+  draftId       String
+  version       Int
+  manifestJson  String
+  questionsJson String
+  reason        String   @default("save")
+  savedAt       DateTime @default(now())
+
+  @@unique([draftId, version])
+  @@index([draftId, savedAt])
+  @@map("curriculum_draft_versions")
+}
+
+model QuestionTemplate {
+  id                    String   @id @default(cuid())
+  title                 String
+  subject               String   @default("general")
+  grade                 String   @default("general")
+  questionType          String   @default("mcq")
+  difficulty            String   @default("medium")
+  textTemplate          String
+  optionsTemplateJson   String   @default("[]")
+  correctAnswerTemplate String   @default("")
+  solutionStepsJson     String   @default("[]")
+  solutionScript        String   @default("")
+  tagsJson              String   @default("[]")
+  isPublic              Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([subject, grade, questionType])
+  @@index([isPublic, updatedAt])
+  @@map("question_templates")
+}
+
+model LessonTemplate {
+  id            String   @id @default(cuid())
+  title         String
+  subject       String   @default("general")
+  grade         String   @default("general")
+  description   String   @default("")
+  manifestJson  String
+  questionsJson String   @default("[]")
+  isPublic      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([subject, grade])
+  @@index([isPublic, updatedAt])
+  @@map("lesson_templates")
+}
+
+// ====================================================================
+
+//  Sessions + Game Results (per teaching session)
+// ====================================================================
+
+model Session {
+  id        String    @id @default(cuid())
+  classId   String?
+  name      String    @default("Untitled Session")
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  notes     String    @default("")
+  statsJson String    @default("{}") // totalQuestions, correctAnswers, participationCount
+
+  class            ClassRoom?               @relation(fields: [classId], references: [id], onDelete: SetNull)
+  gameResults      GameResult[]
+  studentSnapshots SessionStudentSnapshot[]
+  // C37 fix (2026-AUG): add missing relations so cascade/delete work.
+  // Named with suffix to avoid collision with existing `notes` String field.
+  activities       StudentActivity[]
+  studentNotes     StudentNote[]
+  celebrationEvents CelebrationEvent[]
+  teacherInteractions TeacherInteraction[]
+
+  @@index([classId])
+  @@index([startedAt])
+  @@map("sessions")
+}
+
+model SessionStudentSnapshot {
+  // Snapshot of student stats at session start — for "session-only" view
+  id               String @id @default(cuid())
+  sessionId        String
+  studentId        String
+  pointsStart      Int    @default(0)
+  correctStart     Int    @default(0)
+  wrongStart       Int    @default(0)
+  attemptsStart    Int    @default(0)
+  badgesCountStart Int    @default(0)
+
+  session Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  student Student? @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, studentId])
+  @@index([sessionId])
+  @@map("session_student_snapshots")
+}
+
+model GameResult {
+  id            String    @id @default(cuid())
+  sessionId     String?
+  gameType      String // wheel | quiz-show | memory | ...
+  gameMode      String    @default("individual") // individual | duel | group
+  startedAt     DateTime  @default(now())
+  endedAt       DateTime?
+  durationMs    Int?
+  ideaId        String?
+  questionCount Int       @default(0)
+  configJson    String    @default("{}")
+
+  session      Session?                @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  participants GameResultParticipant[]
+  questions    GameResultQuestion[]
+
+  @@index([sessionId])
+  @@index([sessionId, startedAt])
+  @@index([gameType])
+  @@map("game_results")
+}
+
+model GameResultParticipant {
+  id           String  @id @default(cuid())
+  gameResultId String
+  studentId    String
+  studentName  String
+  pointsEarned Int     @default(0)
+  correctCount Int     @default(0)
+  wrongCount   Int     @default(0)
+  isWinner     Boolean @default(false)
+
+  gameResult GameResult @relation(fields: [gameResultId], references: [id], onDelete: Cascade)
+  student    Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([gameResultId])
+  @@index([studentId])
+  @@map("game_result_participants")
+}
+
+model GameResultQuestion {
+  id            String   @id @default(cuid())
+  gameResultId  String
+  questionId    String?
+  questionText  String
+  studentId     String?
+  studentAnswer String?
+  isCorrect     Boolean?
+  pointsEarned  Int      @default(0)
+  answeredAt    DateTime @default(now())
+
+  gameResult GameResult      @relation(fields: [gameResultId], references: [id], onDelete: Cascade)
+  question   LessonQuestion? @relation(fields: [questionId], references: [id], onDelete: SetNull)
+
+  @@index([gameResultId])
+  @@index([questionId])
+  @@map("game_result_questions")
+}
+
+// ====================================================================
+//  Catalogs: Prizes + Gifts + CustomSounds
+// ====================================================================
+
+model Prize {
+  id        String   @id @default(cuid())
+  name      String
+  color     String   @default("#0142A0")
+  points    Int      @default(0)
+  type      String   @default("title") // title | points | gift | nothing
+  icon      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("prizes")
+}
+
+model Gift {
+  id          String   @id @default(cuid())
+  name        String
+  category    String   @default("other")
+  image       String
+  description String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("gifts")
+}
+
+model CustomSound {
+  id              String   @id @default(cuid())
+  name            String
+  filePath        String
+  celebrationType String
+  createdAt       DateTime @default(now())
+
+  @@map("custom_sounds")
+}
+
+// ====================================================================
+//  Celebrations — user-customizable celebration catalog (إصلاح #2)
+//  Default 36 celebrations are seeded; user can add/edit/delete custom ones.
+//  This replaces the old localStorage-only storage.
+// ====================================================================
+
+model Celebration {
+  id         String   @id // deterministic id for defaults (e.g. "confetti"); cuid for custom
+  label      String
+  icon       String
+  color      String   @default("#f59e0b")
+  color2     String   @default("#fb923c")
+  tagline    String   @default("")
+  hype       String   @default("")
+  sound      String   @default("celebrate-tada")
+  renderMode String   @default("confetti") // confetti | particles | both
+  isDefault  Boolean  @default(false) // true for the 36 built-in celebrations
+  isCustom   Boolean  @default(false) // true for user-created
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("celebrations")
+}
+
+// ====================================================================
+//  Settings + Backup History
+// ====================================================================
+
+model AppSettings {
+  id           String   @id @default("singleton")
+  settingsJson String   @default("{}")
+  updatedAt    DateTime @updatedAt
+
+  @@map("app_settings")
+}
+
+model BackupHistory {
+  id        String   @id @default(cuid())
+  filename  String
+  fileSize  Int
+  reason    String   @default("manual") // manual | auto | pre-migration
+  createdAt DateTime @default(now())
+
+  @@map("backup_history")
+}
+
+// ====================================================================
+//  CelebrationEvent — سجل كل احتفال يُطلق (للطالب + الجلسة)
+// ====================================================================
+
+model CelebrationEvent {
+  id               String   @id @default(cuid())
+  studentId        String?
+  sessionId        String?
+  celebrationId    String // FK to Celebration.id
+  celebrationLabel String // اسم الاحتفال (مكرر للتاريخ حتى لو حُذف الاحتفال)
+  celebrationIcon  String   @default("🎉")
+  firedAt          DateTime @default(now())
+  note             String?
+
+  // C37 fix (2026-AUG): add @relation so deletions cascade properly.
+  student Student? @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  session Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([sessionId])
+  @@index([studentId, sessionId])
+  @@index([studentId, sessionId, firedAt])
+  @@map("celebration_events")
+}
+
+// ====================================================================
+//  StudentNote — ملاحظات يدوية للمعلم على الطالب
+// ====================================================================
+
+model StudentNote {
+  id        String   @id @default(cuid())
+  studentId String?
+  sessionId String?
+  text      String // ملاحظة قصيرة (سطر واحد)
+  isShared  Boolean  @default(false) // هل تُرسل لولي الأمر
+  createdAt DateTime @default(now())
+
+  // C37 fix (2026-AUG): add @relation so deletions cascade properly.
+  student Student? @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  session Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([sessionId])
+  @@index([studentId, sessionId])
+  @@index([studentId, sessionId, createdAt])
+  @@map("student_notes")
+}
+
+// ====================================================================
+//  StudentActivity — سجل موحد لكل أحداث الطالب
+//  type: correct | wrong | goodTry | points | badge | gift | celebration | soundGift | note | game | absent
+// ====================================================================
+
+model StudentActivity {
+  id           String   @id @default(cuid())
+  studentId    String?
+  sessionId    String?
+  type         String // correct | wrong | goodTry | points | badge | gift | celebration | soundGift | note | game | absent
+  pointsDelta  Int      @default(0) // تغيير النقاط (+ أو -)
+  description  String   @default("") // وصف قصير
+  metadataJson String   @default("{}") // بيانات إضافية (giftName, celebrationLabel, gameType, ...)
+  createdAt    DateTime @default(now())
+
+  // C37 fix (2026-AUG): add @relation so deletions cascade properly.
+  student Student?  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  session Session?  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([sessionId])
+  @@index([studentId, sessionId])
+  @@index([studentId, sessionId, type])
+  @@index([studentId, createdAt])
+  @@index([studentId, sessionId, createdAt])
+  @@index([type])
+  @@map("student_activities")
+}
+
+model LiveSyncClaim {
+  id         String   @id @default(cuid())
+  eventId    String   @unique
+  activityId String?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("live_sync_claims")
+}
+
+// ====================================================================
+// Moodle + shared curriculum mapping (multi-class, pull-only)
+// ====================================================================
+// These tables deliberately keep external IDs as scalar values. Moodle is the
+// source of truth; Bisalasa stores a normalized, auditable read model locally.
+
+model CurriculumMap {
+  id            String   @id @default(cuid())
+  curriculumKey String   @unique
+  academicYear  String
+  grade         String
+  subject       String
+  title         String
+  metadataJson  String   @default("{}")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([academicYear, grade, subject])
+  @@map("curriculum_maps")
+}
+
+model CurriculumLesson {
+  id            String   @id @default(cuid())
+  curriculumKey String
+  lessonKey     String
+  title         String
+  orderIndex    Int      @default(0)
+  metadataJson  String   @default("{}")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([curriculumKey, lessonKey])
+  @@index([curriculumKey, orderIndex])
+  @@map("curriculum_lessons")
+}
+
+model CurriculumIdea {
+  id            String   @id @default(cuid())
+  curriculumKey String
+  lessonKey     String
+  ideaKey       String
+  title         String
+  orderIndex    Int      @default(0)
+  skillKey      String?
+  metadataJson  String   @default("{}")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([curriculumKey, lessonKey, ideaKey])
+  @@index([curriculumKey, lessonKey, orderIndex])
+  @@map("curriculum_ideas")
+}
+
+model MoodleCourseMap {
+  id               String    @id @default(cuid())
+  moodleCourseId   Int
+  curriculumKey    String
+  label            String    @default("")
+  enabled          Boolean   @default(true)
+  lastSeenAt       DateTime?
+  lastReconciledAt DateTime?
+  lastGroupSyncAt  DateTime?
+  reconcileStatus  String    @default("never") // never | ok | drift | error
+  metadataJson     String    @default("{}")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@unique([moodleCourseId, curriculumKey])
+  @@index([moodleCourseId, enabled])
+  @@map("moodle_course_maps")
+}
+
+model MoodleGroupMap {
+  id            String    @id @default(cuid())
+  courseMapId   String
+  moodleGroupId Int
+  classId       String?
+  className     String    @default("")
+  enabled       Boolean   @default(true)
+  lastSeenAt    DateTime?
+  metadataJson  String    @default("{}")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([courseMapId, moodleGroupId])
+  @@index([classId])
+  @@index([courseMapId, enabled])
+  @@map("moodle_group_maps")
+}
+
+model MoodleStudentMap {
+  id             String    @id @default(cuid())
+  courseMapId    String
+  moodleUserId   Int
+  moodleGroupId  Int?
+  studentId      String?
+  classId        String?
+  moodleUsername String?
+  displayName    String    @default("")
+  enabled        Boolean   @default(true)
+  lastSeenAt     DateTime?
+  metadataJson   String    @default("{}")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([courseMapId, moodleUserId])
+  @@index([moodleUserId])
+  @@index([studentId])
+  @@index([moodleGroupId])
+  @@map("moodle_student_maps")
+}
+
+model MoodleSectionMap {
+  id              String    @id @default(cuid())
+  courseMapId     String
+  moodleSectionId Int
+  sectionKey      String
+  name            String    @default("")
+  orderIndex      Int       @default(0)
+  visible         Boolean   @default(false)
+  lastSeenAt      DateTime?
+  metadataJson    String    @default("{}")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([courseMapId, moodleSectionId])
+  @@index([courseMapId, orderIndex])
+  @@index([courseMapId, visible])
+  @@map("moodle_section_maps")
+}
+
+model MoodleActivityMap {
+  id                String    @id @default(cuid())
+  courseMapId       String
+  sectionMapId      String?
+  moodleSectionId   Int?
+  moodleActivityId  Int
+  activityType      String    @default("quiz")
+  curriculumKey     String
+  lessonKey         String
+  ideaKey           String?
+  externalKey       String?
+  name              String    @default("")
+  visible           Boolean   @default(false)
+  mappingMode       String    @default("manual")
+  confidence        Float?
+  needsReview       Boolean   @default(false)
+  sourceFingerprint String?
+  orderIndex        Int       @default(0)
+  dueAt             DateTime?
+  lastSeenAt        DateTime?
+  metadataJson      String    @default("{}")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([courseMapId, moodleActivityId, activityType])
+  @@index([curriculumKey, lessonKey, ideaKey])
+  @@index([courseMapId, visible])
+  @@index([courseMapId, needsReview])
+  @@index([sectionMapId, orderIndex])
+  @@map("moodle_activity_maps")
+}
+
+model MoodleQuestionMap {
+  id               String   @id @default(cuid())
+  activityMapId    String
+  moodleQuestionId Int
+  curriculumKey    String
+  lessonKey        String
+  ideaKey          String?
+  tag              String?
+  externalKey      String?
+  questionOrder    Int?
+  isPlayable       Boolean  @default(true)
+  metadataJson     String   @default("{}")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([activityMapId, moodleQuestionId])
+  @@index([curriculumKey, lessonKey, ideaKey])
+  @@index([tag])
+  @@map("moodle_question_maps")
+}
+
+model MoodleHomeworkMap {
+  id               String    @id @default(cuid())
+  courseMapId      String
+  moodleActivityId Int
+  activityType     String    @default("assignment")
+  curriculumKey    String
+  lessonKey        String
+  externalKey      String?
+  name             String    @default("")
+  dueAt            DateTime?
+  enabled          Boolean   @default(true)
+  metadataJson     String    @default("{}")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@unique([courseMapId, moodleActivityId, activityType])
+  @@index([curriculumKey, lessonKey])
+  @@map("moodle_homework_maps")
+}
+
+model MoodleSyncCursor {
+  id            String    @id @default(cuid())
+  scopeKey      String    @unique
+  courseMapId   String?
+  lastCursor    String?
+  lastSyncAt    DateTime?
+  lastSuccessAt DateTime?
+  status        String    @default("never") // never | ok | error | stale
+  error         String?
+  syncedCount   Int       @default(0)
+  changedCount  Int       @default(0)
+  skippedCount  Int       @default(0)
+  requestCount  Int       @default(0)
+  nextPollMs    Int       @default(5000)
+  lastChangedAt DateTime?
+  metadataJson  String    @default("{}")
+  updatedAt     DateTime  @updatedAt
+
+  @@index([courseMapId, status])
+  @@map("moodle_sync_cursors")
+}
+
+model IdeaRun {
+  id            String    @id @default(cuid())
+  sessionId     String?
+  curriculumKey String
+  lessonKey     String
+  ideaKey       String
+  activityMapId String?
+  status        String    @default("active") // active | ended | stale
+  startedAt     DateTime  @default(now())
+  endedAt       DateTime?
+  statsJson     String    @default("{}")
+
+  @@index([sessionId, lessonKey, ideaKey])
+  @@index([activityMapId])
+  @@map("idea_runs")
+}
+
+model IdeaQuestionAttempt {
+  id               String    @id @default(cuid())
+  ideaRunId        String
+  questionMapId    String?
+  studentId        String?
+  moodleUserId     Int
+  moodleAttemptId  Int?
+  moodleQuestionId Int?
+  studentAnswer    String?
+  isCorrect        Boolean?
+  pointsEarned     Float     @default(0)
+  status           String    @default("unknown") // answered | unanswered | pending | stale
+  startedAt        DateTime?
+  submittedAt      DateTime?
+  metadataJson     String    @default("{}")
+
+  @@unique([ideaRunId, moodleUserId, moodleQuestionId, moodleAttemptId])
+  @@index([ideaRunId, moodleUserId])
+  @@index([studentId, submittedAt])
+  @@index([studentId, ideaRunId, submittedAt])
+  @@index([moodleQuestionId])
+  @@map("idea_question_attempts")
+}
+
+model HomeworkSnapshot {
+  id                   String    @id @default(cuid())
+  homeworkMapId        String
+  studentId            String?
+  moodleUserId         Int
+  moodleSubmissionId   Int?
+  status               String    @default("unknown") // not_opened | opened_not_started | started_incomplete | submitted | late | stale
+  totalQuestions       Int       @default(0)
+  answeredQuestions    Int       @default(0)
+  unansweredQuestions  Int       @default(0)
+  correctQuestions     Int       @default(0)
+  wrongQuestions       Int       @default(0)
+  completionPct        Float     @default(0)
+  successOnAnsweredPct Float?
+  successOnTotalPct    Float?
+  moodleGrade          Float?
+  moodleMaxGrade       Float?
+  submittedAt          DateTime?
+  dueAt                DateTime?
+  sourceUpdatedAt      DateTime?
+  metadataJson         String    @default("{}")
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@unique([homeworkMapId, moodleUserId])
+  @@index([studentId, updatedAt])
+  @@index([homeworkMapId, status])
+  @@map("homework_snapshots")
+}
+
+model HomeworkQuestionResult {
+  id               String    @id @default(cuid())
+  snapshotId       String
+  questionMapId    String?
+  moodleQuestionId Int?
+  curriculumKey    String
+  lessonKey        String
+  ideaKey          String?
+  studentAnswer    String?
+  isAnswered       Boolean   @default(false)
+  isCorrect        Boolean?
+  pointsEarned     Float     @default(0)
+  answeredAt       DateTime?
+  metadataJson     String    @default("{}")
+
+  @@unique([snapshotId, moodleQuestionId])
+  @@index([lessonKey, ideaKey])
+  @@index([snapshotId, answeredAt])
+  @@map("homework_question_results")
+}
+
+model HomeworkSubmission {
+  id                 String    @id @default(cuid())
+  homeworkMapId      String
+  studentId          String?
+  moodleUserId       Int
+  moodleSubmissionId Int
+  status             String    @default("submitted")
+  attemptNumber      Int?
+  submittedAt        DateTime?
+  grade              Float?
+  feedback           String?
+  attachmentJson     String    @default("[]")
+  rawJson            String    @default("{}")
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@unique([homeworkMapId, moodleSubmissionId])
+  @@index([studentId, submittedAt])
+  @@map("homework_submissions")
+}
+
+model TeacherInteraction {
+  id                     String   @id @default(cuid())
+  studentId              String?
+  sessionId              String?
+  curriculumKey          String
+  lessonKey              String
+  ideaKey                String?
+  type                   String
+  stateBefore            String
+  stateAfter             String
+  teacherNote            String   @default("")
+  verificationQuestionId String?
+  createdAt              DateTime @default(now())
+
+  // C37 fix (2026-AUG): add @relation so deletions cascade properly.
+  student Student? @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  session Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([studentId, lessonKey, ideaKey])
+  @@index([sessionId, createdAt])
+  @@index([studentId, sessionId, createdAt])
+  @@map("teacher_interactions")
+}
+
+model AiReview {
+  id                 String    @id @default(cuid())
+  studentId          String?
+  curriculumKey      String?
+  lessonKey          String?
+  ideaKey            String?
+  homeworkSnapshotId String?
+  source             String
+  operation          String
+  status             String    @default("draft") // draft | review | approved | rejected | failed
+  provider           String?
+  model              String?
+  confidence         Float?
+  resultJson         String    @default("{}")
+  error              String?
+  reviewedAt         DateTime?
+  approvedAt         DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@index([studentId, lessonKey, ideaKey])
+  @@index([homeworkSnapshotId, status])
+  @@map("ai_reviews")
+}
+
+// ====================================================================
+// Optional AI provider keys — encrypted at rest, never returned to client
+// ====================================================================
+model AiProviderKey {
+  id                  String    @id @default(cuid())
+  label               String
+  provider            String    @default("google")
+  apiKind             String    @default("provider") // provider | openai-compatible
+  baseUrl             String?
+  modelsUrl           String?
+  chatUrl             String?
+  encryptedKey        String
+  keyHint             String    @default("")
+  model               String    @default("gemini-2.5-flash")
+  specialty           String    @default("general") // general | math | arabic | science | images | audio
+  scopesJson          String    @default("[\"generate\"]")
+  capabilitiesJson    String    @default("[\"text\"]")
+  isActive            Boolean   @default(true)
+  priority            Int       @default(0)
+  status              String    @default("active") // active | cooldown | failed | disabled | needs-check
+  cooldownUntil       DateTime?
+  rpmLimit            Int?
+  dailyLimit          Int?
+  maxConcurrency      Int       @default(2)
+  lastUsedAt          DateTime?
+  lastSuccessAt       DateTime?
+  lastErrorAt         DateTime?
+  lastErrorCode       String?
+  lastError           String?
+  consecutiveFailures Int       @default(0)
+  successCount        Int       @default(0)
+  failureCount        Int       @default(0)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([provider, isActive, priority])
+  @@index([status, cooldownUntil])
+  @@map("ai_provider_keys")
+}
+
+model SettingsProfile {
+  id           String   @id @default(cuid())
+  name         String
+  classId      String?
+  settingsJson String
+  revision     Int      @default(1)
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([classId, isDefault])
+  @@map("settings_profiles")
+}
+
+model AiConversation {
+  id        String                  @id @default(cuid())
+  scope     String                  @default("teacher") // teacher | lesson | idea
+  title     String                  @default("محادثة AI")
+  lessonId  String?
+  ideaId    String?
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+  messages  AiConversationMessage[]
+
+  @@index([lessonId, ideaId, updatedAt])
+  @@map("ai_conversations")
+}
+
+model AiConversationMessage {
+  id             String         @id @default(cuid())
+  conversationId String
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String // system | user | assistant | tool
+  content        String
+  provider       String?
+  model          String?
+  inputTokens    Int?
+  outputTokens   Int?
+  createdAt      DateTime       @default(now())
+
+  @@index([conversationId, createdAt])
+  @@map("ai_conversation_messages")
+}
+
+model AiRetryQueue {
+  id          String   @id @default(cuid())
+  operation   String
+  input       String
+  optionsJson String   @default("{}")
+  retryCount  Int      @default(0)
+  maxRetries  Int      @default(3)
+  nextRetryAt DateTime @default(now())
+  lastError   String?
+  status      String   @default("pending") // pending | retrying | success | dead
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, nextRetryAt])
+  @@map("ai_retry_queue")
+}
+
+model AiMemory {
+  id        String    @id @default(cuid())
+  lessonId  String   @default("")
+  ideaId    String   @default("")
+  key       String
+  value     String
+  ttlUntil  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([lessonId, ideaId, key])
+  @@index([lessonId, ideaId, updatedAt])
+  @@map("ai_memory")
+}
+
+model PromptLibrary {
+  id            String   @id @default(cuid())
+  title         String
+  category      String   @default("general")
+  prompt        String
+  variablesJson String   @default("[]")
+  tagsJson      String   @default("[]")
+  isPublic      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([category, updatedAt])
+  @@map("prompt_library")
+}
+
+model LessonEmbedding {
+  id            String   @id @default(cuid())
+  lessonId      String
+  embeddingJson String
+  model         String
+  dimensions    Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([lessonId, model])
+  @@map("lesson_embeddings")
+}
+
+model ExternalWebhookTarget {
+  id              String    @id @default(cuid())
+  label           String
+  url             String
+  secretEncrypted String
+  eventsJson      String    @default("[]")
+  enabled         Boolean   @default(true)
+  retryCount      Int       @default(3)
+  lastStatus      String?
+  lastError       String?
+  lastDeliveredAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([enabled, updatedAt])
+  @@map("external_webhook_targets")
+}
+
+model MoodleSyncEvent {
+  id            String           @id @default(cuid())
+  courseId      Int
+  sessionId     String?
+  eventHash     String           @unique
+  eventType     String           @default("answer")
+  source        String           @default("webhook")
+  status        String           @default("accepted")
+  moodleUserId  Int?
+  questionId    Int?
+  ideaId        String?
+  studentAnswer String?
+  isCorrect     Boolean?
+  answeredAt    DateTime?
+  processedAt   DateTime?
+  receivedAt    DateTime         @default(now())
+  metadataJson  String           @default("{}")
+  retry         MoodleSyncRetry?
+
+  @@index([courseId, receivedAt])
+  @@index([moodleUserId, receivedAt])
+  @@index([courseId, eventType, receivedAt])
+  @@map("moodle_sync_events")
+}
+
+model MoodleSyncRetry {
+  id          String          @id @default(cuid())
+  eventId     String          @unique
+  event       MoodleSyncEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  retryCount  Int             @default(0)
+  maxRetries  Int             @default(3)
+  nextRetryAt DateTime        @default(now())
+  lastError   String?
+  status      String          @default("pending") // pending | retrying | success | dead
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([status, nextRetryAt])
+  @@map("moodle_sync_retries")
+}
+
+model AiUsageEvent {
+  id               String   @id @default(cuid())
+  provider         String
+  model            String
+  operation        String
+  keyId            String?
+  ok               Boolean
+  inputChars       Int      @default(0)
+  outputChars      Int      @default(0)
+  inputTokens      Int      @default(0)
+  outputTokens     Int      @default(0)
+  estimatedCostUsd Float    @default(0)
+  actualCostUsd    Float?
+  requestId        String?
+  errorCode        String?
+  createdAt        DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([provider, model])
+  @@map("ai_usage_events")
+}
+
+
+// ====================================================================
+// Reports + Telegram V10
+// Teacher-owned local configuration and delivery queues. These models do
+// not push data to Moodle and never store raw provider secrets.
+// ====================================================================
+
+model ReportTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  kind        String   @default("student")
+  language    String   @default("ar")
+  sectionsJson String  @default("[\"summary\"]")
+  scopeClassId String?
+  isDefault   Boolean  @default(false)
+  enabled     Boolean  @default(true)
+  revision    Int      @default(1)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([kind, enabled])
+  @@index([scopeClassId, kind])
+  @@map("report_templates")
+}
+
+model ReportSchedule {
+  id          String   @id @default(cuid())
+  kind        String   @default("weekly")
+  enabled     Boolean  @default(false)
+  classId     String?
+  templateId  String?
+  frequency   String   @default("weekly")
+  timezone    String   @default("Africa/Cairo")
+  nextRunAt   DateTime?
+  lastRunAt   DateTime?
+  lastStatus  String?
+  lastError   String?
+  revision    Int      @default(1)
+  configJson  String   @default("{}")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([enabled, nextRunAt])
+  @@index([classId, frequency])
+  @@map("report_schedules")
+}
+
+model TelegramParentPreference {
+  id          String   @id @default(cuid())
+  studentId   String   @unique
+  chatId      String
+  language    String   @default("ar")
+  sectionsJson String  @default("[\"summary\",\"attendance\",\"homework\",\"achievements\"]")
+  frequency   String   @default("weekly")
+  liveEvents  Boolean  @default(false)
+  reminders   Boolean  @default(false)
+  revision    Int      @default(1)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([chatId])
+  @@index([frequency, liveEvents, reminders])
+  @@map("telegram_parent_preferences")
+}
+
+model TelegramMessageQueue {
+  id             String   @id @default(cuid())
+  chatId         String
+  studentId      String?
+  kind           String   @default("report")
+  method         String   @default("sendMessage")
+  payloadJson    String   @default("{}")
+  idempotencyKey String   @unique
+  status         String   @default("pending")
+  attempts       Int      @default(0)
+  maxAttempts    Int      @default(5)
+  nextAttemptAt  DateTime @default(now())
+  lastError      String?
+  createdAt      DateTime @default(now())
+  sentAt         DateTime?
+
+  @@index([status, nextAttemptAt])
+  @@index([chatId, createdAt])
+  @@index([studentId, status])
+  @@map("telegram_message_queue")
+}
+
+
+model TelegramMessageTemplate {
+  id          String   @id @default(cuid())
+  type        String   @default("summary")
+  language    String   @default("ar")
+  name        String
+  template    String
+  variablesJson String @default("[]")
+  enabled     Boolean  @default(true)
+  revision    Int      @default(1)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([type, language, enabled])
+  @@map("telegram_message_templates")
+}

@@ -1,0 +1,669 @@
+{
+  "total": 32,
+  "passed": 32,
+  "failed": 0,
+  "results": [
+    {
+      "name": "fixture class created",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "id": "int-1786920012258-class",
+            "name": "فصل تكامل خارجي",
+            "description": "",
+            "color": "#123456",
+            "createdAt": "2026-08-16T22:40:12.531Z",
+            "updatedAt": "2026-08-16T22:40:12.531Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "fixture student created with code",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "id": "int-1786920012258-student",
+            "classId": "int-1786920012258-class",
+            "name": "طالب Telegram QA",
+            "studentCode": "INT-1786920012258-CODE",
+            "parentTelegramChatId": null,
+            "parentTelegramUsername": null,
+            "parentPhone": null,
+            "points": 0,
+            "correctAnswers": 0,
+            "wrongAnswers": 0,
+            "attempts": 0,
+            "title": null,
+            "isAbsent": false,
+            "lastAbsentAt": null,
+            "moodleUserId": null,
+            "moodleUsername": null,
+            "moodleCourseId": null,
+            "lastCalled": null,
+            "createdAt": "2026-08-16T22:40:12.593Z",
+            "updatedAt": "2026-08-16T22:40:12.593Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "fixture student includes Moodle homework snapshot",
+      "ok": true,
+      "detail": {
+        "snapshotId": "cmswe1e1s0002kjtweblkv2bl",
+        "homeworkMapId": "cmswe1e1i0001kjtwsmeg75le"
+      }
+    },
+    {
+      "name": "Live App answer is accepted for the linked student",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "accepted": 1,
+            "duplicates": 0,
+            "rejected": 0,
+            "results": [
+              {
+                "eventId": "int-1786920012258-live-event",
+                "duplicate": false,
+                "accepted": true,
+                "studentId": "int-1786920012258-student",
+                "studentCode": "INT-1786920012258-CODE",
+                "status": "correct",
+                "pointsDelta": 1,
+                "activityId": "cmswe1e2u0007kjtww563fhxu"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Moodle config saves encrypted token",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": true,
+            "baseUrl": "http://127.0.0.1:3021/moodle",
+            "courseId": 77,
+            "curriculumKey": null,
+            "hasToken": true,
+            "webhookEnabled": false,
+            "webhookEndpoint": "/api/moodle/webhook",
+            "lastSyncAt": null,
+            "lastSyncStatus": null,
+            "lastSyncError": null,
+            "healthProbe": null,
+            "consecutiveProbeFailures": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Moodle test reaches mock site info",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "connected": true,
+            "siteName": "Moodle QA",
+            "userId": 77
+          }
+        }
+      }
+    },
+    {
+      "name": "Moodle sync returns three enrolled users",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "students": [
+              {
+                "moodleUserId": 101,
+                "moodleUsername": "moodle_ahmed",
+                "name": "أحمد Moodle",
+                "email": "ahmed@example.test"
+              },
+              {
+                "moodleUserId": 102,
+                "moodleUsername": "moodle_sara",
+                "name": "سارة Moodle",
+                "email": "sara@example.test"
+              },
+              {
+                "moodleUserId": 103,
+                "moodleUsername": "moodle_layla",
+                "name": "ليلى Moodle",
+                "email": "layla@example.test"
+              }
+            ],
+            "count": 3,
+            "syncedAt": "2026-08-16T22:40:12.747Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "Moodle liveStatus maps engagement semantics",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "statuses": [
+              {
+                "moodleUserId": 101,
+                "status": "waiting",
+                "updatedAt": "2026-08-16T22:40:12.760Z",
+                "label": "نشط مؤخراً"
+              },
+              {
+                "moodleUserId": 102,
+                "status": "unknown",
+                "updatedAt": "2026-08-16T22:40:12.760Z",
+                "label": "لا توجد إجابة منشورة"
+              },
+              {
+                "moodleUserId": 103,
+                "status": "waiting",
+                "updatedAt": "2026-08-16T22:40:12.760Z",
+                "label": "نشط مؤخراً"
+              }
+            ],
+            "sampledAt": "2026-08-16T22:40:12.760Z",
+            "changed": true,
+            "nextPollMs": 5000,
+            "semantics": "engagement_only"
+          }
+        }
+      }
+    },
+    {
+      "name": "Moodle wrong token config can be saved for failure test",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": true,
+            "baseUrl": "http://127.0.0.1:3021/moodle",
+            "courseId": 77,
+            "curriculumKey": null,
+            "hasToken": true,
+            "webhookEnabled": false,
+            "webhookEndpoint": "/api/moodle/webhook",
+            "lastSyncAt": "2026-08-16T22:40:12.747Z",
+            "lastSyncStatus": "ok",
+            "lastSyncError": null,
+            "healthProbe": null,
+            "consecutiveProbeFailures": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Moodle failure becomes safe 502 and records error",
+      "ok": true,
+      "detail": {
+        "status": 502,
+        "payload": {
+          "ok": false,
+          "error": "invalid token"
+        }
+      }
+    },
+    {
+      "name": "Moodle reset clears token config",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": false,
+            "baseUrl": "",
+            "courseId": null,
+            "curriculumKey": null,
+            "hasToken": false,
+            "webhookEnabled": false,
+            "webhookEndpoint": "/api/moodle/webhook",
+            "lastSyncAt": null,
+            "lastSyncStatus": null,
+            "lastSyncError": null,
+            "healthProbe": null,
+            "consecutiveProbeFailures": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom App config saves field mapping",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": true,
+            "baseUrl": "http://127.0.0.1:3021",
+            "endpointPath": "/custom/api/live-status",
+            "method": "GET",
+            "itemsPath": "payload.students",
+            "idField": "code",
+            "statusField": "state",
+            "updatedAtField": "changed",
+            "labelField": "display",
+            "authHeader": "Authorization",
+            "authScheme": "Bearer",
+            "hasToken": true,
+            "lastSyncAt": null,
+            "lastSyncStatus": null,
+            "lastSyncError": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom App test maps three external records",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "connected": true,
+            "count": 3
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom App pull normalizes correct/wrong/active statuses",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "statuses": [
+              {
+                "externalId": "QA-001",
+                "status": "correct",
+                "updatedAt": "2026-08-14T06:00:00.000Z",
+                "label": "أحمد Custom"
+              },
+              {
+                "externalId": "QA-002",
+                "status": "wrong",
+                "updatedAt": "2026-08-14T06:01:00.000Z",
+                "label": "سارة Custom"
+              },
+              {
+                "externalId": "QA-003",
+                "status": "waiting",
+                "updatedAt": "2026-08-14T06:02:00.000Z",
+                "label": "ليلى Custom"
+              }
+            ],
+            "sampledAt": "2026-08-16T22:40:12.829Z",
+            "semantics": "external_app_status"
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom App failure fixture saves",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": true,
+            "baseUrl": "http://127.0.0.1:3021",
+            "endpointPath": "/custom/api/fail",
+            "method": "GET",
+            "itemsPath": "payload.students",
+            "idField": "code",
+            "statusField": "state",
+            "updatedAtField": "changed",
+            "labelField": "display",
+            "authHeader": "Authorization",
+            "authScheme": "Bearer",
+            "hasToken": true,
+            "lastSyncAt": "2026-08-16T22:40:12.829Z",
+            "lastSyncStatus": "ok",
+            "lastSyncError": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom App failure returns safe 502",
+      "ok": true,
+      "detail": {
+        "status": 502,
+        "payload": {
+          "ok": false,
+          "error": "Custom App HTTP 503"
+        }
+      }
+    },
+    {
+      "name": "Custom App reset clears configuration",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": false,
+            "baseUrl": "",
+            "endpointPath": "/api/live-status",
+            "method": "GET",
+            "itemsPath": "statuses",
+            "idField": "studentCode",
+            "statusField": "status",
+            "updatedAtField": "updatedAt",
+            "labelField": "label",
+            "authHeader": "Authorization",
+            "authScheme": "Bearer",
+            "hasToken": false,
+            "lastSyncAt": null,
+            "lastSyncStatus": null,
+            "lastSyncError": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram config saves encrypted token without returning it",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": true,
+            "autoSend": false,
+            "schedule": "manual",
+            "hasToken": true,
+            "webhookUrl": "",
+            "lastSendAt": null,
+            "lastSendStatus": null,
+            "lastSendError": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram test reaches mock getMe",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "connected": true,
+            "username": "bisalasa_qa_bot",
+            "firstName": "Bisalasa QA Bot"
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram generates/returns student code safely",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": [
+            {
+              "id": "int-1786920012258-student",
+              "name": "طالب Telegram QA",
+              "studentCode": "INT-1786920012258-CODE",
+              "linked": false,
+              "parentTelegramUsername": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Telegram webhook set stores only safe config",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": true,
+            "autoSend": false,
+            "schedule": "manual",
+            "hasToken": true,
+            "webhookUrl": "https://qa.example.test/telegram",
+            "lastSendAt": null,
+            "lastSendStatus": null,
+            "lastSendError": null,
+            "secretCreated": false
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram rejects wrong webhook secret",
+      "ok": true,
+      "detail": {
+        "status": 401,
+        "payload": {
+          "ok": false,
+          "error": "Webhook غير مصرح"
+        }
+      }
+    },
+    {
+      "name": "Telegram /start is handled through mock sendMessage",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "handled": true,
+            "action": "start"
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram invalid student code is handled safely",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "handled": true,
+            "action": "invalid-code"
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram valid code links parent to student",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "handled": true,
+            "action": "linked",
+            "studentId": "int-1786920012258-student"
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram sends Arabic PDF report with Moodle and Live App analysis",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "studentId": "int-1786920012258-student",
+            "sent": true,
+            "pdf": true,
+            "language": "ar",
+            "sections": [
+              "summary",
+              "attendance",
+              "homework",
+              "achievements"
+            ],
+            "moodleIncluded": true,
+            "liveAppIncluded": true,
+            "gamesIncluded": false,
+            "fairnessIncluded": false
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram session auto-send config persists",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": true,
+            "autoSend": true,
+            "schedule": "session",
+            "hasToken": true,
+            "webhookUrl": "https://qa.example.test/telegram",
+            "lastSendAt": null,
+            "lastSendStatus": null,
+            "lastSendError": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram sendSessionReports sends linked student",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "total": 1,
+            "sent": 1,
+            "queued": 0,
+            "results": [
+              {
+                "studentId": "int-1786920012258-student",
+                "sent": true,
+                "pdf": true,
+                "language": "ar",
+                "sections": [
+                  "summary",
+                  "attendance",
+                  "homework",
+                  "achievements"
+                ],
+                "moodleIncluded": true,
+                "liveAppIncluded": false,
+                "gamesIncluded": false,
+                "fairnessIncluded": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram webhook info reaches mock",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "url": "https://qa.example.test/telegram",
+            "pending_update_count": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram webhook delete reaches mock",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": true,
+            "autoSend": true,
+            "schedule": "session",
+            "hasToken": true,
+            "webhookUrl": "",
+            "lastSendAt": "2026-08-16T22:40:14.378Z",
+            "lastSendStatus": "ok",
+            "lastSendError": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Telegram clearToken disables and removes token",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "payload": {
+          "ok": true,
+          "data": {
+            "enabled": false,
+            "autoSend": false,
+            "schedule": "session",
+            "hasToken": false,
+            "webhookUrl": "",
+            "lastSendAt": "2026-08-16T22:40:14.378Z",
+            "lastSendStatus": "ok",
+            "lastSendError": null
+          }
+        }
+      }
+    },
+    {
+      "name": "mock observed Telegram, Moodle and Custom requests",
+      "ok": true,
+      "detail": {
+        "count": 230
+      }
+    }
+  ]
+}

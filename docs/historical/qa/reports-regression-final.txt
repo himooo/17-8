@@ -1,0 +1,7 @@
+tsc=PASS
+lint=PASS (2 legacy img warnings)
+build=PASS
+reports-unified-smoke=16/16
+integrations-demo=32/32
+telegram-report-smoke=10/10 pages=2
+browser-grades=HTTP 200

@@ -1,0 +1,245 @@
+GIT_DIR=../.nvm/.git
+
+TOP_LEVEL
+.env
+AUDIT_FINDINGS_PHASE2.md
+AUDIT_FINDINGS_PHASE5.md
+AUDIT_FINDINGS_PHASE6.md
+AUDIT_FINDINGS_PHASE7.md
+AUDIT_FINDINGS_PHASE9_BROWSER.md
+AUDIT_INVENTORY_V4.txt
+AUDIT_SOURCE_BASELINE_V4.txt
+AUDIT_UI_LOGIC_INVENTORY_V4.txt
+CHANGES.md
+CHANGES_MATH_V1.md
+CHANGES_V3.md
+Caddyfile
+DEEP_AUDIT_PLAN.md
+FEATURE_RISK_MATRIX.md
+FULL_AUDIT_PLAN_V4.md
+MATH_AI_BOUNDARY.md
+MATH_REFERENCE_SOURCES.md
+MATH_UPGRADE_BROWSER_FINDINGS.md
+MATH_UPGRADE_PLAN.md
+MATH_UPGRADE_REPORT_AR.md
+PHASE11_PRODUCTION_VERIFICATION.md
+ai_api_rotation_results.jsonl
+ai_key_crud_results.jsonl
+ai_keys_get.json
+api_smoke_final.jsonl
+api_smoke_matrix.sh
+api_smoke_results.jsonl
+api_smoke_results_final.jsonl
+api_smoke_results_latest.jsonl
+api_smoke_results_post_build.jsonl
+audit_manifests.py
+baseline_lint_full.log
+bisalasa_final_test_report_ar.md
+bottom_control_bar_lint.log
+bottom_control_bar_tsc.log
+bottom_reward_handlers_lint.log
+bottom_reward_handlers_tsc.log
+bottom_timer_lint.log
+bottom_timer_tsc.log
+browser_game_fixture_ids.txt
+browser_game_fixture_results.jsonl
+browser_test_log.md
+build_final.log
+build_for_deep_browser_audit.log
+build_full_quality.log
+cleanup_final_v3.jsonl
+cleanup_orphan_audit_data.py
+cleanup_run_latest.jsonl
+cleanup_test_records.sh
+component_inventory.md
+components.json
+curriculum_metadata_tsc.log
+curriculum_metadata_tsc_after_fix.log
+deep_audit_production.log
+deep_audit_production.pid
+deep_browser_findings.md
+eslint.config.mjs
+final_lint.log
+final_tsc.log
+game_logic_audit.py
+game_logic_audit_matrix.txt
+game_logic_audit_matrix_round2.txt
+game_logic_round_lint.log
+game_logic_round_tsc.log
+game_overlay_accessibility_lint.log
+game_overlay_accessibility_tsc.log
+game_overlay_exit_lint.log
+game_overlay_exit_tsc.log
+game_question_config_lint.log
+game_question_config_tsc.log
+games_logic_lint_round1.log
+games_logic_tsc_round3.log
+games_logic_tsc_round4.log
+google_gemini_integration_notes.md
+hot_potato_cleanup_lint.log
+hot_potato_cleanup_tsc.log
+individual_games_roster_lint.log
+individual_games_roster_tsc.log
+lesson_delete_state_lint.log
+lesson_delete_state_tsc.log
+lint_after_canvas_stage.log
+lint_after_final_lint_fixes.log
+lint_after_games.log
+lint_after_hook_cleanup.log
+lint_after_hotpotato.log
+lint_after_leaderboard_fix.log
+lint_after_panel_fixes.log
+lint_after_pool_dependency_fix.log
+lint_after_quickfire.log
+lint_after_type_cleanup.log
+lint_final.log
+lint_full_quality.log
+lint_issue_catalog.txt
+lint_issue_catalog_latest.txt
+logic_fixes_tsc_round1.log
+logic_fixes_tsc_round2.log
+manifest_audit_after_fix.txt
+manifest_audit_latest.txt
+math_challenge_finish_tsc.log
+math_engine_smoke_results.log
+math_upgrade_build1.log
+math_upgrade_build2.log
+math_upgrade_build3.log
+math_upgrade_build_final.log
+math_upgrade_final_quality.log
+math_upgrade_lint_final.log
+math_upgrade_production.log
+math_upgrade_production.pid
+math_upgrade_production2.log
+math_upgrade_production2.pid
+math_upgrade_production3.log
+math_upgrade_production3.pid
+math_upgrade_production_final.log
+math_upgrade_production_final.pid
+math_upgrade_quality1.log
+math_upgrade_quality2.log
+math_upgrade_regression_final.status
+math_upgrade_test_math_final.log
+math_upgrade_tsc_final.log
+memory_game_logic_lint.log
+memory_game_logic_tsc.log
+mystery_box_reveal_lint.log
+mystery_box_reveal_tsc.log
+next-env.d.ts
+next.config.ts
+package.json
+panel_logic_audit.py
+panel_logic_audit_matrix.txt
+panel_mount_points.txt
+persistence_absolute.log
+persistence_create.json
+persistence_pkg_1.log
+persistence_pkg_2.log
+persistence_read.json
+persistence_server_1.log
+persistence_server_2.log
+persistence_server_2.pid
+phase10_quality_final.log
+pnpm-lock.yaml
+pnpm-workspace.yaml
+postcss.config.mjs
+present_students_groups_lint.log
+present_students_groups_tsc.log
+production.log
+production.pid
+production_ai_test.log
+production_final.log
+production_persistence.log
+production_v3.log
+production_v3.pid
+quality_after_full_audit.txt
+question_challenge_group_fix_lint.log
+question_challenge_group_fix_tsc.log
+question_challenge_group_order_lint.log
+question_challenge_group_order_tsc.log
+question_contract_tsc.log
+question_contract_tsc_after_fix.log
+question_pool_stale_fix_lint.log
+question_pool_stale_fix_tsc.log
+
+RECENT_FILES
+1786657315.4352676410 scripts/math-engine-smoke.ts
+1786657186.5855165480 src/lib/pdf-export.ts
+1786656635.4340020730 src/components/shell/MathToolsPanel.tsx
+1786656573.9931663520 src/lib/math-engine.ts
+1786656527.6085323050 src/components/shell/FloatingSideRail.tsx
+1786656516.1203753630 src/lib/shell-store.ts
+1786656503.7242062660 src/components/shell/panels/ReportsPanel.tsx
+1786656263.7809328280 src/components/shell/StudentReportPanel.tsx
+1786656228.3324495500 src/components/shell/IframeStage.tsx
+1786656211.7962235620 src/components/shell/SmartWhiteboard.tsx
+1786650972.5471145410 src/lib/question-provider.ts
+1786650910.9862788630 src/components/shell/GameOverlay.tsx
+1786650872.2737624460 src/components/shell/GameQuestionConfig.tsx
+1786650805.4248561070 src/components/shell/panels/SettingsPanel.tsx
+1786650542.0332812950 src/app/api/db/[operation]/route.ts
+1786650494.0606281940 src/components/shell/panels/StudentsPanel.tsx
+1786650264.1774983710 src/components/shell/BottomControlBar.tsx
+1786650058.8426995280 src/components/shell/ReactionTimeGame.tsx
+1786650043.9424970110 src/components/shell/DiceRollGame.tsx
+1786649996.5058521970 src/components/shell/MysteryBoxGame.tsx
+1786649930.6369559450 src/components/shell/HotPotatoGame.tsx
+1786649875.8082112340 src/components/shell/MemoryGame.tsx
+1786649820.2594570130 src/components/shell/QuizShowGame.tsx
+1786649755.1145697130 src/components/shell/QuickFireGame.tsx
+1786649714.8980232140 src/components/shell/QuestionChallengeGame.tsx
+1786649610.7086081440 src/components/shell/MathChallengeGame.tsx
+1786649493.8790236500 src/lib/data-store.ts
+1786649110.7498080020 src/components/shell/panels/GroupsPanel.tsx
+1786647777.1316978940 src/components/shell/ClassLeaderboardView.tsx
+1786647687.2385042640 src/lib/useGameStudentPicker.ts
+1786647419.3708584370 src/lib/slide-schema.ts
+1786647272.3088740960 src/components/shell/LuckyWheelGame.tsx
+1786647168.3034668180 src/components/shell/AwardedGiftDisplay.tsx
+1786646931.0082551540 public/slides/template-blank.html
+1786642761.5742927230 src/app/globals.css
+1786642717.0696876520 src/app/api/ai/route.ts
+1786639941.9479419360 src/components/shell/CelebrationsOverlay.tsx
+1786639842.1665864740 src/hooks/use-mobile.ts
+1786639835.9185013710 src/components/shell/panels/SoundsPanel.tsx
+1786639829.6304155920 src/components/shell/panels/ClassesPanel.tsx
+1786639820.2022869580 src/components/shell/ConfirmDialogHost.tsx
+1786639807.1061082880 src/app/page.tsx
+1786639216.6900524050 src/components/shell/panels/AiPanel.tsx
+1786639126.4088260230 src/lib/local-db.ts
+1786639084.6282586310 src/lib/ai-key-crypto.ts
+1786639076.5121482950 prisma/schema.prisma
+1786636017.6465254070 public/sw.js
+1786633271.8402632310 prisma/db/custom.db
+1786633127.3902994170 src/app/api/route.ts
+1786595487.0000000000 src/lib/tts-announcer.ts
+1786595279.0000000000 src/app/grades/route.ts
+1786594349.0000000000 public/slides/USER_GUIDE.md
+1786594279.0000000000 public/slides/QUICKSTART.md
+1786584492.0000000000 src/lib/game-utils.ts
+1786582422.0000000000 src/lib/celebrations.ts
+1786578374.0000000000 src/types/global.d.ts
+1786578374.0000000000 src/lib/z-index.ts
+1786578374.0000000000 src/lib/utils.ts
+1786578374.0000000000 src/lib/useFairStudentPicker.ts
+1786578374.0000000000 src/lib/useExitConfirm.ts
+1786578374.0000000000 src/lib/tts-service.ts
+1786578374.0000000000 src/lib/title-rules.ts
+1786578374.0000000000 src/lib/stage-bounds.ts
+1786578374.0000000000 src/lib/smart-audio.ts
+1786578374.0000000000 src/lib/shell-utils.ts
+1786578374.0000000000 src/lib/seed-demo-lesson.ts
+1786578374.0000000000 src/lib/migrate-from-localStorage.ts
+1786578374.0000000000 src/lib/helper-assets.ts
+1786578374.0000000000 src/lib/game-activity-context.tsx
+1786578374.0000000000 src/lib/db.ts
+1786578374.0000000000 src/lib/db-sync.ts
+1786578374.0000000000 src/lib/csv-parser.ts
+1786578374.0000000000 src/hooks/use-toast.ts
+1786578374.0000000000 src/components/ui/tooltip.tsx
+1786578374.0000000000 src/components/ui/toggle.tsx
+1786578374.0000000000 src/components/ui/toggle-group.tsx
+1786578374.0000000000 src/components/ui/toaster.tsx
+1786578374.0000000000 src/components/ui/toast.tsx
+1786578374.0000000000 src/components/ui/textarea.tsx
+1786578374.0000000000 src/components/ui/tabs.tsx

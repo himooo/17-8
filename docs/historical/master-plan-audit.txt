@@ -1,0 +1,75 @@
+Bisalasa Master Plan V5 Audit
+Sun Aug 16 04:52:00 UTC 2026
+
+[1] Canvas and teacher decision boundary
+PASS | whiteboard enabled sync
+PASS | pointer events pen
+PASS | perfect freehand tuning
+PASS | event timestamp
+PASS | student broadcast SSR
+
+[2] Lesson editor and AI teacher tools
+PASS | lesson editor panel
+PASS | manifestJson persistence
+PASS | lesson context
+PASS | four teleprompter AI actions
+PASS | manual approval generated questions
+PASS | model discovery
+PASS | smart context privacy sanitizer
+PASS | copilot teacher approval gate
+
+[3] Justice and unified progress
+PASS | whole session rotation
+PASS | per idea justice
+PASS | intervention activity log
+PASS | app/moodle/game report fields
+
+[4] Moodle and Custom App sync
+PASS | moodle course/group
+PASS | five second polling
+PASS | live status and understanding
+PASS | custom app hook
+PASS | fallback on external failure
+PASS | live app inbound endpoint
+PASS | live app polling bridge
+PASS | telegram live app report
+PASS | unified report contract
+PASS | unified report API
+PASS | grades source columns
+PASS | share card unified sources
+
+[5] Self tests and mocks
+PASS | mock API routes
+PASS | mock AI
+PASS | question provider tests
+PASS | game utils tests
+PASS | crypto tests
+PASS | browser/E2E tests
+PASS | whiteboard channel revision fallback
+PASS | arabic pdf bidi and full font
+PASS | expanded report pdf smoke
+PASS | unified report smoke
+PASS | large class report smoke
+PASS | live sync concurrency smoke
+PASS | security headers
+
+[6] Performance and data layer
+PASS | dynamic game/panel imports
+PASS | offscreen canvas
+PASS | pointer move refs
+PASS | database indexes
+PASS | student list memoization
+PASS | virtualized large lists
+
+[7] APIs and security
+PASS | provider rotation
+PASS | separate Moodle crypto
+PASS | separate Telegram crypto
+PASS | custom chat url
+PASS | webhook secret validation
+
+[8] Files and scripts
+LESSON_EDITOR=yes
+SSR_CLIENT_SPLIT=yes
+MOCK_SCRIPTS=5
+TEST_SCRIPTS=73

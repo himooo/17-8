@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>درس الكسور — مع التعليقات الافتراضية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body {
+      width: 100vw; height: 100vh; overflow: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .slide-container {
+      width: 100%; height: 100%; padding: 30px; text-align: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .step-content { display: none; animation: fadeInUp 0.5s ease-out; }
+    .step-content.active { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 { font-size: 56px; font-weight: 900; color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+    .subtitle { font-size: 22px; color: #94a3b8; font-weight: 500; }
+    .fraction-demo { font-size: 72px; font-weight: 900; }
+    .options {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+      max-width: 500px; margin: 20px auto;
+    }
+    .option {
+      padding: 20px 28px; border-radius: 14px; font-size: 24px; font-weight: 700;
+      background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15);
+      cursor: pointer; transition: all 0.2s; color: #fff;
+    }
+    .option:hover { background: rgba(255,255,255,0.15); transform: scale(1.02); }
+    .option.correct { background: #10b981; border-color: #34d399; }
+    .option.wrong { background: #ef4444; border-color: #f87171; }
+    .highlight-box {
+      background: rgba(1, 66, 160, 0.3); border: 2px solid #3b82f6;
+      border-radius: 16px; padding: 20px 28px; font-size: 26px;
+      animation: pulse-glow 2s infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+      50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.7); }
+    }
+    .badge { padding: 8px 16px; border-radius: 999px; font-size: 14px; font-weight: 700; }
+    .badge-blue { background: rgba(59,130,246,0.3); color: #93c5fd; border: 1px solid #3b82f6; }
+    .badge-yellow { background: rgba(245,158,11,0.3); color: #fde68a; border: 1px solid #f59e0b; }
+    .visual { display: flex; gap: 12px; margin: 15px 0; }
+    .visual .box {
+      width: 60px; height: 60px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; font-size: 28px; font-weight: 900;
+    }
+    .box.filled { background: #0142A0; color: #fff; }
+    .box.empty { background: rgba(255,255,255,0.1); color: #475569; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+
+    <!-- الخطوة 1: مقدمة -->
+    <div class="step-content active" data-step="1">
+      <div class="badge badge-blue">الدرس 1</div>
+      <h1>الكسور</h1>
+      <p class="subtitle">فهم الأجزاء من الكل — بسم الله نبدأ</p>
+      <div style="font-size: 100px; margin: 10px 0;">🍕</div>
+      <p class="subtitle" style="font-size:18px;">البيتزا اللي قدامك مقسومة لـ 4 أجزاء متساوية</p>
+    </div>
+
+    <!-- الخطوة 2: تعريف -->
+    <div class="step-content" data-step="2">
+      <h1>إيه هو الكسر؟</h1>
+      <div class="highlight-box">
+        الكسر هو <strong>جزء</strong> من <strong>كل</strong> — زي نص البيتزا أو ربعها
+      </div>
+      <p class="subtitle">1/4 = ربع &nbsp;&nbsp;|&nbsp;&nbsp; 1/2 = نص &nbsp;&nbsp;|&nbsp;&nbsp; 3/4 = تلات أرباع</p>
+    </div>
+
+    <!-- الخطوة 3: مثال توضيحي -->
+    <div class="step-content" data-step="3">
+      <div class="badge badge-yellow">مثال</div>
+      <h1>4/4 = 1 (كل البيتزا)</h1>
+      <div class="visual">
+        <div class="box filled">1</div>
+        <div class="box filled">2</div>
+        <div class="box filled">3</div>
+        <div class="box filled">4</div>
+      </div>
+      <p class="subtitle">لو كل الأجزاء مليانة — يبقى العدد الصحيح كاملاً</p>
+    </div>
+
+    <!-- الخطوة 4: سؤال تفاعلي -->
+    <div class="step-content" data-step="4">
+      <h1>لو أخدت جزء واحد من البيتزا، كام باقي؟</h1>
+      <p class="subtitle">فكر... الإجابة بالصيغة الكسرية</p>
+      <div class="options">
+        <div class="option" data-correct="false">3/4</div>
+        <div class="option" data-correct="false">1/4</div>
+        <div class="option" data-correct="true">3/4</div>
+        <div class="option" data-correct="false">1/2</div>
+      </div>
+    </div>
+
+    <!-- الخطوة 5: الجمع -->
+    <div class="step-content" data-step="5">
+      <div class="badge badge-blue">جمع الكسور</div>
+      <h1>كيف نجمع الكسور؟</h1>
+      <div class="highlight-box">
+        نجمع <strong>البسط</strong> ونثبت <strong>المقام</strong> (لازم يكون نفس المقام)
+      </div>
+      <p class="fraction-demo fraction-demo" style="font-size: 48px;">
+        2/4 + 1/4 = 3/4
+      </p>
+    </div>
+
+    <!-- الخطوة 6: سؤال تطبيق -->
+    <div class="step-content" data-step="6">
+      <h1>سؤال سريع ⚡</h1>
+      <p class="subtitle">احسب: 3/8 + 2/8 = ?</p>
+      <div class="options">
+        <div class="option" data-correct="false">5/16</div>
+        <div class="option" data-correct="true">5/8</div>
+        <div class="option" data-correct="false">6/8</div>
+        <div class="option" data-correct="false">1/2</div>
+      </div>
+    </div>
+
+    <!-- الخطوة 7: اختتام -->
+    <div class="step-content" data-step="7">
+      <div style="font-size: 80px;">🎉</div>
+      <h1>أحسنتم!</h1>
+      <p class="subtitle">تعلمنا الكسور بنجاح اليوم</p>
+      <p style="color:#64748b; font-size:14px;">الدرس اللي جاي: ضرب الكسور</p>
+    </div>
+
+  </div>
+
+  <!-- الـ Manifest (إلزامي) -->
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "fractions-vc-demo",
+    "title": "الكسور — درس مع تعليقات افتراضية",
+    "subtitle": "تعلم الكسور بأسلوب ممتع مع تفاعل افتراضي",
+    "currentStep": 1,
+    "aspectRatio": "16:9",
+    "targetAge": "preparatory",
+    "steps": [
+      {
+        "step": 1,
+        "title": "مقدمة",
+        "type": "content",
+        "script": "أهلاً يا شباب. النهاردة هنتعلم الكسور. شايفين البيتزا اللي قدامكوا؟ دي مقسومة لأربع أجزاء متساوية.",
+        "notes": "ابدأ بسؤال الطلاب عن معرفتهم السابقة بالبيتزا."
+      },
+      {
+        "step": 2,
+        "title": "تعريف الكسر",
+        "type": "content",
+        "script": "الكسر هو جزء من كل. يعني لو أخدت نص البيتزا، أخدت 1/2. لو أخدت ربعها، أخدت 1/4.",
+        "notes": "ارسم على السبورة مثال البيتزا المقسمة."
+      },
+      {
+        "step": 3,
+        "title": "مثال توضيحي",
+        "type": "content",
+        "script": "شايفين؟ لو الأربع أجزاء كلهم مليانين، يبقى كده أخدنا البيتزا كلها. 4/4 = واحد صحيح.",
+        "notes": "أشر للأجزاء الأربعة المليانة باستمرار."
+      },
+      {
+        "step": 4,
+        "title": "سؤال تفاعلي",
+        "type": "question",
+        "script": "لو أخدت جزء واحد من البيتزا اللي هي 4 أجزاء، كام باقي؟ فكروا كويس.",
+        "notes": "الإجابة 3/4 — استنى الردود.",
+        "question": {
+          "text": "4 أجزاء أخدت 1 — باقي كام؟",
+          "correctAnswer": "3/4",
+          "options": ["3/4", "1/4", "3/4", "1/2"],
+          "rewardPoints": 5
+        },
+        "effect": "confetti",
+        "autoSlideMs": 0
+      },
+      {
+        "step": 5,
+        "title": "جمع الكسور",
+        "type": "content",
+        "script": "طيب لو عايزين نجمع كسرين — نجمع البسط بس لما يكون المقام واحد. مثال: 2/4 زائد 1/4 تساوي 3/4.",
+        "notes": "وضّح إن المقام لا يتغير عند الجمع."
+      },
+      {
+        "step": 6,
+        "title": "سؤال تطبيق",
+        "type": "question",
+        "script": "سؤال سريع: 3/8 زائد 2/8 يساوي كام؟ جاوبوا بسرعة!",
+        "notes": "الإجابة 5/8.",
+        "question": {
+          "text": "3/8 + 2/8 = ؟",
+          "correctAnswer": "5/8",
+          "options": ["5/16", "5/8", "6/8", "1/2"],
+          "rewardPoints": 3
+        },
+        "effect": "confetti",
+        "autoSlideMs": 0
+      },
+      {
+        "step": 7,
+        "title": "اختتام الدرس",
+        "type": "celebration",
+        "script": "أحسنتم يا أبطال! النهاردة تعلمنا الكسور بشكل ممتاز. شكراً على التركيز.",
+        "notes": "وزع النقاط. اعرض لوحة المتصدرين.",
+        "effect": "confetti",
+        "autoSlideMs": 0
+      }
+    ],
+    "virtualComments": [
+      {
+        "step": 2,
+        "text": "دي سهلة جداً يا مستر!",
+        "tone": "confident",
+        "studentHint": { "name": "مشمشة", "gender": "female" }
+      },
+      {
+        "step": 3,
+        "text": "أنا مش فاهم ليه اللي تحت مش بيتغير؟",
+        "tone": "confused",
+        "studentHint": { "name": "بندق", "gender": "male" }
+      },
+      {
+        "step": 5,
+        "text": "وااو! عشان كده لازم المقام يكون زي بعض؟",
+        "tone": "excited",
+        "studentHint": { "name": "ياسمين", "gender": "female" }
+      },
+      {
+        "step": 6,
+        "text": "طيب لو المقامات مختلفة، نعمل إيه؟",
+        "tone": "curious",
+        "studentHint": { "name": "كريم", "gender": "male" }
+      }
+    ],
+    "assets": []
+  }
+  </script>
+
+  <!-- الـ Controller (إلزامي) -->
+  <script>
+    (function() {
+      let currentStep = 1;
+
+      function getManifest() {
+        const el = document.getElementById('slide-manifest');
+        if (!el) return null;
+        try { return JSON.parse(el.textContent); } catch { return null; }
+      }
+
+      function getTotalSteps() {
+        const m = getManifest();
+        return m ? (m.totalSteps || (m.steps ? m.steps.length : 7)) : 7;
+      }
+
+      function showStep(step) {
+        currentStep = step;
+        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+        const target = document.querySelector('.step-content[data-step="' + step + '"]');
+        if (target) target.classList.add('active');
+        notifyShell({ type: 'STEP_CHANGED', step: step, totalSteps: getTotalSteps() });
+      }
+
+      function notifyShell(msg) {
+        window.parent.postMessage(msg, '*');
+      }
+
+      window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (!data || !data.type) return;
+        const total = getTotalSteps();
+        switch (data.type) {
+          case 'GOTO_STEP': showStep(data.step); break;
+          case 'NEXT': if (currentStep < total) showStep(currentStep + 1); break;
+          case 'PREV': if (currentStep > 1) showStep(currentStep - 1); break;
+          case 'REQUEST_MANIFEST':
+            const m = getManifest();
+            if (m) { m.currentStep = currentStep; notifyShell({ type: 'MANIFEST', payload: m }); }
+            break;
+        }
+      });
+
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('option')) {
+          const isCorrect = e.target.dataset.correct === 'true';
+          document.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct', 'wrong'));
+          if (isCorrect) {
+            e.target.classList.add('correct');
+            notifyShell({ type: 'REQUEST_SOUND', sound: 'success' });
+          } else {
+            e.target.classList.add('wrong');
+            notifyShell({ type: 'REQUEST_SOUND', sound: 'error' });
+          }
+        }
+      });
+
+      window.addEventListener('load', function() {
+        notifyShell({ type: 'READY' });
+        const m = getManifest();
+        if (m) { m.currentStep = currentStep; notifyShell({ type: 'MANIFEST', payload: m }); }
+        showStep(1);
+      });
+    })();
+  </script>
+</body>
+</html>

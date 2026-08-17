@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الجبر التفاعلي الشامل - بسلاسة v13</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body { width: 100vw; height: 100vh; overflow: hidden; background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); color: #1A1A1A; }
+    .slide-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; position: relative; }
+    .step-content { display: none; }
+    .step-content.active { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .title { font-size: 3rem; font-weight: 800; color: #0142A0; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .subtitle { font-size: 1.3rem; color: #475569; text-align: center; max-width: 800px; }
+    .content { font-size: 1.5rem; text-align: center; max-width: 900px; line-height: 1.7; }
+    .idea-tag { display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 700; color: white; margin-bottom: 12px; }
+    .idea-1 .idea-tag { background: #0142A0; }
+    .idea-2 .idea-tag { background: #DA151C; }
+    .idea-3 .idea-tag { background: #10b981; }
+    .idea-4 .idea-tag { background: #f59e0b; }
+    .idea-5 .idea-tag { background: #8338ec; }
+    .idea-6 .idea-tag { background: #06b6d4; }
+    .question-box { background: white; border: 3px solid #0142A0; border-radius: 16px; padding: 24px; max-width: 700px; box-shadow: 0 8px 32px rgba(1, 66, 160, 0.15); }
+    .question-box.red { border-color: #DA151C; box-shadow: 0 8px 32px rgba(218, 21, 28, 0.15); }
+    .question-box.green { border-color: #10b981; box-shadow: 0 8px 32px rgba(16, 185, 129, 0.15); }
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .option { background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; user-select: none; text-align: center; }
+    .option:hover { background: #0142A0; color: white; border-color: #0142A0; transform: translateY(-2px); }
+    .option.correct { background: #10b981 !important; color: white !important; border-color: #10b981 !important; }
+    .option.wrong { background: #ef4444 !important; color: white !important; border-color: #ef4444 !important; animation: shake 0.4s; }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    .feedback { margin-top: 12px; padding: 12px; border-radius: 8px; font-weight: 700; text-align: center; font-size: 1.1rem; opacity: 0; transition: opacity 0.3s; }
+    .feedback.show { opacity: 1; }
+    .feedback.correct { background: #d1fae5; color: #065f46; border: 2px solid #10b981; }
+    .feedback.wrong { background: #fee2e2; color: #991b1b; border: 2px solid #ef4444; }
+    .formula-box { background: white; border: 2px solid #8338ec; border-radius: 12px; padding: 20px 40px; font-size: 2rem; box-shadow: 0 4px 20px rgba(131, 56, 236, 0.2); }
+    .example-box { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 20px; max-width: 700px; font-size: 1.2rem; line-height: 1.8; }
+    .step-number { position: absolute; top: 20px; right: 20px; background: rgba(1, 66, 160, 0.1); color: #0142A0; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; }
+    .highlight { background: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+    .badge-comprehensive { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 8px 24px; border-radius: 24px; font-weight: 700; font-size: 0.9rem; }
+    .equation-display { font-size: 2.5rem; font-weight: 800; color: #0142A0; margin: 20px 0; }
+    .visual-box { display: flex; gap: 20px; align-items: center; justify-content: center; }
+    .visual-item { background: white; border: 2px solid #0142A0; border-radius: 12px; padding: 20px; min-width: 120px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .visual-number { font-size: 2.5rem; font-weight: 800; color: #0142A0; }
+    .visual-label { font-size: 0.9rem; color: #64748b; margin-top: 4px; }
+    .operator { font-size: 2.5rem; font-weight: 800; color: #DA151C; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+
+    <!-- ===== IDEA 1: مقدمة في الجبر (4 خطوات) ===== -->
+    <div class="step-content active idea-1" data-step="1" data-idea="idea-1">
+      <span class="idea-tag">💡 الفكرة 1: مقدمة في الجبر</span>
+      <h1 class="title">مرحباً بكم في عالم الجبر!</h1>
+      <p class="content">الجبر هو فرع الرياضيات الذي يستخدم <span class="highlight">الحروف والرموز</span> لتمثيل الأرقام المجهولة. بدلاً من كتابة "رقم زائد ٣ يساوي ٧"، نكتب: $x + 3 = 7$</p>
+      <div class="formula-box">$x + 3 = 7$</div>
+      <p class="subtitle">الـ $x$ تسمى "المتغير" — وهو رمز يمثل رقماً مجهولاً نريد إيجاده</p>
+    </div>
+
+    <div class="step-content idea-1" data-step="2" data-idea="idea-1">
+      <span class="idea-tag">💡 الفكرة 1: مقدمة في الجبر</span>
+      <h2 class="title">لماذا نستخدم الجبر؟</h2>
+      <p class="content">الجبر يساعدنا في حل المشكلات اليومية. مثلاً: لو كان لديك ١٠ جنيهات واشتريت قلماً بـ $x$ جنيه، وبقي معك ٦ جنيهات، كم سعر القلم؟</p>
+      <div class="example-box">
+        <strong>المعادلة:</strong> $10 - x = 6$<br/>
+        <strong>الحل:</strong> $x = 10 - 6 = 4$ جنيهات
+      </div>
+    </div>
+
+    <div class="step-content idea-1" data-step="3" data-idea="idea-1">
+      <span class="idea-tag">💡 الفكرة 1: مقدمة في الجبر</span>
+      <h2 class="title">قاعدة الميزان ⚖️</h2>
+      <p class="content">المعادلة مثل الميزان: ما تفعله في جانب، يجب أن تفعله في الآخر أيضاً لتبقى متوازنة!</p>
+      <div class="visual-box">
+        <div class="visual-item"><div class="visual-number">x + 3</div><div class="visual-label">الجانب الأيسر</div></div>
+        <div class="operator">=</div>
+        <div class="visual-item"><div class="visual-number">7</div><div class="visual-label">الجانب الأيمن</div></div>
+      </div>
+      <p class="subtitle">لو طرحنا ٣ من الجانبين: $x + 3 - 3 = 7 - 3$ ← $x = 4$</p>
+    </div>
+
+    <div class="step-content idea-1" data-step="4" data-idea="idea-1">
+      <span class="idea-tag">💡 الفكرة 1: مقدمة في الجبر</span>
+      <h2 class="title">سؤال: هل فهمت؟</h2>
+      <div class="question-box">
+        <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 12px;">إذا كان $x + 5 = 12$، فما قيمة $x$؟</p>
+        <div class="options">
+          <div class="option" data-correct="false">5</div>
+          <div class="option" data-correct="true">7</div>
+          <div class="option" data-correct="false">12</div>
+          <div class="option" data-correct="false">17</div>
+        </div>
+        <div class="feedback">اضغط على الإجابة الصحيحة</div>
+      </div>
+    </div>
+
+    <!-- ===== IDEA 2: حل المعادلات البسيطة (5 خطوات) ===== -->
+    <div class="step-content idea-2" data-step="1" data-idea="idea-2">
+      <span class="idea-tag">💡 الفكرة 2: حل المعادلات البسيطة</span>
+      <h2 class="title">خطوات حل المعادلة</h2>
+      <p class="content">لحل معادلة مثل $x + 6 = 15$، اتبع هذه الخطوات:</p>
+      <div class="example-box" style="text-align: right;">
+        <strong>الخطوة 1:</strong> حدّد العملية (+، -، ×، ÷)<br/>
+        <strong>الخطوة 2:</strong> استخدم العملية العكسية<br/>
+        <strong>الخطوة 3:</strong> طبّق على الجانبين<br/>
+        <strong>الخطوة 4:</strong> بسّط واحسب $x$
+      </div>
+    </div>
+
+    <div class="step-content idea-2" data-step="2" data-idea="idea-2">
+      <span class="idea-tag">💡 الفكرة 2: حل المعادلات البسيطة</span>
+      <h2 class="title">مثال محلول: الجمع</h2>
+      <p class="content">حل المعادلة: $x + 6 = 15$</p>
+      <div class="equation-display">$x + 6 = 15$</div>
+      <div class="equation-display">$x + 6 - 6 = 15 - 6$</div>
+      <div class="equation-display" style="color: #10b981;">$x = 9$ ✓</div>
+      <p class="subtitle">العملية العكسية للجمع هي الطرح</p>
+    </div>
+
+    <div class="step-content idea-2" data-step="3" data-idea="idea-2">
+      <span class="idea-tag">💡 الفكرة 2: حل المعادلات البسيطة</span>
+      <h2 class="title">مثال محلول: الطرح</h2>
+      <p class="content">حل المعادلة: $x - 8 = 20$</p>
+      <div class="equation-display">$x - 8 = 20$</div>
+      <div class="equation-display">$x - 8 + 8 = 20 + 8$</div>
+      <div class="equation-display" style="color: #10b981;">$x = 28$ ✓</div>
+      <p class="subtitle">العملية العكسية للطرح هي الجمع</p>
+    </div>
+
+    <div class="step-content idea-2" data-step="4" data-idea="idea-2">
+      <span class="idea-tag">💡 الفكرة 2: حل المعادلات البسيطة</span>
+      <h2 class="title">سؤال تطبيقي</h2>
+      <div class="question-box green">
+        <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 12px;">حل: $x - 4 = 11$</p>
+        <div class="options">
+          <div class="option" data-correct="false">7</div>
+          <div class="option" data-correct="true">15</div>
+          <div class="option" data-correct="false">11</div>
+          <div class="option" data-correct="false">44</div>
+        </div>
+        <div class="feedback">اضغط على الإجابة الصحيحة</div>
+      </div>
+    </div>
+
+    <div class="step-content idea-2" data-step="5" data-idea="idea-2">
+      <span class="idea-tag">💡 الفكرة 2: حل المعادلات البسيطة</span>
+      <h2 class="title">سؤال تحدي 🎯</h2>
+      <div class="question-box red">
+        <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 12px;">لو كان عمر أحمد $x$ سنة، وعمره قبل ٥ سنوات كان ٧ سنوات، فكم عمره الآن؟</p>
+        <div class="options">
+          <div class="option" data-correct="false">2 سنة</div>
+          <div class="option" data-correct="true">12 سنة</div>
+          <div class="option" data-correct="false">7 سنوات</div>
+          <div class="option" data-correct="false">35 سنة</div>
+        </div>
+        <div class="feedback">اضغط على الإجابة الصحيحة</div>
+      </div>
+    </div>
+
+    <!-- ===== IDEA 3: الضرب والقسمة في الجبر (4 خطوات) ===== -->
+    <div class="step-content idea-3" data-step="1" data-idea="idea-3">
+      <span class="idea-tag">💡 الفكرة 3: الضرب والقسمة</span>
+      <h2 class="title">معادلات الضرب</h2>
+      <p class="content">عندما يكون المتغير مضروباً في رقم، نقسم الجانبين على ذلك الرقم.</p>
+      <div class="equation-display">$3x = 18$</div>
+      <div class="equation-display">$\frac{3x}{3} = \frac{18}{3}$</div>
+      <div class="equation-display" style="color: #10b981;">$x = 6$ ✓</div>
+    </div>
+
+    <div class="step-content idea-3" data-step="2" data-idea="idea-3">
+      <span class="idea-tag">💡 الفكرة 3: الضرب والقسمة</span>
+      <h2 class="title">معادلات القسمة</h2>
+      <p class="content">عندما يكون المتغير مقسوماً على رقم، نضرب الجانبين في ذلك الرقم.</p>
+      <div class="equation-display">$\frac{x}{4} = 5$</div>
+      <div class="equation-display">$x = 5 \times 4$</div>
+      <div class="equation-display" style="color: #10b981;">$x = 20$ ✓</div>
+    </div>
+
+    <div class="step-content idea-3" data-step="3" data-idea="idea-3">
+      <span class="idea-tag">💡 الفكرة 3: الضرب والقسمة</span>
+      <h2 class="title">سؤال: معادلة ضرب</h2>
+      <div class="question-box">
+        <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 12px;">حل: $5x = 35$</p>
+        <div class="options">
+          <div class="option" data-correct="false">5</div>
+          <div class="option" data-correct="true">7</div>
+          <div class="option" data-correct="false">30</div>
+          <div class="option" data-correct="false">175</div>
+        </div>
+        <div class="feedback">اضغط على الإجابة الصحيحة</div>
+      </div>
+    </div>
+
+    <div class="step-content idea-3" data-step="4" data-idea="idea-3">
+      <span class="idea-tag">💡 الفكرة 3: الضرب والقسمة</span>
+      <h2 class="title">سؤال: معادلة قسمة</h2>
+      <div class="question-box green">
+        <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 12px;">حل: $\frac{x}{6} = 4$</p>
+        <div class="options">
+          <div class="option" data-correct="false">2</div>
+          <div class="option" data-correct="false">10</div>
+          <div class="option" data-correct="true">24</div>
+          <div class="option" data-correct="false">$\frac{2}{3}$</div>
+        </div>
+        <div class="feedback">اضغط على الإجابة الصحيحة</div>
+      </div>
+    </div>
+
+    <!-- ===== IDEA 4: مسائل كلامية (4 خطوات) ===== -->
+    <div class="step-content idea-4" data-step="1" data-idea="idea-4">
+      <span class="idea-tag">💡 الفكرة 4: المسائل الكلامية</span>
+      <h2 class="title">كيف نحول المسألة الكلامية لمعادلة؟</h2>
+      <p class="content">اتبع هذه الاستراتيجية:</p>
+      <div class="example-box" style="text-align: right;">
+        <strong>1. اقرأ المسألة بعناية</strong> — فهم ما هو مطلوب<br/>
+        <strong>2. حدّد المتغير</strong> — ما هو المجهول؟ سمّه $x$<br/>
+        <strong>3. اكتب المعادلة</strong> — حوّل الكلمات لرموز<br/>
+        <strong>4. حل المعادلة</strong> — استخدم القواعد السابقة<br/>
+        <strong>5. تحقّق من الإجابة</strong> — عوّض $x$ في المسألة الأصلية
+      </div>
+    </div>
+
+    <div class="step-content idea-4" data-step="2" data-idea="idea-4">
+      <span class="idea-tag">💡 الفكرة 4: المسائل الكلامية</span>
+      <h2 class="title">مثال: مشكلة الشراء</h2>
+      <div class="example-box" style="font-size: 1.1rem; line-height: 1.8;">
+        <strong>المسألة:</strong> اشترت فاطمة ٣ دفاتر بنفس السعر، ودفعات ٢٧ جنيهاً. كم سعر الدفتر الواحد؟<br/><br/>
+        <strong>الحل:</strong><br/>
+        المتغير: $x$ = سعر الدفتر<br/>
+        المعادلة: $3x = 27$<br/>
+        $x = \frac{27}{3} = 9$ جنيهات ✓
+      </div>
+    </div>
+
+    <div class="step-content idea-4" data-step="3" data-idea="idea-4">
+      <span class="idea-tag">💡 الفكرة 4: المسائل الكلامية</span>
+      <h2 class="title">سؤال: مشكلة العمر</h2>
+      <div class="question-box">
+        <p style="font-size: 1.2rem; font-weight: 700; margin-bottom: 12px;">عمر الأب ٣ أضعاف عمر الابن. لو كان مجموع عمريهما ٤٨ سنة، فكم عمر الابن؟</p>
+        <div class="options">
+          <div class="option" data-correct="false">8 سنوات</div>
+          <div class="option" data-correct="true">12 سنة</div>
+          <div class="option" data-correct="false">16 سنة</div>
+          <div class="option" data-correct="false">24 سنة</div>
+        </div>
+        <div class="feedback">اضغط على الإجابة الصحيحة</div>
+      </div>
+    </div>
+
+    <div class="step-content idea-4" data-step="4" data-idea="idea-4">
+      <span class="idea-tag">💡 الفكرة 4: المسائل الكلامية</span>
+      <h2 class="title">سؤال: مشكلة المسافة</h2>
+      <div class="question-box green">
+        <p style="font-size: 1.2rem; font-weight: 700; margin-bottom: 12px;">سيارة تقطع مسافة $x$ كم في ٤ ساعات بسرعة ٦٠ كم/ساعة. ما قيمة $x$؟</p>
+        <div class="options">
+          <div class="option" data-correct="false">15</div>
+          <div class="option" data-correct="false">60</div>
+          <div class="option" data-correct="true">240</div>
+          <div class="option" data-correct="false">600</div>
+        </div>
+        <div class="feedback">اضغط على الإجابة الصحيحة</div>
+      </div>
+    </div>
+
+    <!-- ===== IDEA 5: معادلات بمتغيرين (3 خطوات) ===== -->
+    <div class="step-content idea-5" data-step="1" data-idea="idea-5">
+      <span class="idea-tag">💡 الفكرة 5: معادلات بمتغيرين</span>
+      <h2 class="title">المعادلات الخطية بمتغيرين</h2>
+      <p class="content">بعض المعادلات تحتوي على متغيرين، مثل: $y = 2x + 3$</p>
+      <div class="formula-box">$y = 2x + 3$</div>
+      <p class="subtitle">عندما نعطي $x$ قيمة، نستطيع إيجاد $y$ والعكس</p>
+    </div>
+
+    <div class="step-content idea-5" data-step="2" data-idea="idea-5">
+      <span class="idea-tag">💡 الفكرة 5: معادلات بمتغيرين</span>
+      <h2 class="title">جدول القيم</h2>
+      <p class="content">للمعادلة $y = 2x + 3$، لنحسب بعض القيم:</p>
+      <div class="visual-box">
+        <div class="visual-item"><div class="visual-number">0</div><div class="visual-label">x = 0 → y = 3</div></div>
+        <div class="visual-item"><div class="visual-number">5</div><div class="visual-label">x = 1 → y = 5</div></div>
+        <div class="visual-item"><div class="visual-number">7</div><div class="visual-label">x = 2 → y = 7</div></div>
+      </div>
+    </div>
+
+    <div class="step-content idea-5" data-step="3" data-idea="idea-5">
+      <span class="idea-tag">💡 الفكرة 5: معادلات بمتغيرين</span>
+      <h2 class="title">سؤال: أوجد y</h2>
+      <div class="question-box">
+        <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 12px;">إذا كان $y = 3x - 2$ و $x = 4$، فما قيمة $y$؟</p>
+        <div class="options">
+          <div class="option" data-correct="false">6</div>
+          <div class="option" data-correct="false">8</div>
+          <div class="option" data-correct="true">10</div>
+          <div class="option" data-correct="false">12</div>
+        </div>
+        <div class="feedback">اضغط على الإجابة الصحيحة</div>
+      </div>
+    </div>
+
+    <!-- ===== IDEA 6: مراجعة شاملة (3 خطوات) ===== -->
+    <div class="step-content idea-6" data-step="1" data-idea="idea-6">
+      <span class="idea-tag">💡 الفكرة 6: مراجعة شاملة</span>
+      <h2 class="title">ملخص ما تعلمناه 📚</h2>
+      <div class="example-box" style="text-align: right; font-size: 1.1rem;">
+        <strong>✅ الجبر</strong> يستخدم حروفاً لتمثيل أرقام مجهولة<br/>
+        <strong>✅ قاعدة الميزان:</strong> ما تفعله في جانب، افعله في الآخر<br/>
+        <strong>✅ العمليات العكسية:</strong> الجمع↔الطرح، الضرب↔القسمة<br/>
+        <strong>✅ المسائل الكلامية:</strong> حدّد المتغير → اكتب المعادلة → حلّ → تحقّق<br/>
+        <strong>✅ المعادلات بمتغيرين:</strong> $y = mx + b$ يمكن حسابها بجدول قيم
+      </div>
+    </div>
+
+    <div class="step-content idea-6" data-step="2" data-idea="idea-6">
+      <span class="idea-tag">💡 الفكرة 6: مراجعة شاملة</span>
+      <h2 class="title">سؤال مراجعة شامل 🏆</h2>
+      <div class="question-box red">
+        <p style="font-size: 1.2rem; font-weight: 700; margin-bottom: 12px;">حل المعادلة: $2x + 5 = 17$</p>
+        <div class="options">
+          <div class="option" data-correct="false">4</div>
+          <div class="option" data-correct="true">6</div>
+          <div class="option" data-correct="false">8</div>
+          <div class="option" data-correct="false">11</div>
+        </div>
+        <div class="feedback">اضغط على الإجابة الصحيحة</div>
+      </div>
+    </div>
+
+    <div class="step-content idea-6" data-step="3" data-idea="idea-6">
+      <span class="idea-tag">💡 الفكرة 6: مراجعة شاملة</span>
+      <h1 class="title">أحسنتم! 🎉</h1>
+      <p class="content">لقد أكملتم الدرس الشامل في الجبر التفاعلي</p>
+      <div class="badge-comprehensive">⭐ خبير الجبر ⭐</div>
+      <p class="subtitle">6 أفكار • 23 خطوة • 8 أسئلة تفاعلية • تعليقات افتراضية</p>
+    </div>
+
+  </div>
+
+  <!-- Controller Script (إلزامي حسب VIBE_CODING_CONTRACT) -->
+  <script>
+    (function() {
+      // C53 (P0 fix): rewrote controller to match master-test-lesson pattern.
+      // The old version used showStep(ideaId, step) — swapped argument order
+      // from the VIBE_CODING_CONTRACT spec (showStep(step, ideaId)). This
+      // caused GOTO_STEP from the shell (which sends {step, ideaId}) to be
+      // handled with wrong arguments, breaking navigation. Now follows the
+      // exact same pattern as all other working lessons.
+      var currentStep = 1;
+      var currentIdeaId = null;
+
+      function getManifest() {
+        var el = document.getElementById('slide-manifest');
+        return el ? JSON.parse(el.textContent) : { ideas: [] };
+      }
+
+      function getCurrentIdea() {
+        var m = getManifest();
+        return m.ideas.find(function(i) { return i.id === currentIdeaId; }) || m.ideas[0];
+      }
+
+      function notifyShell(msg) { window.parent.postMessage(msg, '*'); }
+
+      function showStep(step, ideaId) {
+        if (ideaId) currentIdeaId = ideaId;
+        currentStep = step;
+        document.querySelectorAll('.step-content').forEach(function(el) { el.classList.remove('active'); });
+        var selector = '.step-content[data-idea="' + currentIdeaId + '"][data-step="' + step + '"]';
+        var target = document.querySelector(selector);
+        if (target) target.classList.add('active');
+        var idea = getCurrentIdea();
+        var totalSteps = idea ? idea.steps.length : 1;
+        notifyShell({ type: 'STEP_CHANGED', step: step, totalSteps: totalSteps, ideaId: currentIdeaId });
+      }
+
+      function nextStep() {
+        var m = getManifest();
+        var idea = getCurrentIdea();
+        if (!idea || !m) return;
+        if (currentStep < idea.steps.length) {
+          showStep(currentStep + 1, currentIdeaId);
+        } else {
+          var idx = m.ideas.findIndex(function(i) { return i.id === currentIdeaId; });
+          if (idx < m.ideas.length - 1) {
+            currentIdeaId = m.ideas[idx + 1].id;
+            showStep(1, currentIdeaId);
+            notifyShell({ type: 'IDEA_CHANGED', ideaId: currentIdeaId, step: 1, title: m.ideas[idx + 1].title });
+          }
+        }
+      }
+
+      function prevStep() {
+        var m = getManifest();
+        if (currentStep > 1) {
+          showStep(currentStep - 1, currentIdeaId);
+        } else {
+          var idx = m.ideas.findIndex(function(i) { return i.id === currentIdeaId; });
+          if (idx > 0) {
+            var prevIdea = m.ideas[idx - 1];
+            currentIdeaId = prevIdea.id;
+            showStep(prevIdea.steps.length, currentIdeaId);
+            notifyShell({ type: 'IDEA_CHANGED', ideaId: currentIdeaId, step: prevIdea.steps.length, title: prevIdea.title });
+          }
+        }
+      }
+
+      window.addEventListener('message', function(event) {
+        var data = event.data;
+        if (!data || !data.type) return;
+        switch (data.type) {
+          case 'GOTO_STEP': showStep(data.step, data.ideaId); break;
+          case 'NEXT': nextStep(); break;
+          case 'PREV': prevStep(); break;
+          case 'GOTO_IDEA': showStep(data.step || 1, data.ideaId); break;
+          case 'REQUEST_MANIFEST':
+            var m = getManifest();
+            if (m) {
+              m.currentStep = currentStep;
+              m.currentIdeaId = currentIdeaId;
+              m.totalSteps = m.ideas.reduce(function(sum, i) { return sum + i.steps.length; }, 0);
+              notifyShell({ type: 'MANIFEST', payload: m });
+            }
+            break;
+        }
+      });
+
+      // Question option click handler
+      document.querySelectorAll('.option').forEach(function(opt) {
+        opt.addEventListener('click', function() {
+          var isCorrect = this.dataset.correct === 'true';
+          var feedback = this.closest('.question-box').querySelector('.feedback');
+          this.parentElement.querySelectorAll('.option').forEach(function(o) { o.classList.remove('correct', 'wrong'); });
+          if (isCorrect) {
+            this.classList.add('correct');
+            feedback.textContent = '✓ إجابة صحيحة! أحسنت';
+            feedback.className = 'feedback show correct';
+            window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'success' }, '*');
+          } else {
+            this.classList.add('wrong');
+            feedback.textContent = '✗ إجابة خاطئة. حاول مرة أخرى';
+            feedback.className = 'feedback show wrong';
+            window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'error' }, '*');
+          }
+        });
+      });
+
+      // C52 fix: Send READY once, then MANIFEST. Never send READY again
+      // (sending READY in response to REQUEST_MANIFEST causes an infinite loop).
+      function init() {
+        var m = getManifest();
+        currentIdeaId = m.ideas[0] ? m.ideas[0].id : null;
+        currentStep = 1;
+        notifyShell({ type: 'READY' });
+        m.currentStep = currentStep;
+        m.currentIdeaId = currentIdeaId;
+        m.totalSteps = m.ideas.reduce(function(sum, i) { return sum + i.steps.length; }, 0);
+        notifyShell({ type: 'MANIFEST', payload: m });
+        // Show first step
+        if (currentIdeaId) showStep(1, currentIdeaId);
+      }
+
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(init, 100);
+      } else {
+        window.addEventListener('DOMContentLoaded', init);
+      }
+    })();
+  </script>
+
+  <!-- Slide Manifest (إلزامي) -->
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "lesson-algebra-comprehensive-v13",
+    "title": "الجبر التفاعلي الشامل",
+    "subtitle": "درس كامل بأسئلة وتعليقات افتراضية - 6 أفكار و23 خطوة",
+    "contentType": "html",
+    "currentStep": 1,
+    "aspectRatio": "16:9",
+    "targetAge": "preparatory",
+    "virtualComments": [
+      { "step": 1, "ideaId": "idea-1", "text": "يااااه! الجبر يبدو ممتعاً!", "tone": "excited", "studentHint": { "name": "سارة", "gender": "female" } },
+      { "step": 2, "ideaId": "idea-1", "text": "أنا أستخدم الجبر كل يوم وأنا لا أعرف!", "tone": "confident", "studentHint": { "name": "أحمد", "gender": "male" } },
+      { "step": 3, "ideaId": "idea-1", "text": "الميزان! فهمت الآن الفكرة", "tone": "confident", "studentHint": { "name": "فاطمة", "gender": "female" } },
+      { "step": 4, "ideaId": "idea-1", "text": "أعتقد أن الإجابة 7!", "tone": "confident", "studentHint": { "name": "خالد", "gender": "male" } },
+      { "step": 1, "ideaId": "idea-2", "text": "٤ خطوات بس! سهلة", "tone": "excited", "studentHint": { "name": "مريم", "gender": "female" } },
+      { "step": 2, "ideaId": "idea-2", "text": "آه! طرح 6 من الاثنين", "tone": "curious", "studentHint": { "name": "يوسف", "gender": "male" } },
+      { "step": 3, "ideaId": "idea-2", "text": "الجمع عكس الطرح، فهمت", "tone": "confident", "studentHint": { "name": "نور", "gender": "male" } },
+      { "step": 4, "ideaId": "idea-2", "text": "نجمع 4 على الاثنين، يبقى 15", "tone": "confident", "studentHint": { "name": "عمر", "gender": "male" } },
+      { "step": 5, "ideaId": "idea-2", "text": "هذا سؤال صعب! محتاج أفكر", "tone": "confused", "studentHint": { "name": "فاطمة", "gender": "female" } },
+      { "step": 1, "ideaId": "idea-3", "text": "قسمة بدل الضرب!", "tone": "confident", "studentHint": { "name": "خالد", "gender": "male" } },
+      { "step": 2, "ideaId": "idea-3", "text": "ضرب بدل القسمة!", "tone": "excited", "studentHint": { "name": "سارة", "gender": "female" } },
+      { "step": 3, "ideaId": "idea-3", "text": "أعتقد الإجابة 7!", "tone": "confident", "studentHint": { "name": "أحمد", "gender": "male" } },
+      { "step": 4, "ideaId": "idea-3", "text": "نضرب 6 في 4، يبقى 24!", "tone": "confident", "studentHint": { "name": "أحمد", "gender": "male" } },
+      { "step": 1, "ideaId": "idea-4", "text": "٥ خطوات! بس محتاجة تركيز", "tone": "curious", "studentHint": { "name": "مريم", "gender": "female" } },
+      { "step": 2, "ideaId": "idea-4", "text": "هذا مثل ما يحدث في الحقيبة!", "tone": "excited", "studentHint": { "name": "يوسف", "gender": "male" } },
+      { "step": 3, "ideaId": "idea-4", "text": "محتاج أفكر... x + 3x = 48", "tone": "confused", "studentHint": { "name": "نور", "gender": "male" } },
+      { "step": 4, "ideaId": "idea-4", "text": "السرعة × الزمن = المسافة!", "tone": "confident", "studentHint": { "name": "عمر", "gender": "male" } },
+      { "step": 1, "ideaId": "idea-5", "text": "متغيرين! هذا متقدم", "tone": "curious", "studentHint": { "name": "عمر", "gender": "male" } },
+      { "step": 2, "ideaId": "idea-5", "text": "y بتزيد 2 كل مرة!", "tone": "excited", "studentHint": { "name": "فاطمة", "gender": "female" } },
+      { "step": 3, "ideaId": "idea-5", "text": "3 × 4 = 12، ناقص 2 = 10!", "tone": "confident", "studentHint": { "name": "خالد", "gender": "male" } },
+      { "step": 1, "ideaId": "idea-6", "text": "تعلمت كتير اليوم!", "tone": "excited", "studentHint": { "name": "سارة", "gender": "female" } },
+      { "step": 2, "ideaId": "idea-6", "text": "هذا يجمع كل اللي تعلمناه!", "tone": "confident", "studentHint": { "name": "أحمد", "gender": "male" } },
+      { "step": 3, "ideaId": "idea-6", "text": "أنا خبير جبر الآن! 🎉", "tone": "excited", "studentHint": { "name": "مريم", "gender": "female" } }
+    ],
+    "ideas": [
+      {
+        "id": "idea-1",
+        "title": "مقدمة في الجبر",
+        "description": "تعريف الجبر واستخدام المتغيرات",
+        "color": "blue",
+        "steps": [
+          {
+            "step": 1,
+            "title": "مرحباً بكم في عالم الجبر",
+            "type": "content",
+            "script": "مرحباً بكم في عالم الجبر! الجبر هو فرع الرياضيات الذي يستخدم الحروف والرموز لتمثيل الأرقام المجهولة.",
+            "notes": "ابدأ بسؤال الطلاب: هل سمعتم عن الجبر من قبل؟ ماذا تعرفون عنه؟",
+            "virtualComment": {
+              "text": "يااااه! الجبر يبدو ممتعاً!",
+              "studentName": "سارة",
+              "tone": "excited"
+            }
+          },
+          {
+            "step": 2,
+            "title": "لماذا نستخدم الجبر؟",
+            "type": "content",
+            "script": "الجبر يساعدنا في حل المشكلات اليومية. مثلاً: لو كان لديك 10 جنيهات واشتريت قلماً بـ x جنيه وبقي 6 جنيهات، كم سعر القلم؟",
+            "notes": "اطرح مثالاً من حياة الطلاب اليومية لجعل المفهوم ملموساً",
+            "virtualComment": {
+              "text": "أنا أستخدم الجبر كل يوم وأنا لا أعرف!",
+              "studentName": "أحمد",
+              "tone": "confident"
+            }
+          },
+          {
+            "step": 3,
+            "title": "قاعدة الميزان",
+            "type": "content",
+            "script": "المعادلة مثل الميزان: ما تفعله في جانب، يجب أن تفعله في الآخر أيضاً لتبقى متوازنة!",
+            "notes": "استخدم ميزاناً حقيقياً أو صورة لتوضيح المفهوم",
+            "virtualComment": {
+              "text": "الميزان! فهمت الآن",
+              "studentName": "فاطمة",
+              "tone": "confident"
+            }
+          },
+          {
+            "step": 4,
+            "title": "سؤال: هل فهمت؟",
+            "type": "question",
+            "script": "إذا كان x + 5 = 12، فما قيمة x؟ فكروا في قاعدة الميزان!",
+            "notes": "اختر طالباً عشوائياً للإجابة (R). شجّع المحاولات الخاطئة",
+            "question": {
+              "text": "إذا كان x + 5 = 12، فما قيمة x؟",
+              "correctAnswer": "7",
+              "options": ["5", "7", "12", "17"],
+              "rewardPoints": 3
+            },
+            "effect": "none",
+            "virtualComment": {
+              "text": "أعتقد أن الإجابة 7!",
+              "studentName": "خالد",
+              "tone": "confident"
+            }
+          }
+        ]
+      },
+      {
+        "id": "idea-2",
+        "title": "حل المعادلات البسيطة",
+        "description": "خطوات حل المعادلات من الدرجة الأولى",
+        "color": "red",
+        "steps": [
+          {
+            "step": 1,
+            "title": "خطوات حل المعادلة",
+            "type": "content",
+            "script": "لحل معادلة مثل x + 6 = 15، اتبع 4 خطوات: حدّد العملية، استخدم العكسية، طبّق على الجانبين، بسّط واحسب x.",
+            "notes": "اكتب الخطوات الأربع على السبورة للرجوع إليها",
+            "virtualComment": {
+              "text": "٤ خطوات بس! سهلة",
+              "studentName": "مريم",
+              "tone": "excited"
+            }
+          },
+          {
+            "step": 2,
+            "title": "مثال محلول: الجمع",
+            "type": "content",
+            "script": "حل المعادلة x + 6 = 15. العملية جمع، فعكسها طرح. نطرح 6 من الجانبين: x = 9.",
+            "notes": "اشرح كل خطوة ببطء. اطلب من الطلاب تتبع الخطوات معك",
+            "virtualComment": {
+              "text": "آه! طرح 6 من الاثنين",
+              "studentName": "يوسف",
+              "tone": "curious"
+            }
+          },
+          {
+            "step": 3,
+            "title": "مثال محلول: الطرح",
+            "type": "content",
+            "script": "حل المعادلة x - 8 = 20. العملية طرح، فعكسها جمع. نجمع 8 للجانبين: x = 28.",
+            "notes": "اطلب من طالب آخر حل مثال مشابه على السبورة",
+            "virtualComment": {
+              "text": "الجمع عكس الطرح، فهمت",
+              "studentName": "نور",
+              "tone": "confident"
+            }
+          },
+          {
+            "step": 4,
+            "title": "سؤال تطبيقي",
+            "type": "question",
+            "script": "حل المعادلة x - 4 = 11. تذكّر قاعدة العملية العكسية!",
+            "notes": "استخدم V للإجابة الصحيحة + احتفال. B للخطأ",
+            "question": {
+              "text": "حل: x - 4 = 11",
+              "correctAnswer": "15",
+              "options": ["7", "15", "11", "44"],
+              "rewardPoints": 3
+            },
+            "effect": "none",
+            "virtualComment": {
+              "text": "نجمع 4 على الاثنين، يبقى 15",
+              "studentName": "عمر",
+              "tone": "confident"
+            }
+          },
+          {
+            "step": 5,
+            "title": "سؤال تحدي",
+            "type": "question",
+            "script": "لو كان عمر أحمد x سنة، وعمره قبل 5 سنوات كان 7 سنوات، فكم عمره الآن؟ حوّل المسألة لمعادلة أولاً!",
+            "notes": "هذا سؤال تحدي — استخدم G للاحتفال بالإجابة الصحيحة!",
+            "question": {
+              "text": "عمر أحمد قبل 5 سنوات كان 7 سنوات. كم عمره الآن؟",
+              "correctAnswer": "12 سنة",
+              "options": ["2 سنة", "12 سنة", "7 سنوات", "35 سنة"],
+              "rewardPoints": 5
+            },
+            "effect": "confetti",
+            "virtualComment": {
+              "text": "هذا سؤال صعب! محتاج أفكر",
+              "studentName": "فاطمة",
+              "tone": "confused"
+            }
+          }
+        ]
+      },
+      {
+        "id": "idea-3",
+        "title": "الضرب والقسمة في الجبر",
+        "description": "حل المعادلات التي تتضمن ضرباً أو قسمة",
+        "color": "green",
+        "steps": [
+          {
+            "step": 1,
+            "title": "معادلات الضرب",
+            "type": "content",
+            "script": "عندما يكون المتغير مضروباً في رقم، نقسم الجانبين على ذلك الرقم. مثلاً: 3x = 18، نقسم على 3: x = 6.",
+            "notes": "وضّح أن الضرب والقسمة عمليتان عكسيتان مثل الجمع والطرح",
+            "virtualComment": {
+              "text": "قسمة بدل الضرب!",
+              "studentName": "خالد",
+              "tone": "confident"
+            }
+          },
+          {
+            "step": 2,
+            "title": "معادلات القسمة",
+            "type": "content",
+            "script": "عندما يكون المتغير مقسوماً على رقم، نضرب الجانبين في ذلك الرقم. مثلاً: x/4 = 5، نضرب في 4: x = 20.",
+            "notes": "تأكّد أن الطلاب يفهمون معنى الكسر x/4",
+            "virtualComment": {
+              "text": "ضرب بدل القسمة!",
+              "studentName": "سارة",
+              "tone": "excited"
+            }
+          },
+          {
+            "step": 3,
+            "title": "سؤال: معادلة ضرب",
+            "type": "question",
+            "script": "حل المعادلة 5x = 35. ما العملية العكسية للضرب؟",
+            "notes": "سؤال سريع — استخدم QuickFire game",
+            "question": {
+              "text": "حل: 5x = 35",
+              "correctAnswer": "7",
+              "options": ["5", "7", "30", "175"],
+              "rewardPoints": 3
+            },
+            "effect": "none"
+          },
+          {
+            "step": 4,
+            "title": "سؤال: معادلة قسمة",
+            "type": "question",
+            "script": "حل المعادلة x/6 = 4. ما العملية العكسية للقسمة؟",
+            "notes": "اطلب من طالب شرح الحل للصف",
+            "question": {
+              "text": "حل: x/6 = 4",
+              "correctAnswer": "24",
+              "options": ["2", "10", "24", "2/3"],
+              "rewardPoints": 3
+            },
+            "effect": "none",
+            "virtualComment": {
+              "text": "نضرب 6 في 4، يبقى 24!",
+              "studentName": "أحمد",
+              "tone": "confident"
+            }
+          }
+        ]
+      },
+      {
+        "id": "idea-4",
+        "title": "المسائل الكلامية",
+        "description": "تحويل المسائل النصية إلى معادلات وحلها",
+        "color": "amber",
+        "steps": [
+          {
+            "step": 1,
+            "title": "كيف نحول المسألة الكلامية لمعادلة؟",
+            "type": "content",
+            "script": "اتبع 5 خطوات: اقرأ المسألة، حدّد المتغير، اكتب المعادلة، حلّها، تحقّق من الإجابة.",
+            "notes": "وزّع على الطلاب ورقة بالخطوات الخمس للرجوع إليها",
+            "virtualComment": {
+              "text": "٥ خطوات! بس محتاجة تركيز",
+              "studentName": "مريم",
+              "tone": "curious"
+            }
+          },
+          {
+            "step": 2,
+            "title": "مثال: مشكلة الشراء",
+            "type": "content",
+            "script": "اشترت فاطمة 3 دفاتر بنفس السعر ودفعات 27 جنيهاً. المتغير x = سعر الدفتر. المعادلة: 3x = 27. الحل: x = 9 جنيهات.",
+            "notes": "اطرح مثالاً مشابهاً من حياة الطلاب",
+            "virtualComment": {
+              "text": "هذا مثل ما يحدث في الحقيبة!",
+              "studentName": "يوسف",
+              "tone": "excited"
+            }
+          },
+          {
+            "step": 3,
+            "title": "سؤال: مشكلة العمر",
+            "type": "question",
+            "script": "عمر الأب 3 أضعاف عمر الابن. لو كان مجموع عمريهما 48 سنة، فكم عمر الابن؟ فكّر: x + 3x = 48",
+            "notes": "سؤال تحدي — استخدم GroupBattle لتشجيع المنافسة",
+            "question": {
+              "text": "عمر الأب 3 أضعاف عمر الابن. مجموع عمريهما 48. كم عمر الابن؟",
+              "correctAnswer": "12 سنة",
+              "options": ["8 سنوات", "12 سنة", "16 سنة", "24 سنة"],
+              "rewardPoints": 5
+            },
+            "effect": "confetti",
+            "virtualComment": {
+              "text": "محتاج أفكر... x + 3x = 48",
+              "studentName": "نور",
+              "tone": "confused"
+            }
+          },
+          {
+            "step": 4,
+            "title": "سؤال: مشكلة المسافة",
+            "type": "question",
+            "script": "سيارة تقطع مسافة x كم في 4 ساعات بسرعة 60 كم/ساعة. المعادلة: x = 60 × 4",
+            "notes": "اربط بالفيزياء — معادلة المسافة = السرعة × الزمن",
+            "question": {
+              "text": "سيارة تسير 4 ساعات بسرعة 60 كم/ساعة. ما المسافة؟",
+              "correctAnswer": "240",
+              "options": ["15", "60", "240", "600"],
+              "rewardPoints": 4
+            },
+            "effect": "none"
+          }
+        ]
+      },
+      {
+        "id": "idea-5",
+        "title": "معادلات بمتغيرين",
+        "description": "مقدمة في المعادلات الخطية بمتغيرين",
+        "color": "purple",
+        "steps": [
+          {
+            "step": 1,
+            "title": "المعادلات الخطية بمتغيرين",
+            "type": "content",
+            "script": "بعض المعادلات تحتوي على متغيرين، مثل: y = 2x + 3. عندما نعطي x قيمة، نستطيع إيجاد y.",
+            "notes": "هذه مقدمة للإحداثيات في المرحلة التالية",
+            "virtualComment": {
+              "text": "متغيرين! هذا متقدم",
+              "studentName": "عمر",
+              "tone": "curious"
+            }
+          },
+          {
+            "step": 2,
+            "title": "جدول القيم",
+            "type": "content",
+            "script": "للمعادلة y = 2x + 3: لو x = 0، y = 3. لو x = 1، y = 5. لو x = 2، y = 7. لاحظ النمط!",
+            "notes": "ارسم جدولاً على السبورة واطلب من الطلاب إكماله",
+            "virtualComment": {
+              "text": "y بتزيد 2 كل مرة!",
+              "studentName": "فاطمة",
+              "tone": "excited"
+            }
+          },
+          {
+            "step": 3,
+            "title": "سؤال: أوجد y",
+            "type": "question",
+            "script": "إذا كان y = 3x - 2 و x = 4، فما قيمة y؟ عوّض x في المعادلة.",
+            "notes": "سؤال تطبيقي مباشر على التعويض",
+            "question": {
+              "text": "إذا كان y = 3x - 2 و x = 4، فما قيمة y؟",
+              "correctAnswer": "10",
+              "options": ["6", "8", "10", "12"],
+              "rewardPoints": 4
+            },
+            "effect": "none",
+            "virtualComment": {
+              "text": "3 × 4 = 12، ناقص 2 = 10!",
+              "studentName": "خالد",
+              "tone": "confident"
+            }
+          }
+        ]
+      },
+      {
+        "id": "idea-6",
+        "title": "مراجعة شاملة",
+        "description": "ملخص واختبار نهائي",
+        "color": "cyan",
+        "steps": [
+          {
+            "step": 1,
+            "title": "ملخص ما تعلمناه",
+            "type": "content",
+            "script": "تعلمنا: الجبر يستخدم حروفاً لتمثيل أرقام مجهولة. قاعدة الميزان. العمليات العكسية. المسائل الكلامية. المعادلات بمتغيرين.",
+            "notes": "اسأل: ما أهم شيء تعلمتموه اليوم؟",
+            "virtualComment": {
+              "text": "تعلمت كتير اليوم!",
+              "studentName": "سارة",
+              "tone": "excited"
+            }
+          },
+          {
+            "step": 2,
+            "title": "سؤال مراجعة شامل",
+            "type": "question",
+            "script": "حل المعادلة 2x + 5 = 17. هذه تجمع بين خطوتين: طرح ثم قسمة!",
+            "notes": "سؤال ختامي — استخدم احتفال big للأجوبة الصحيحة!",
+            "question": {
+              "text": "حل: 2x + 5 = 17",
+              "correctAnswer": "6",
+              "options": ["4", "6", "8", "11"],
+              "rewardPoints": 5
+            },
+            "effect": "confetti",
+            "virtualComment": {
+              "text": "هذا يجمع كل اللي تعلمناه!",
+              "studentName": "أحمد",
+              "tone": "confident"
+            }
+          },
+          {
+            "step": 3,
+            "title": "أحسنتم!",
+            "type": "celebration",
+            "script": "لقد أكملتم الدرس الشامل في الجبر التفاعلي. 6 أفكار، 23 خطوة، 8 أسئلة تفاعلية. أنتم خبراء الجبر الآن!",
+            "notes": "اطلق احتفال big! وزّع شهادات على الطلاب المتميزين",
+            "effect": "confetti",
+            "virtualComment": {
+              "text": "أنا خبير جبر الآن! 🎉",
+              "studentName": "مريم",
+              "tone": "excited"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</body>
+</html>

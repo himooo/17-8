@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الكسور — درس شامل تفاعلي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body { width: 100vw; height: 100vh; overflow: hidden; background: #fff; color: #1A1A1A; }
+    .slide-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; position: relative; }
+    .step-content { display: none; }
+    .step-content.active { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .title { font-size: 3rem; font-weight: 800; color: #0142A0; text-align: center; }
+    .subtitle { font-size: 1.4rem; color: #64748b; text-align: center; }
+    .content { font-size: 1.6rem; text-align: center; max-width: 900px; line-height: 1.7; }
+    .badge { display: inline-block; padding: 0.5rem 1.5rem; border-radius: 9999px; font-size: 1rem; font-weight: 700; margin: 0.5rem; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+    .badge-yellow { background: #fef9c3; color: #854d0e; }
+    .badge-purple { background: #f3e8ff; color: #6b21a8; }
+    .question-box { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 3px solid #f59e0b; border-radius: 1.5rem; padding: 2rem; max-width: 800px; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2); }
+    .question-text { font-size: 1.8rem; font-weight: 700; color: #92400e; margin-bottom: 1.5rem; }
+    .options { display: flex; flex-direction: column; gap: 0.75rem; }
+    .option { background: #fff; border: 2px solid #f59e0b; border-radius: 0.75rem; padding: 1rem 1.5rem; font-size: 1.3rem; cursor: pointer; transition: all 0.2s; }
+    .option:hover { background: #fef3c7; transform: translateY(-2px); }
+    .option.correct { background: #dcfce7; border-color: #16a34a; color: #166534; }
+    .option.wrong { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+    .idea-banner { background: linear-gradient(135deg, #0142A0 0%, #2563eb 100%); color: #fff; padding: 1rem 2rem; border-radius: 9999px; font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; box-shadow: 0 8px 20px rgba(1, 66, 160, 0.3); }
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 900px; width: 100%; }
+    .step-card { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem; text-align: center; transition: all 0.3s; }
+    .step-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: #0142A0; }
+    .step-number { font-size: 2.5rem; font-weight: 900; color: #0142A0; }
+    .step-label { font-size: 1.1rem; color: #475569; margin-top: 0.5rem; }
+    .emoji-display { font-size: 8rem; line-height: 1; }
+    .formula { font-family: 'Cambria Math', 'Times New Roman', serif; font-size: 2.5rem; color: #1e40af; background: #f1f5f9; padding: 1rem 2rem; border-radius: 0.75rem; }
+    .highlight { background: linear-gradient(120deg, #fef08a 0%, #fde047 100%); padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-weight: 700; }
+    .arrow { font-size: 3rem; color: #0142A0; }
+    .counter { display: flex; gap: 1rem; align-items: center; }
+    .counter-box { background: #0142A0; color: #fff; padding: 1rem 2rem; border-radius: 0.75rem; font-size: 1.5rem; font-weight: 700; }
+    .fraction-vis { display: flex; align-items: center; justify-content: center; gap: 1rem; font-size: 3rem; }
+    .fraction { display: inline-flex; flex-direction: column; align-items: center; font-weight: 900; }
+    .fraction-num { color: #0142A0; }
+    .fraction-line { width: 60px; height: 4px; background: #1A1A1A; margin: 4px 0; }
+    .fraction-den { color: #DA151C; }
+    .pizza { font-size: 6rem; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <!-- IDEA 1: مقدمة -->
+    <div class="step-content active" data-step="1" data-idea="intro">
+      <span class="idea-banner">💡 الفكرة الأولى: مقدمة عن الكسور</span>
+      <h1 class="title">مرحباً بك في درس الكسور</h1>
+      <p class="subtitle">درس تفاعلي شامل لاختبار جميع خصائص منصة بسلاسة</p>
+      <div class="emoji-display">🍕</div>
+      <p class="content">في هذا الدرس سنتعلم <span class="highlight">الكسور</span> بشكل تفاعلي وممتع.</p>
+    </div>
+    <div class="step-content" data-step="2" data-idea="intro">
+      <span class="idea-banner">💡 الفكرة الأولى: مقدمة عن الكسور</span>
+      <h1 class="title">ماذا ستتعلم؟</h1>
+      <div class="steps-grid">
+        <div class="step-card"><div class="step-number">1</div><div class="step-label">تعريف الكسر</div></div>
+        <div class="step-card"><div class="step-number">2</div><div class="step-label">أنواع الكسور</div></div>
+        <div class="step-card"><div class="step-number">3</div><div class="step-label">مقارنة الكسور</div></div>
+      </div>
+    </div>
+    <!-- IDEA 2: تعريف الكسر -->
+    <div class="step-content" data-step="1" data-idea="definition">
+      <span class="idea-banner" style="background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);">💡 الفكرة الثانية: تعريف الكسر</span>
+      <h1 class="title">ما هو الكسر؟</h1>
+      <p class="content">الكسر هو عدد يُكتب على شكل <span class="highlight">بسط / مقام</span>، حيث يمثل جزءاً من الكل.</p>
+      <div class="fraction-vis">
+        <div class="fraction"><span class="fraction-num">3</span><span class="fraction-line"></span><span class="fraction-den">4</span></div>
+        <span class="arrow">=</span><span>3 ÷ 4</span>
+      </div>
+    </div>
+    <div class="step-content" data-step="2" data-idea="definition">
+      <span class="idea-banner" style="background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);">💡 الفكرة الثانية: تعريف الكسر</span>
+      <h1 class="title">مثال: بيتزا مقسومة</h1>
+      <div class="pizza">🍕</div>
+      <p class="content">لو قطّعنا البيتزا إلى <span class="highlight">8 قطع</span> وأكلنا <span class="highlight">3 قطع</span>:</p>
+      <div class="fraction-vis">
+        <div class="fraction"><span class="fraction-num">3</span><span class="fraction-line"></span><span class="fraction-den">8</span></div>
+        <span class="arrow">من</span><span>البيتزا كاملة</span>
+      </div>
+    </div>
+    <!-- IDEA 3: أسئلة تفاعلية -->
+    <div class="step-content" data-step="1" data-idea="questions">
+      <span class="idea-banner" style="background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);">💡 الفكرة الثالثة: أسئلة تفاعلية</span>
+      <h1 class="title">سؤال 1: اختر الإجابة الصحيحة</h1>
+      <div class="question-box">
+        <p class="question-text">أي كسر أكبر من ½؟</p>
+        <div class="options">
+          <div class="option" data-correct="false" onclick="this.classList.add('wrong')">⅓</div>
+          <div class="option" data-correct="true" onclick="this.classList.add('correct')">¾</div>
+          <div class="option" data-correct="false" onclick="this.classList.add('wrong')">¼</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-content" data-step="2" data-idea="questions">
+      <span class="idea-banner" style="background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);">💡 الفكرة الثالثة: أسئلة تفاعلية</span>
+      <h1 class="title">سؤال 2: صح أم خطأ</h1>
+      <div class="question-box">
+        <p class="question-text">الكسر ⅔ يساوي الكسر 4/6</p>
+        <div class="options">
+          <div class="option" data-correct="true" onclick="this.classList.add('correct')">✓ صحيح</div>
+          <div class="option" data-correct="false" onclick="this.classList.add('wrong')">✗ خطأ</div>
+        </div>
+      </div>
+    </div>
+    <!-- IDEA 4: الخاتمة -->
+    <div class="step-content" data-step="1" data-idea="conclusion">
+      <span class="idea-banner" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">💡 الفكرة الرابعة: الخاتمة</span>
+      <h1 class="title">أحسنت! أكملت الدرس</h1>
+      <div class="emoji-display">🏆</div>
+      <p class="content">لقد اختبرت جميع خصائص بسلاسة.</p>
+    </div>
+  </div>
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "fractions-comprehensive-v3",
+    "title": "الكسور — درس شامل تفاعلي",
+    "subtitle": "اختبار جميع خصائص منصة بسلاسة",
+    "contentType": "html",
+    "totalSteps": 7,
+    "currentStep": 1,
+    "aspectRatio": "16:9",
+    "targetAge": "preparatory",
+    "ideas": [
+      {
+        "id": "intro", "title": "مقدمة عن الكسور", "description": "تعريف بالدرس", "color": "blue",
+        "steps": [
+          { "step": 1, "title": "ترحيب", "type": "content", "script": "مرحباً بك في درس الكسور الشامل. هذا الدرس تفاعلي ومصمم لاختبار جميع خصائص منصة بسلاسة.", "notes": "جرّب اختيار طالب عشوائي بالضغط على R.", "autoSlideMs": 0 },
+          { "step": 2, "title": "أهداف الدرس", "type": "content", "script": "سنغطي ثلاثة محاور رئيسية. تعريف الكسر وأجزائه. أنواع الكسور المختلفة. ومقارنة الكسور.", "notes": "اشرح كل محور.", "autoSlideMs": 0 }
+        ]
+      },
+      {
+        "id": "definition", "title": "تعريف الكسر", "description": "ما هو الكسر", "color": "green",
+        "steps": [
+          { "step": 1, "title": "تعريف الكسر", "type": "content", "script": "الكسر هو عدد يُكتب على شكل بسط ومقام. البسط يمثل عدد الأجزاء المأخوذة، والمقام يمثل العدد الكلي للأجزاء.", "notes": "ارسم مثالاً.", "autoSlideMs": 0 },
+          { "step": 2, "title": "مثال البيتزا", "type": "content", "script": "مثال عملي. لو قطّعنا البيتزا إلى ثماني قطع وأكلنا ثلاث قطع، يكون قد أكلنا ثلاثة أثمان من البيتزا.", "notes": "استخدم الليزر.", "autoSlideMs": 0 }
+        ]
+      },
+      {
+        "id": "questions", "title": "أسئلة تفاعلية", "description": "أسئلة لاختبار الفهم", "color": "red",
+        "steps": [
+          { "step": 1, "title": "سؤال اختيار من متعدد", "type": "question", "script": "سؤال تفاعلي. أي كسر أكبر من واحد على اثنين؟ الإجابة الصحيحة هي ثلاثة أرباع.", "notes": "اضغط R لاختيار طالب.", "question": { "text": "أي كسر أكبر من ½؟", "correctAnswer": "¾", "options": ["⅓", "¾", "¼"], "rewardPoints": 3 }, "autoSlideMs": 0 },
+          { "step": 2, "title": "سؤال صح أو خطأ", "type": "question", "script": "سؤال صح أو خطأ. هل الكسر اثنان على ثلاثة يساوي الكسر أربعة على ستة؟ الإجابة صحيحة.", "notes": "ارسم على السبورة.", "question": { "text": "الكسر ⅔ يساوي الكسر 4/6", "correctAnswer": "صحيح", "options": ["صحيح", "خطأ"], "rewardPoints": 3 }, "autoSlideMs": 0 }
+        ]
+      },
+      {
+        "id": "conclusion", "title": "الخاتمة", "description": "ملخص الدرس", "color": "amber",
+        "steps": [
+          { "step": 1, "title": "خاتمة الدرس", "type": "celebration", "script": "أحسنت! لقد أكملت درس الكسور الشامل. لقد اختبرت جميع خصائص بسلاسة.", "notes": "منح جائزة.", "effect": "confetti", "autoSlideMs": 0 }
+        ]
+      }
+    ],
+    "virtualComments": [
+      { "step": 1, "ideaId": "intro", "studentName": "أحمد", "text": "درس شيق!", "tone": "excited" },
+      { "step": 2, "ideaId": "intro", "studentName": "سارة", "text": "أنا متحمسة للبدء", "tone": "confident" },
+      { "step": 1, "ideaId": "definition", "studentName": "محمد", "text": "محتاج مثال أوضح", "tone": "confused" },
+      { "step": 2, "ideaId": "definition", "studentName": "فاطمة", "text": "مثال البيتزا رائع!", "tone": "excited" },
+      { "step": 1, "ideaId": "questions", "studentName": "علي", "text": "السؤال صعب شوية", "tone": "curious" },
+      { "step": 2, "ideaId": "questions", "studentName": "نور", "text": "أنا عارفة الإجابة!", "tone": "excited" },
+      { "step": 1, "ideaId": "conclusion", "studentName": "يوسف", "text": "درس ممتاز، شكراً!", "tone": "confident" }
+    ]
+  }
+  </script>
+  <script>
+    (function() {
+      const MANIFEST = JSON.parse(document.getElementById('slide-manifest').textContent);
+      let currentStep = 1;
+      let currentIdeaId = MANIFEST.ideas[0].id;
+
+      function getCurrentIdea() {
+        if (!MANIFEST.ideas) return null;
+        return MANIFEST.ideas.find(i => i.id === currentIdeaId) || MANIFEST.ideas[0];
+      }
+
+      function showStep(step, ideaId) {
+        if (ideaId) currentIdeaId = ideaId;
+        currentStep = step;
+        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+        const selector = ideaId
+          ? `.step-content[data-idea="${ideaId}"][data-step="${step}"]`
+          : `.step-content[data-step="${step}"]`;
+        const target = document.querySelector(selector);
+        if (target) target.classList.add('active');
+        const idea = getCurrentIdea();
+        const totalSteps = idea ? idea.steps.length : 1;
+        window.parent.postMessage({ type: 'STEP_CHANGED', step: step, totalSteps: totalSteps, ideaId: currentIdeaId }, '*');
+        if (ideaId) {
+          const ideaObj = MANIFEST.ideas.find(i => i.id === ideaId);
+          if (ideaObj) {
+            window.parent.postMessage({ type: 'IDEA_CHANGED', ideaId: ideaId, step: step, title: ideaObj.title }, '*');
+          }
+        }
+      }
+
+      function nextStep() {
+        const idea = getCurrentIdea();
+        if (!idea) return;
+        if (currentStep < idea.steps.length) {
+          showStep(currentStep + 1, currentIdeaId);
+        } else {
+          const idx = MANIFEST.ideas.findIndex(i => i.id === currentIdeaId);
+          if (idx < MANIFEST.ideas.length - 1) {
+            const nextIdea = MANIFEST.ideas[idx + 1];
+            showStep(1, nextIdea.id);
+          }
+        }
+      }
+
+      function prevStep() {
+        if (currentStep > 1) {
+          showStep(currentStep - 1, currentIdeaId);
+        } else {
+          const idx = MANIFEST.ideas.findIndex(i => i.id === currentIdeaId);
+          if (idx > 0) {
+            const prevIdea = MANIFEST.ideas[idx - 1];
+            showStep(prevIdea.steps.length, prevIdea.id);
+          }
+        }
+      }
+
+      function gotoIdea(ideaId, step) {
+        const idea = MANIFEST.ideas.find(i => i.id === ideaId);
+        if (!idea) return;
+        showStep(step || 1, ideaId);
+      }
+
+      window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (!data || !data.type) return;
+        switch (data.type) {
+          case 'GOTO_STEP': showStep(data.step, data.ideaId || currentIdeaId); break;
+          case 'NEXT': nextStep(); break;
+          case 'PREV': prevStep(); break;
+          case 'GOTO_IDEA': gotoIdea(data.ideaId, data.step); break;
+          case 'REQUEST_MANIFEST':
+            MANIFEST.currentStep = currentStep;
+            MANIFEST.currentIdeaId = currentIdeaId;
+            window.parent.postMessage({ type: 'MANIFEST', payload: MANIFEST }, '*');
+            break;
+          case 'REQUEST_CURRENT_STEP':
+            const idea = getCurrentIdea();
+            window.parent.postMessage({ type: 'STEP_CHANGED', step: currentStep, totalSteps: idea ? idea.steps.length : 1, ideaId: currentIdeaId }, '*');
+            break;
+        }
+      });
+
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('option')) {
+          const isCorrect = e.target.dataset.correct === 'true';
+          e.target.parentElement.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct', 'wrong'));
+          if (isCorrect) {
+            e.target.classList.add('correct');
+            window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'success' }, '*');
+          } else {
+            e.target.classList.add('wrong');
+            window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'error' }, '*');
+          }
+        }
+      });
+
+      function init() {
+        window.parent.postMessage({ type: 'READY' }, '*');
+        MANIFEST.currentStep = currentStep;
+        MANIFEST.currentIdeaId = currentIdeaId;
+        window.parent.postMessage({ type: 'MANIFEST', payload: MANIFEST }, '*');
+        const idea = getCurrentIdea();
+        window.parent.postMessage({ type: 'STEP_CHANGED', step: currentStep, totalSteps: idea ? idea.steps.length : 1, ideaId: currentIdeaId }, '*');
+      }
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        init();
+      } else {
+        window.addEventListener('load', init);
+      }
+    })();
+  </script>
+</body>
+</html>

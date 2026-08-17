@@ -1,0 +1,520 @@
+$ eslint .
+
+/home/ubuntu/bisalasa-full-audit/examples/websocket/frontend.tsx
+  45:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/examples/websocket/frontend.tsx:45:5
+  43 |     })
+  44 |
+> 45 |     setSocket(socketInstance);
+     |     ^^^^^^^^^ Avoid calling setState() directly within an effect
+  46 |
+  47 |     socketInstance.on('connect', () => {
+  48 |       setIsConnected(true);  react-hooks/set-state-in-effect
+
+/home/ubuntu/bisalasa-full-audit/src/app/page.tsx
+  382:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/app/page.tsx:382:7
+  380 |       });
+  381 |     } else {
+> 382 |       setClassName(null);
+      |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  383 |     }
+  384 |   }, [activeClassId]);
+  385 |  react-hooks/set-state-in-effect
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/CelebrationsOverlay.tsx
+  97:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/CelebrationsOverlay.tsx:97:5
+   95 |
+   96 |     // Show banner
+>  97 |     setActive(meta);
+      |     ^^^^^^^^^ Avoid calling setState() directly within an effect
+   98 |
+   99 |     // cleanup old timers then set the dismiss timer
+  100 |     timersRef.current.forEach((t) => clearTimeout(t));  react-hooks/set-state-in-effect
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/ClassLeaderboardView.tsx
+  71:7  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/ConfirmDialogHost.tsx
+  32:23  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/ConfirmDialogHost.tsx:32:23
+  30 |
+  31 |   useEffect(() => {
+> 32 |     if (promptDialog) setPromptValue(promptDialog.defaultValue || "");
+     |                       ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  33 |   }, [promptDialog]);
+  34 |
+  35 |   // H5 fix: if this host unmounts while a dialog is open (route change, app  react-hooks/set-state-in-effect
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/DiceRollGame.tsx
+  71:9  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/DiceRollGame.tsx:71:9
+  69 |       const first = uncalled || students.find((s) => !s.isAbsent) || students[0];
+  70 |       if (first) {
+> 71 |         setStudentName(first.name);
+     |         ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  72 |         setStudentId(first.id);
+  73 |       }
+  74 |     }  react-hooks/set-state-in-effect
+  75:6  warning  React Hook useEffect has a missing dependency: 'studentName'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/HotPotatoGame.tsx
+   96:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/HotPotatoGame.tsx:96:7
+  94 |       const shuffled = [...present].sort(() => Math.random() - 0.5);
+  95 |       const picked = shuffled.slice(0, Math.min(6, present.length));
+> 96 |       setParticipants(picked.map((s) => ({ id: s.id, name: s.name })));
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  97 |     }
+  98 |   }, [students]);
+  99 |                                                                    react-hooks/set-state-in-effect
+   98:6   warning  React Hook useEffect has a missing dependency: 'participants'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/exhaustive-deps
+  108:29  error    Error: Cannot access variable before it is declared
+
+`explode` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/HotPotatoGame.tsx:108:29
+  106 |           // Don't call explode() inside the setElapsed updater (not pure).
+  107 |           // Schedule it for the next tick to avoid React setState-in-render error.
+> 108 |           safeTimeout(() => explode(), 0);
+      |                             ^^^^^^^ `explode` accessed before it is declared
+  109 |           return randomDuration;
+  110 |         }
+  111 |         return newElapsed;
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/HotPotatoGame.tsx:136:3
+  134 |   }, []);
+  135 |
+> 136 |   const explode = () => {
+      |   ^^^^^^^^^^^^^^^^^^^^^^^
+> 137 |     setPhase("exploded");
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 138 |     playSound("error");
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 172 |     }, 1500);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 173 |   };
+      | ^^^^^ `explode` is declared here
+  174 |
+  175 |   const startGame = () => {
+  176 |     if (validParticipants.length < 2) return;  react-hooks/immutability
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/IframeStage.tsx
+  418:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @next/next/no-img-element
+  507:35  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/IframeStage.tsx:507:35
+  505 |           <div
+  506 |             key={h.id}
+> 507 |             onPointerDown={(e) => handleResizeStart(h.id, e)}
+      |                                   ^^^^^^^^^^^^^^^^^ Passing a ref to a function may read its value during render
+  508 |             onPointerMove={handleResizeMove}
+  509 |             onPointerUp={handleResizeEnd}
+  510 |             onPointerCancel={handleResizeEnd}  react-hooks/refs
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/MathChallengeGame.tsx
+  71:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/MathChallengeGame.tsx:71:7
+  69 |       const uncalled = present.find((s) => !s.calledInSession);
+  70 |       const first = uncalled || present[0];
+> 71 |       setStudentName(first.name);
+     |       ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  72 |       setStudentId(first.id);
+  73 |     }
+  74 |   }, [students]);  react-hooks/set-state-in-effect
+  74:6  warning  React Hook useEffect has a missing dependency: 'studentName'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/MemoryGame.tsx
+  115:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/MemoryGame.tsx:115:7
+  113 |       const uncalled = students.find((s) => !s.calledInSession && !s.isAbsent);
+  114 |       const first = uncalled || students[0];
+> 115 |       setStudentName(first.name);
+      |       ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  116 |       setStudentId(first.id);
+  117 |     }
+  118 |   }, [students]);  react-hooks/set-state-in-effect
+  118:6  warning  React Hook useEffect has a missing dependency: 'studentName'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/MysteryBoxGame.tsx
+  82:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/MysteryBoxGame.tsx:82:7
+  80 |       const uncalled = students.find((s) => !s.calledInSession && !s.isAbsent);
+  81 |       const first = uncalled || students[0];
+> 82 |       setParticipantName(first.name);
+     |       ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  83 |       setParticipantId(first.id);
+  84 |     }
+  85 |   }, [students]);  react-hooks/set-state-in-effect
+  85:6  warning  React Hook useEffect has a missing dependency: 'participantName'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuestionChallengeGame.tsx
+  88:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuestionChallengeGame.tsx:88:7
+  86 |   useEffect(() => {
+  87 |     if (phase === "setup" && lessonQuestions.length > 0) {
+> 88 |       setQuestions(lessonQuestions);
+     |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  89 |     }
+  90 |   }, [lessonQuestions, phase]);
+  91 |                                                                                                                       react-hooks/set-state-in-effect
+  99:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuestionChallengeGame.tsx:99:5
+   97 |   const [classStudents, setClassStudents] = useState<{ id: string; name: string }[]>([]);
+   98 |   useEffect(() => {
+>  99 |     setClassStudents(filterPresentStudents(students).map((s) => ({ id: s.id, name: s.name })));
+      |     ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  100 |   }, [students, activeClassId]);
+  101 |
+  102 |   // Shuffle questions  react-hooks/set-state-in-effect
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuickFireGame.tsx
+   84:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuickFireGame.tsx:84:7
+  82 |   useEffect(() => {
+  83 |     if (phase === "setup" && lessonQuestions.length > 0) {
+> 84 |       setQuestions(lessonQuestions);
+     |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  85 |     }
+  86 |   }, [lessonQuestions, phase]);
+  87 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/set-state-in-effect
+   91:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuickFireGame.tsx:91:5
+  89 |     // مصدر موحّد للطلاب: متجر Zustand بعد فلترته على الصف النشط.
+  90 |     // 🟢 v2 fix: filter out absent students — they shouldn't appear in the manual grid.
+> 91 |     setClassStudents(filterPresentStudents(students).map((s) => ({ id: s.id, name: s.name })));
+     |     ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  92 |   }, [students, activeClassId]);
+  93 |
+  94 |   // Timer                                                                                                                                                                                                                                                                                                                                        react-hooks/set-state-in-effect
+  103:9  error  Error: Cannot access variable before it is declared
+
+`handleTimeout` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuickFireGame.tsx:103:9
+  101 |       // also fire nextQuestion() → one question skipped + potential double-award.
+  102 |       if (!questionClosedRef.current) {
+> 103 |         handleTimeout();
+      |         ^^^^^^^^^^^^^ `handleTimeout` accessed before it is declared
+  104 |       }
+  105 |       return;
+  106 |     }
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuickFireGame.tsx:128:3
+  126 |   }, []);
+  127 |
+> 128 |   const handleTimeout = () => {
+      |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 129 |     if (questionClosedRef.current) return;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 130 |     questionClosedRef.current = true;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 131 |     setWrong((w) => w + 1);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 132 |     setStreak(0);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 133 |     playSound("celebrate-buzz");
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 134 |     triggerRedFlash();
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 135 |     nextQuestion();
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 136 |   };
+      | ^^^^^ `handleTimeout` is declared here
+  137 |
+  138 |   const startGame = () => {
+  139 |     if (!participant) return;  react-hooks/immutability
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuizShowGame.tsx
+  59:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuizShowGame.tsx:59:7
+  57 |     if (students.length >= 2 && participants.length === 1 && !participants[0]) {
+  58 |       const picked = pickFairStudentsBatch(4);
+> 59 |       setParticipants(picked.map((s) => s.name));
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  60 |     }
+  61 |   }, [students]);
+  62 |  react-hooks/set-state-in-effect
+  61:6  warning  React Hook useEffect has missing dependencies: 'participants' and 'pickFairStudentsBatch'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/exhaustive-deps
+  76:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/QuizShowGame.tsx:76:7
+  74 |         _stableId: lq._stableId,
+  75 |       }));
+> 76 |       setQuestions(converted);
+     |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  77 |     }
+  78 |   }, [lessonQuestions]);
+  79 |                                                                                                     react-hooks/set-state-in-effect
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/ReactionTimeGame.tsx
+  61:9  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/ReactionTimeGame.tsx:61:9
+  59 |       const first = uncalled || students.find((s) => !s.isAbsent) || students[0];
+  60 |       if (first) {
+> 61 |         setStudentName(first.name);
+     |         ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  62 |         setStudentId(first.id);
+  63 |       }
+  64 |     }  react-hooks/set-state-in-effect
+  65:6  warning  React Hook useEffect has a missing dependency: 'studentName'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/exhaustive-deps
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx
+   412:5   warning  React Hook useCallback has an unnecessary dependency: 'precisionScale'. Either exclude it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/exhaustive-deps
+   646:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:646:7
+  644 |       const next: Stroke[] = [];
+  645 |       commitHistory(next);
+> 646 |       setStrokes(next);
+      |       ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  647 |       setCurrentStroke(null);
+  648 |       setSelectedIds(new Set());
+  649 |     }                                                 react-hooks/set-state-in-effect
+   686:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:686:7
+  684 |   useEffect(() => {
+  685 |     if (currentStroke) {
+> 686 |       setCurrentStroke(null);
+      |       ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  687 |       pointerDownRef.current = false;
+  688 |       if (rafId.current !== null) {
+  689 |         cancelAnimationFrame(rafId.current);  react-hooks/set-state-in-effect
+   804:25  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:804:25
+  802 |       e.preventDefault();
+  803 |       e.stopPropagation();
+> 804 |       const id = `txt_${Date.now()}`;
+      |                         ^^^^^^^^^^ Cannot call impure function
+  805 |       setEditingText({
+  806 |         id,
+  807 |         x: pos.x,                                                                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/purity
+   877:46  error    Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:877:46
+  875 |       shape: strokeTool === "shape" ? shape : undefined,
+  876 |       precision: strokeTool === "pen" ? precisionMode : false,
+> 877 |       rainbowHue: strokeTool === "rainbow" ? Math.random() * 360 : undefined,
+      |                                              ^^^^^^^^^^^^^ Cannot call impure function
+  878 |       precisionScale: strokeTool === "pen" ? precisionScale : undefined,
+  879 |     };
+  880 |     setCurrentStroke(newStroke);                                                                                                                                                                                                                                                react-hooks/purity
+   891:5   error    Error: This value cannot be modified
+
+Modifying a value used previously in an effect function or as an effect dependency is not allowed. Consider moving the modification before calling useEffect().
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:891:5
+  889 |
+  890 |   const flushPointerMove = useCallback(() => {
+> 891 |     rafId.current = null;
+      |     ^^^^^ `rafId` cannot be modified
+  892 |     const pos = rafPending.current;
+  893 |     if (!pos) return;
+  894 |     rafPending.current = null;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/immutability
+   894:5   error    Error: This value cannot be modified
+
+Modifying a value used previously in an effect function or as an effect dependency is not allowed. Consider moving the modification before calling useEffect().
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:894:5
+  892 |     const pos = rafPending.current;
+  893 |     if (!pos) return;
+> 894 |     rafPending.current = null;
+      |     ^^^^^^^^^^ `rafPending` cannot be modified
+  895 |
+  896 |     // Cursor preview
+  897 |     if (                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/immutability
+  1021:5   error    Error: This value cannot be modified
+
+Modifying a value used previously in an effect function or as an effect dependency is not allowed. Consider moving the modification before calling useEffect().
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:1021:5
+  1019 |       return;
+  1020 |     }
+> 1021 |     rafPending.current = getPos(e);
+       |     ^^^^^^^^^^ `rafPending` cannot be modified
+  1022 |     if (rafId.current === null) {
+  1023 |       rafId.current = requestAnimationFrame(flushPointerMove);
+  1024 |     }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/immutability
+  1023:7   error    Error: This value cannot be modified
+
+Modifying a value used previously in an effect function or as an effect dependency is not allowed. Consider moving the modification before calling useEffect().
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:1023:7
+  1021 |     rafPending.current = getPos(e);
+  1022 |     if (rafId.current === null) {
+> 1023 |       rafId.current = requestAnimationFrame(flushPointerMove);
+       |       ^^^^^ `rafId` cannot be modified
+  1024 |     }
+  1025 |   };
+  1026 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/immutability
+  1084:7   error    Error: This value cannot be modified
+
+Modifying a value used previously in an effect function or as an effect dependency is not allowed. Consider moving the modification before calling useEffect().
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:1084:7
+  1082 |     if (rafId.current !== null) {
+  1083 |       cancelAnimationFrame(rafId.current);
+> 1084 |       rafId.current = null;
+       |       ^^^^^ `rafId` cannot be modified
+  1085 |     }
+  1086 |     rafPending.current = null;
+  1087 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/immutability
+  1086:5   error    Error: This value cannot be modified
+
+Modifying a value used previously in an effect function or as an effect dependency is not allowed. Consider moving the modification before calling useEffect().
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/SmartWhiteboard.tsx:1086:5
+  1084 |       rafId.current = null;
+  1085 |     }
+> 1086 |     rafPending.current = null;
+       |     ^^^^^^^^^^ `rafPending` cannot be modified
+  1087 |
+  1088 |     if (!enabled) return;
+  1089 |     if (currentStroke) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/immutability
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/StudentCard.tsx
+  383:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/panels/ClassesPanel.tsx
+  135:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ubuntu/bisalasa-full-audit/src/components/shell/panels/ClassesPanel.tsx:135:5

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الهندسة الكاملة - 4 أفكار متداخلة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body {
+      width: 100vw; height: 100vh; overflow: hidden;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      color: #1A1A1A;
+    }
+
+    .slide-container {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px; position: relative;
+    }
+
+    .step-content { display: none; }
+    .step-content.active {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1.5rem;
+      animation: fadeIn 0.5s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title {
+      font-size: 3rem; font-weight: 800;
+      color: #0142A0; text-align: center;
+    }
+    .content {
+      font-size: 1.6rem; text-align: center;
+      max-width: 900px; line-height: 1.7;
+    }
+
+    .math-display {
+      font-family: 'Times New Roman', serif;
+      font-size: 3rem; color: #0142A0;
+      background: white; padding: 1.5rem 2.5rem;
+      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      direction: ltr; display: inline-block;
+      border: 3px solid #0142A0;
+    }
+
+    .shape-svg {
+      width: 300px; height: 300px;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
+    }
+
+    .idea-badge {
+      position: absolute; top: 20px; left: 20px;
+      padding: 8px 16px; border-radius: 20px;
+      font-size: 14px; font-weight: 700;
+      color: white;
+    }
+    .idea-1 { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+    .idea-2 { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+    .idea-3 { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    .idea-4 { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
+
+    .step-counter {
+      position: absolute; top: 20px; right: 20px;
+      background: #0142A0; color: white;
+      padding: 8px 18px; border-radius: 20px;
+      font-size: 14px; font-weight: 600;
+    }
+    .step-counter .num { color: #fbbf24; font-weight: 800; }
+
+    .options-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1rem; max-width: 700px; width: 100%;
+    }
+    .option {
+      background: white; border: 4px solid #0142A0;
+      padding: 1.5rem 2rem; border-radius: 16px;
+      font-size: 1.5rem; font-weight: 700; color: #0142A0;
+      text-align: center; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option:hover { transform: translateY(-2px); }
+    .option.correct {
+      background: #10b981; color: white; border-color: #10b981;
+      animation: pulse 0.6s;
+    }
+    .option.wrong {
+      background: #ef4444; color: white; border-color: #ef4444;
+      animation: shake 0.4s;
+    }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+
+    .formula-card {
+      background: white; padding: 2rem 3rem;
+      border-radius: 16px; box-shadow: 0 8px 24px rgba(1, 66, 160, 0.1);
+      max-width: 800px; text-align: center;
+      border-right: 6px solid #0142A0;
+    }
+    .formula-card .label { font-size: 1.3rem; color: #64748b; margin-bottom: 0.5rem; }
+    .formula-card .formula { font-family: 'Times New Roman', serif; font-size: 2.5rem; color: #0142A0; font-weight: 700; }
+
+    .nav-buttons {
+      position: absolute; bottom: 30px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 1rem;
+    }
+    .nav-btn {
+      background: white; color: #0142A0;
+      border: 2px solid #0142A0;
+      padding: 0.5rem 1.5rem; border-radius: 8px;
+      font-size: 14px; cursor: pointer; font-weight: 600;
+    }
+    .nav-btn:hover { background: #0142A0; color: white; }
+    .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <div class="slide-container" id="slide-container">
+    <div class="step-counter">
+      خطوة <span class="num" id="stepNum">1</span> من <span class="num" id="totalNum">3</span>
+    </div>
+    <div class="idea-badge idea-1" id="ideaBadge">المثلثات</div>
+
+    <!-- ============ IDEA 1: المثلثات ============ -->
+    <div class="step-content active" data-step="1" data-idea="idea-1">
+      <h1 class="title">تعريف المثلث</h1>
+      <svg class="shape-svg" viewBox="0 0 300 300">
+        <polygon points="150,30 270,250 30,250" fill="#3b82f6" stroke="#1d4ed8" stroke-width="6"/>
+        <text x="140" y="20" font-size="20" fill="#1d4ed8" font-weight="bold">A</text>
+        <text x="280" y="270" font-size="20" fill="#1d4ed8" font-weight="bold">B</text>
+        <text x="10" y="270" font-size="20" fill="#1d4ed8" font-weight="bold">C</text>
+      </svg>
+      <p class="content">المثلث شكل هندسي له 3 أضلاع و 3 زوايا</p>
+    </div>
+
+    <div class="step-content" data-step="2" data-idea="idea-1">
+      <h1 class="title">مجموع زوايا المثلث</h1>
+      <div class="formula-card">
+        <div class="label">مجموع الزوايا الداخلية</div>
+        <div class="formula">∠A + ∠B + ∠C = 180°</div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 300 300">
+        <polygon points="150,30 270,250 30,250" fill="#fbbf24" stroke="#d97706" stroke-width="6"/>
+        <text x="160" y="100" font-size="24" fill="#dc2626" font-weight="bold">60°</text>
+        <text x="220" y="240" font-size="24" fill="#dc2626" font-weight="bold">80°</text>
+        <text x="50" y="240" font-size="24" fill="#dc2626" font-weight="bold">40°</text>
+      </svg>
+    </div>
+
+    <div class="step-content" data-step="3" data-idea="idea-1">
+      <h1 class="title">سؤال: مجموع الزوايا</h1>
+      <p class="content">إذا كانت زاويتان في مثلث قياسهما 60° و 70°، فما قياس الزاوية الثالثة؟</p>
+      <div class="options-grid">
+        <div class="option" data-correct="false">40°</div>
+        <div class="option" data-correct="true">50°</div>
+        <div class="option" data-correct="false">60°</div>
+        <div class="option" data-correct="false">70°</div>
+      </div>
+    </div>
+
+    <!-- ============ IDEA 2: المساحة ============ -->
+    <div class="step-content" data-step="1" data-idea="idea-2">
+      <h1 class="title">مساحة المثلث</h1>
+      <div class="formula-card">
+        <div class="label">قاعدة المساحة</div>
+        <div class="formula">المساحة = ½ × القاعدة × الارتفاع</div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 300 300">
+        <polygon points="150,30 270,250 30,250" fill="#10b981" stroke="#059669" stroke-width="6"/>
+        <line x1="150" y1="30" x2="150" y2="250" stroke="#dc2626" stroke-width="3" stroke-dasharray="5,5"/>
+        <text x="160" y="150" font-size="20" fill="#dc2626" font-weight="bold">ارتفاع</text>
+        <text x="100" y="280" font-size="20" fill="#dc2626" font-weight="bold">قاعدة</text>
+      </svg>
+    </div>
+
+    <div class="step-content" data-step="2" data-idea="idea-2">
+      <h1 class="title">مثال على المساحة</h1>
+      <div class="formula-card">
+        <div class="label">مثلث قاعدته 10 وارتفاعه 6</div>
+        <div class="formula">المساحة = ½ × 10 × 6 = 30</div>
+      </div>
+    </div>
+
+    <div class="step-content" data-step="3" data-idea="idea-2">
+      <h1 class="title">سؤال: احسب المساحة</h1>
+      <p class="content">مثلث قاعدته 8 سم وارتفاعه 5 سم. ما مساحته؟</p>
+      <div class="options-grid">
+        <div class="option" data-correct="false">13 سم²</div>
+        <div class="option" data-correct="true">20 سم²</div>
+        <div class="option" data-correct="false">40 سم²</div>
+        <div class="option" data-correct="false">26 سم²</div>
+      </div>
+    </div>
+
+    <!-- ============ IDEA 3: نظرية فيثاغورس ============ -->
+    <div class="step-content" data-step="1" data-idea="idea-3">
+      <h1 class="title">نظرية فيثاغورس</h1>
+      <div class="formula-card">
+        <div class="label">في المثلث القائم الزاوية</div>
+        <div class="formula">a² + b² = c²</div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 300 300">
+        <polygon points="50,250 250,250 50,50" fill="#f59e0b" stroke="#d97706" stroke-width="6"/>
+        <rect x="40" y="240" width="20" height="20" fill="none" stroke="#dc2626" stroke-width="2"/>
+        <text x="20" y="160" font-size="22" fill="#dc2626" font-weight="bold">a</text>
+        <text x="140" y="280" font-size="22" fill="#dc2626" font-weight="bold">b</text>
+        <text x="170" y="140" font-size="22" fill="#dc2626" font-weight="bold">c (الوتر)</text>
+      </svg>
+    </div>
+
+    <div class="step-content" data-step="2" data-idea="idea-3">
+      <h1 class="title">مثال فيثاغورس</h1>
+      <div class="formula-card">
+        <div class="label">مثلث أضلاعه 3، 4، 5</div>
+        <div class="formula">3² + 4² = 9 + 16 = 25 = 5²</div>
+      </div>
+    </div>
+
+    <div class="step-content" data-step="3" data-idea="idea-3">
+      <h1 class="title">سؤال: فيثاغورس</h1>
+      <p class="content">مثلث قائم الزاوية، ضلعاه القائمان 6 و 8. ما طول الوتر؟</p>
+      <div class="options-grid">
+        <div class="option" data-correct="false">10</div>
+        <div class="option" data-correct="true">10</div>
+        <div class="option" data-correct="false">14</div>
+        <div class="option" data-correct="false">12</div>
+      </div>
+    </div>
+
+    <!-- ============ IDEA 4: الدائرة ============ -->
+    <div class="step-content" data-step="1" data-idea="idea-4">
+      <h1 class="title">محيط الدائرة</h1>
+      <div class="formula-card">
+        <div class="label">قاعدة المحيط</div>
+        <div class="formula">محيط = 2 × π × نصف القطر</div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 300 300">
+        <circle cx="150" cy="150" r="100" fill="none" stroke="#8b5cf6" stroke-width="6"/>
+        <line x1="150" y1="150" x2="250" y2="150" stroke="#dc2626" stroke-width="3" stroke-dasharray="5,5"/>
+        <text x="180" y="140" font-size="20" fill="#dc2626" font-weight="bold">r</text>
+        <circle cx="150" cy="150" r="4" fill="#dc2626"/>
+      </svg>
+    </div>
+
+    <div class="step-content" data-step="2" data-idea="idea-4">
+      <h1 class="title">سؤال: محيط الدائرة</h1>
+      <p class="content">دائرة نصف قطرها 7 سم. ما محيطها؟ (π = 22/7)</p>
+      <div class="options-grid">
+        <div class="option" data-correct="false">22 سم</div>
+        <div class="option" data-correct="true">44 سم</div>
+        <div class="option" data-correct="false">14 سم</div>
+        <div class="option" data-correct="false">154 سم</div>
+      </div>
+    </div>
+
+    <div class="step-content" data-step="3" data-idea="idea-4">
+      <h1 class="title">🎉 أحسنتم!</h1>
+      <div class="formula-card">
+        <p class="content" style="font-size: 1.8rem;">
+          تعلمتم المثلثات والمساحة وفيثاغورس والدائرة<br/>
+          <strong style="color: #0142A0;">أنتم أبطال الهندسة!</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn" id="prevBtn" onclick="window.prevStep()">← السابق</button>
+      <button class="nav-btn" id="nextBtn" onclick="window.nextStep()">التالي →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MANIFEST
+       ============================================================ -->
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "geometry-complete",
+    "title": "الهندسة الكاملة - 4 أفكار",
+    "subtitle": "مثلثات + مساحة + فيثاغورس + دائرة",
+    "contentType": "html",
+    "totalSteps": 12,
+    "currentStep": 1,
+    "currentIdeaId": "idea-1",
+    "aspectRatio": "16:9",
+    "targetAge": "preparatory",
+    "ideas": [
+      {
+        "id": "idea-1",
+        "title": "المثلثات",
+        "description": "تعريف المثلث وزواياه",
+        "color": "blue",
+        "steps": [
+          {
+            "step": 1,
+            "title": "تعريف المثلث",
+            "type": "content",
+            "script": "الفكرة الأولى: المثلثات. المثلث شكل هندسي له 3 أضلاع و 3 زوايا. مجموع الزوايا دائماً 180 درجة.",
+            "notes": "ارسم مثلثاً على السبورة. استخدم أداة الأشكال (S) لرسم مثلث. اطلب من الطلاب عدّ الزوايا.",
+            "autoSlideMs": 8000
+          },
+          {
+            "step": 2,
+            "title": "مجموع الزوايا",
+            "type": "content",
+            "script": "مجموع زوايا المثلث دائماً 180 درجة. مهما كان نوع المثلث، مجموع الزوايا ثابت. في المثال: 60 زائد 80 زائد 40 يساوي 180.",
+            "notes": "اكتب المعادلة على السبورة: ∠A + ∠B + ∠C = 180°. اطلب من الطلاب التحقق بحساب 60+80+40.",
+            "autoSlideMs": 10000
+          },
+          {
+            "step": 3,
+            "title": "سؤال: الزاوية الثالثة",
+            "type": "question",
+            "script": "السؤال: إذا كانت زاويتان في مثلث قياسهما 60 و 70 درجة، فما قياس الزاوية الثالثة؟ اختاروا الإجابة.",
+            "notes": "الإجابة: 50°. الحل: 180 - (60+70) = 180 - 130 = 50. استخدم R لاختيار طالب.",
+            "question": {
+              "text": "زاويتان 60° و 70°، ما الزاوية الثالثة؟",
+              "correctAnswer": "50°",
+              "options": ["40°", "50°", "60°", "70°"],
+              "rewardPoints": 3
+            },
+            "effect": "confetti",
+            "autoSlideMs": 0
+          }
+        ]
+      },
+      {
+        "id": "idea-2",
+        "title": "مساحة المثلث",
+        "description": "حساب مساحة المثلث",
+        "color": "green",
+        "steps": [
+          {
+            "step": 1,
+            "title": "قاعدة المساحة",
+            "type": "content",
+            "script": "الفكرة الثانية: مساحة المثلث. القاعدة: المساحة تساوي نصف في القاعدة في الارتفاع. يعني 半 × b × h.",
+            "notes": "ارسم مثلثاً وبيّن القاعدة والارتفاع. الارتفاع دائماً عمودي على القاعدة.",
+            "autoSlideMs": 9000
+          },
+          {
+            "step": 2,
+            "title": "مثال على المساحة",
+            "type": "content",
+            "script": "مثال: مثلث قاعدته 10 وارتفاعه 6. المساحة = نصف × 10 × 6 = 30. وحدة القياس مربعة.",
+            "notes": "نبّه الطلاب أن وحدة المساحة دائماً مربعة (سم²، م²).",
+            "autoSlideMs": 9000
+          },
+          {
+            "step": 3,
+            "title": "سؤال: احسب المساحة",
+            "type": "question",
+            "script": "السؤال: مثلث قاعدته 8 سم وارتفاعه 5 سم. ما مساحته؟",
+            "notes": "الإجابة: 20 سم². الحل: ½ × 8 × 5 = 20.",
+            "question": {
+              "text": "قاعدة 8 سم، ارتفاع 5 سم، ما المساحة؟",
+              "correctAnswer": "20 سم²",
+              "options": ["13 سم²", "20 سم²", "40 سم²", "26 سم²"],
+              "rewardPoints": 3
+            },
+            "effect": "confetti",
+            "autoSlideMs": 0
+          }
+        ]
+      },
+      {
+        "id": "idea-3",
+        "title": "نظرية فيثاغورس",
+        "description": "نظرية فيثاغورس في المثلث القائم",
+        "color": "amber",
+        "steps": [
+          {
+            "step": 1,
+            "title": "نظرية فيثاغورس",
+            "type": "content",
+            "script": "الفكرة الثالثة: نظرية فيثاغورس. في المثلث القائم الزاوية، مربع الوتر يساوي مجموع مربعي الضلعين الآخرين. a مربع زائد b مربع يساوي c مربع.",
+            "notes": "ارسم مثلثاً قائم الزاوية. الوتر هو أطول ضلع (مقابل الزاوية القائمة).",
+            "autoSlideMs": 10000
+          },
+          {
+            "step": 2,
+            "title": "مثال فيثاغورس",
+            "type": "content",
+            "script": "مثال شهير: مثلث أضلاعه 3، 4، 5. تحقق: 9 زائد 16 يساوي 25 يساوي 5 مربع. صحيح!",
+            "notes": "هذا يسمى المثلث القائم الزاوية النموذجي. 3-4-5.",
+            "autoSlideMs": 9000
+          },
+          {
+            "step": 3,
+            "title": "سؤال: فيثاغورس",
+            "type": "question",
+            "script": "السؤال: مثلث قائم الزاوية، ضلعاه القائمان 6 و 8. ما طول الوتر؟",
+            "notes": "الإجابة: 10. الحل: √(36+64) = √100 = 10.",
+            "question": {
+              "text": "ضلعان قائمان 6 و 8، ما الوتر؟",
+              "correctAnswer": "10",
+              "options": ["10", "14", "12", "100"],
+              "rewardPoints": 5
+            },
+            "effect": "confetti",
+            "autoSlideMs": 0
+          }
+        ]
+      },
+      {
+        "id": "idea-4",
+        "title": "الدائرة",
+        "description": "محيط الدائرة",
+        "color": "purple",
+        "steps": [
+          {
+            "step": 1,
+            "title": "محيط الدائرة",
+            "type": "content",
+            "script": "الفكرة الرابعة: الدائرة. محيط الدائرة يساوي 2 في ط في نصف القطر. ط تساوي تقريباً 22 على 7.",
+            "notes": "اشرح أن π (ط) ثابت رياضي ≈ 3.14 أو 22/7.",
+            "autoSlideMs": 9000
+          },
+          {
+            "step": 2,
+            "title": "سؤال: محيط الدائرة",
+            "type": "question",
+            "script": "السؤال: دائرة نصف قطرها 7 سم. ما محيطها؟ (ط = 22/7)",
+            "notes": "الإجابة: 44 سم. الحل: 2 × 22/7 × 7 = 44.",
+            "question": {
+              "text": "نصف القطر 7 سم، ما المحيط؟",
+              "correctAnswer": "44 سم",
+              "options": ["22 سم", "44 سم", "14 سم", "154 سم"],
+              "rewardPoints": 4
+            },
+            "effect": "confetti",
+            "autoSlideMs": 0
+          },
+          {
+            "step": 3,
+            "title": "اختتام الدرس",
+            "type": "celebration",
+            "script": "أحسنتم يا أبطال! تعلمتم المثلثات والمساحة وفيثاغورس والدائرة. أنتم أبطال الهندسة! شكراً ليكم.",
+            "notes": "وزع نقاط على الطلاب المشاركين. استخدم زر المكافأة الذهبية (+10) لأفضل طالب.",
+            "effect": "confetti",
+            "autoSlideMs": 5000
+          }
+        ]
+      }
+    ],
+    "assets": []
+  }
+  </script>
+
+  <!-- ============================================================
+       CONTROLLER
+       ============================================================ -->
+  <script>
+    (function() {
+      let currentStep = 1;
+      let currentIdeaId = 'idea-1';
+
+      function getManifest() {
+        const el = document.getElementById('slide-manifest');
+        if (!el) return null;
+        try { return JSON.parse(el.textContent); } catch { return null; }
+      }
+
+      function getCurrentIdea() {
+        const m = getManifest();
+        if (!m || !m.ideas) return null;
+        return m.ideas.find(i => i.id === currentIdeaId) || m.ideas[0];
+      }
+
+      function showStep(step, ideaId) {
+        if (ideaId) currentIdeaId = ideaId;
+        currentStep = step;
+
+        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+        const selector = ideaId
+          ? `.step-content[data-idea="${ideaId}"][data-step="${step}"]`
+          : `.step-content[data-step="${step}"]`;
+        const target = document.querySelector(selector);
+        if (target) target.classList.add('active');
+
+        const idea = getCurrentIdea();
+        const totalSteps = idea ? idea.steps.length : 1;
+        const stepNum = document.getElementById('stepNum');
+        const totalNum = document.getElementById('totalNum');
+        const ideaBadge = document.getElementById('ideaBadge');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (stepNum) stepNum.textContent = step;
+        if (totalNum) totalNum.textContent = totalSteps;
+        if (ideaBadge) {
+          ideaBadge.textContent = idea ? idea.title : '';
+          const ideaIndex = currentIdeaId.split('-')[1];
+          ideaBadge.className = 'idea-badge idea-' + ideaIndex;
+        }
+        if (prevBtn) prevBtn.disabled = (step === 1 && currentIdeaId === 'idea-1');
+        if (nextBtn) {
+          const m = getManifest();
+          const isLastIdea = m.ideas.findIndex(i => i.id === currentIdeaId) === m.ideas.length - 1;
+          nextBtn.disabled = (step === totalSteps && isLastIdea);
+        }
+
+        notifyShell({
+          type: 'STEP_CHANGED',
+          step: step,
+          totalSteps: totalSteps,
+          ideaId: currentIdeaId
+        });
+      }
+
+      function notifyShell(msg) { window.parent.postMessage(msg, '*'); }
+
+      window.nextStep = function() {
+        const m = getManifest();
+        const idea = getCurrentIdea();
+        if (!idea || !m) return;
+        if (currentStep < idea.steps.length) {
+          showStep(currentStep + 1, currentIdeaId);
+        } else {
+          const idx = m.ideas.findIndex(i => i.id === currentIdeaId);
+          if (idx < m.ideas.length - 1) {
+            showStep(1, m.ideas[idx + 1].id);
+          }
+        }
+      };
+
+      window.prevStep = function() {
+        const m = getManifest();
+        if (currentStep > 1) {
+          showStep(currentStep - 1, currentIdeaId);
+        } else {
+          const idx = m.ideas.findIndex(i => i.id === currentIdeaId);
+          if (idx > 0) {
+            const prevIdea = m.ideas[idx - 1];
+            showStep(prevIdea.steps.length, prevIdea.id);
+          }
+        }
+      };
+
+      window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (!data || !data.type) return;
+        switch (data.type) {
+          case 'GOTO_STEP': showStep(data.step, data.ideaId); break;
+          case 'NEXT': window.nextStep(); break;
+          case 'PREV': window.prevStep(); break;
+          case 'GOTO_IDEA': showStep(data.step || 1, data.ideaId); break;
+          case 'REQUEST_MANIFEST':
+            const m = getManifest();
+            if (m) {
+              m.currentStep = currentStep;
+              m.currentIdeaId = currentIdeaId;
+              notifyShell({ type: 'MANIFEST', payload: m });
+            }
+            break;
+        }
+      });
+
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('option')) {
+          const isCorrect = e.target.dataset.correct === 'true';
+          document.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct', 'wrong'));
+          if (isCorrect) {
+            e.target.classList.add('correct');
+            notifyShell({ type: 'REQUEST_SOUND', sound: 'success' });
+          } else {
+            e.target.classList.add('wrong');
+            notifyShell({ type: 'REQUEST_SOUND', sound: 'error' });
+          }
+        }
+      });
+
+      window.addEventListener('load', function() {
+        notifyShell({ type: 'READY' });
+        const m = getManifest();
+        if (m) {
+          m.currentStep = currentStep;
+          m.currentIdeaId = currentIdeaId;
+          notifyShell({ type: 'MANIFEST', payload: m });
+        }
+        showStep(1, currentIdeaId);
+      });
+    })();
+  </script>
+</body>
+</html>

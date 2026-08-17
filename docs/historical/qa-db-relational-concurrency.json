@@ -1,0 +1,430 @@
+{
+  "base": "http://127.0.0.1:3059",
+  "prefix": "rel-1786920015731-",
+  "total": 50,
+  "passed": 50,
+  "failed": 0,
+  "results": [
+    {
+      "name": "create relational class",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create relational student 1",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create relational student 2",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create relational student 3",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "start session with class snapshot",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "session snapshot contains exactly class students",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "snapshot rows are unique per student",
+      "ok": true,
+      "detail": {
+        "ids": [
+          "rel-1786920015731-s1",
+          "rel-1786920015731-s2",
+          "rel-1786920015731-s3"
+        ]
+      }
+    },
+    {
+      "name": "20 concurrent awardCorrect requests succeed",
+      "ok": true,
+      "detail": {
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      }
+    },
+    {
+      "name": "concurrent increments are atomic",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "concurrent awards create 20 badges",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "first student state is returned",
+      "ok": true,
+      "detail": {
+        "id": "rel-1786920015731-s1"
+      }
+    },
+    {
+      "name": "badge count matches award count",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "session delta reflects concurrent awards",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "attendance creates one record",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "attendance same date updates existing record",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "attendance list has one record for date",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "attendance update persists latest absent id",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "save relational group",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "15 concurrent group point updates succeed",
+      "ok": true,
+      "detail": {
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      }
+    },
+    {
+      "name": "group points increments are atomic",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create game result linked to session",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "add game participant",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "add game question",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "recent game includes nested participant and question",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "game result relation is nested",
+      "ok": true,
+      "detail": {
+        "id": "cmswe1hv2001ckj6kvhmixduw"
+      }
+    },
+    {
+      "name": "create student note",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "list note by student and session",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "mark note shared",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create student activity",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "aggregate activity by type",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "activity aggregate is present",
+      "ok": true,
+      "detail": {
+        "aggregate": [
+          {
+            "type": "game-correct",
+            "count": 1,
+            "pointsDelta": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "create celebration event linked to student/session",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "list celebration by student",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "list celebration by session",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "save QA gift",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "award gift to student",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "list gift by student",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "save QA prize",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "save QA sound",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "settings merge preserves existing keys",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "settings get returns QA flag",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "settings response is object",
+      "ok": true,
+      "detail": {
+        "keys": 2
+      }
+    },
+    {
+      "name": "stats summary includes class students and sessions",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "end session persists statsJson",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "session list returns ended session",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "delete relational class cascades relation rows",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "class deletion removes students",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "data": []
+      }
+    },
+    {
+      "name": "class deletion removes groups",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "data": []
+      }
+    },
+    {
+      "name": "class deletion nulls sessions",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "data": []
+      }
+    },
+    {
+      "name": "class deletion preserves historical game shell and anonymizes student references",
+      "ok": true,
+      "detail": {
+        "game": {
+          "id": "cmswe1hv2001ckj6kvhmixduw",
+          "sessionId": "cmswe1gqg0001kj6k6r7bi2qb",
+          "gameType": "quiz-show",
+          "gameMode": "individual",
+          "startedAt": "2026-08-16T22:40:17.583Z",
+          "endedAt": null,
+          "durationMs": null,
+          "ideaId": "fractions",
+          "questionCount": 2,
+          "configJson": "{\"source\":\"lesson\"}",
+          "participants": [],
+          "questions": [
+            {
+              "id": "cmswe1hwj001gkj6k8mraxf9w",
+              "gameResultId": "cmswe1hv2001ckj6kvhmixduw",
+              "questionId": null,
+              "questionText": "ما نصف 1؟",
+              "studentId": null,
+              "studentAnswer": "1/2",
+              "isCorrect": true,
+              "pointsEarned": 3,
+              "answeredAt": "2026-08-16T22:40:17.636Z"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

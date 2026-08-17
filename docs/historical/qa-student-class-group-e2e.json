@@ -1,0 +1,529 @@
+{
+  "base": "http://127.0.0.1:3060",
+  "prefix": "qa-1786920019363-",
+  "total": 73,
+  "passed": 73,
+  "failed": 0,
+  "results": [
+    {
+      "name": "create empty class A",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create empty class B",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class C for cascade",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "list classes includes all created",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "class list is array",
+      "ok": true,
+      "detail": {
+        "count": 3
+      }
+    },
+    {
+      "name": "create student without class",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "orphan appears in global list",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "orphan list result is array",
+      "ok": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "name": "move orphan into class A",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "move student back to no class",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 1",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 2",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 3",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 4",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 5",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 6",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 7",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 8",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 9",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 10",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 11",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create class-A student 12",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "listByClass returns 12 class-A students",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "all class-A students have class A",
+      "ok": true,
+      "detail": {
+        "bad": []
+      }
+    },
+    {
+      "name": "create same name in different class",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "duplicate check finds same name in class A",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "duplicate check does not confuse class B record",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "duplicate check is blank-safe",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "duplicate studentCode is rejected",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "error": "studentCode مستخدم بالفعل لطالب آخر"
+      }
+    },
+    {
+      "name": "update student profile and title",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "updated student has no unexpected field",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "updated student is in global list",
+      "ok": true,
+      "detail": {
+        "id": "qa-1786920019363-s1"
+      }
+    },
+    {
+      "name": "student update with no valid field is safe skip",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "move student from A to B",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "class A count decreases after move",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "class B contains moved student",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "move counts are consistent",
+      "ok": true,
+      "detail": {
+        "a": 11,
+        "b": 2
+      }
+    },
+    {
+      "name": "mark one student absent",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "set title on present student",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "award points is additive",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "award correct updates counters",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "award wrong updates counters",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "award good try updates counters",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "award badge creates linked record",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "reset session clears lastCalled for class",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "set absent false restores student",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "autoSplit creates requested groups",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "autoSplit excludes moved student",
+      "ok": true,
+      "detail": {
+        "moved": "qa-1786920019363-s2"
+      }
+    },
+    {
+      "name": "autoSplit distributes active class-A students exactly once",
+      "ok": true,
+      "detail": {
+        "total": 11,
+        "expected": 11
+      }
+    },
+    {
+      "name": "save custom group",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "add group points is additive",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "list groups for class",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "autoSplit rejects zero groups",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "error": "groups.autoSplit: عدد المجموعات يجب أن يكون بين 1 و32"
+      }
+    },
+    {
+      "name": "autoSplit rejects more than 32 groups",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "error": "groups.autoSplit: عدد المجموعات يجب أن يكون بين 1 و32"
+      }
+    },
+    {
+      "name": "autoSplit rejects non-integer groups",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "error": "groups.autoSplit: عدد المجموعات يجب أن يكون بين 1 و32"
+      }
+    },
+    {
+      "name": "groups.save requires an id",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "error": "groups.save: missing id"
+      }
+    },
+    {
+      "name": "delete student removes it from group JSON",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "group membership cleans deleted student",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "group cleanup covers all groups",
+      "ok": true,
+      "detail": {
+        "groupCount": 4
+      }
+    },
+    {
+      "name": "delete custom group",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "delete missing student is safe skip",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "update missing student is safe skip",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "award missing student is safe skip",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create cascade student",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "create cascade group",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "delete class cascades students and groups",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "cascade removed class students",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "cascade removed class groups",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "cascade queries return empty arrays",
+      "ok": true,
+      "detail": {
+        "cascadeStudents": [],
+        "cascadeGroups": []
+      }
+    },
+    {
+      "name": "student without required name is rejected",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "error": "اسم الطالب مطلوب"
+      }
+    },
+    {
+      "name": "delete class A",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "delete class B",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "delete orphan student",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    }
+  ]
+}

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>درس الكسور - شرائح البيتزا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body { 
+      width: 100vw; height: 100vh; overflow: hidden; 
+      background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%); 
+      color: #1A1A1A;
+    }
+
+    .slide-container {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px; position: relative;
+    }
+
+    .step-content { display: none; }
+    .step-content.active { 
+      display: flex; flex-direction: column; 
+      align-items: center; gap: 1.5rem;
+      animation: fadeIn 0.5s ease-out; 
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title { 
+      font-size: 3rem; font-weight: 800; 
+      color: #0142A0; text-align: center;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .subtitle {
+      font-size: 1.5rem; color: #64748b;
+      text-align: center; max-width: 900px;
+    }
+
+    .content-box {
+      background: white; padding: 2rem 3rem;
+      border-radius: 16px; box-shadow: 0 8px 24px rgba(1, 66, 160, 0.1);
+      max-width: 900px; text-align: center;
+      border-right: 6px solid #0142A0;
+    }
+    .content-box p { font-size: 1.6rem; line-height: 1.7; color: #1A1A1A; }
+
+    .math-display {
+      font-family: 'Times New Roman', serif;
+      font-size: 3.5rem; color: #0142A0;
+      background: white; padding: 1.5rem 2.5rem;
+      border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      direction: ltr; display: inline-block;
+      border: 3px solid #0142A0;
+    }
+
+    /* ===== بيتزا SVG ===== */
+    .pizza-svg {
+      width: 320px; height: 320px;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.15));
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pizza-slice {
+      transform-origin: 160px 160px;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+      cursor: pointer;
+    }
+
+    .pizza-slice.eaten {
+      transform: translate(80px, -120px) rotate(45deg) scale(0.7);
+      opacity: 0.3;
+    }
+
+    /* ===== بطاقات الاختيارات ===== */
+    .options-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1rem; max-width: 700px; width: 100%;
+    }
+
+    .option {
+      background: white; border: 4px solid #0142A0;
+      padding: 1.5rem 2rem; border-radius: 16px;
+      font-size: 1.6rem; font-weight: 700; color: #0142A0;
+      text-align: center; cursor: pointer;
+      transition: all 0.2s; 
+    }
+    .option:hover {
+      transform: translateY(-2px); box-shadow: 0 6px 16px rgba(1, 66, 160, 0.2);
+    }
+    .option.correct {
+      background: #10b981; color: white; border-color: #10b981;
+      animation: correctPulse 0.6s ease-in-out;
+    }
+    .option.wrong {
+      background: #ef4444; color: white; border-color: #ef4444;
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes correctPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    /* ===== خطوات الأرقام ===== */
+    .step-counter {
+      position: absolute; top: 20px; right: 20px;
+      background: #0142A0; color: white;
+      padding: 8px 18px; border-radius: 20px;
+      font-size: 14px; font-weight: 600;
+      box-shadow: 0 4px 12px rgba(1, 66, 160, 0.3);
+    }
+    .step-counter .num { color: #fbbf24; font-weight: 800; }
+
+    /* ===== مكعب نرد يدور ===== */
+    .number-circle {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: linear-gradient(135deg, #0142A0 0%, #1d4ed8 100%);
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; font-weight: 800;
+      box-shadow: 0 8px 24px rgba(1, 66, 160, 0.4);
+      animation: bounce 1s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ===== شريط تقدم ===== */
+    .progress-bar {
+      position: absolute; bottom: 30px; left: 50%;
+      transform: translateX(-50%);
+      width: 60%; height: 8px;
+      background: rgba(1, 66, 160, 0.1);
+      border-radius: 4px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: linear-gradient(90deg, #0142A0 0%, #3b82f6 100%);
+      border-radius: 4px; transition: width 0.5s ease;
+    }
+
+    /* ===== أيقونة احتفال ===== */
+    .celebrate-icon {
+      font-size: 8rem; animation: spin 2s ease-in-out;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg) scale(0.5); opacity: 0; }
+      50% { transform: rotate(180deg) scale(1.2); opacity: 1; }
+      100% { transform: rotate(360deg) scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container" id="slide-container">
+    <div class="step-counter">
+      خطوة <span class="num" id="stepNum">1</span> من <span class="num">6</span>
+    </div>
+
+    <!-- ====== الخطوة 1: مقدمة ====== -->
+    <div class="step-content active" data-step="1">
+      <h1 class="title">تعلم الكسور مع البيتزا 🍕</h1>
+      <div class="content-box">
+        <p>النهاردة هنتعلم الكسور بطريقة سهلة وممتعة باستخدام البيتزا</p>
+      </div>
+      <div class="number-circle">١</div>
+    </div>
+
+    <!-- ====== الخطوة 2: تعريف الكسر ====== -->
+    <div class="step-content" data-step="2">
+      <h1 class="title">إيه هو الكسر؟</h1>
+      <div class="content-box">
+        <p>الكسر هو جزء من كل. بيتزا واحدة كاملة = <strong>1</strong></p>
+        <p>لو قسمناها 4 أجزاء متساوية، كل جزء = <strong>ربع</strong></p>
+      </div>
+      <div class="math-display">1 ÷ 4 = ¼</div>
+    </div>
+
+    <!-- ====== الخطوة 3: بيتزا كاملة ====== -->
+    <div class="step-content" data-step="3">
+      <h1 class="title">البيتزا الكاملة</h1>
+      <p class="subtitle">دي بيتزا مقسومة 4 أجزاء متساوية</p>
+      <svg class="pizza-svg" id="pizza-full" viewBox="0 0 320 320">
+        <!-- القشرة -->
+        <circle cx="160" cy="160" r="150" fill="#d97706" stroke="#92400e" stroke-width="8"/>
+        <!-- الجبنة -->
+        <circle cx="160" cy="160" r="135" fill="#fbbf24"/>
+        <!-- خطوط التقسيم -->
+        <line x1="160" y1="25" x2="160" y2="295" stroke="#92400e" stroke-width="4"/>
+        <line x1="25" y1="160" x2="295" y2="160" stroke="#92400e" stroke-width="4"/>
+        <!-- قطع بيبروني -->
+        <circle cx="100" cy="100" r="12" fill="#dc2626"/>
+        <circle cx="220" cy="100" r="12" fill="#dc2626"/>
+        <circle cx="100" cy="220" r="12" fill="#dc2626"/>
+        <circle cx="220" cy="220" r="12" fill="#dc2626"/>
+        <circle cx="160" cy="160" r="10" fill="#dc2626"/>
+      </svg>
+      <div class="math-display">4/4 = 1 كامل</div>
+    </div>
+
+    <!-- ====== الخطوة 4: أكل ربع ====== -->
+    <div class="step-content" data-step="4">
+      <h1 class="title">أكلنا ربع البيتزا! 🍕</h1>
+      <svg class="pizza-svg" id="pizza-eaten" viewBox="0 0 320 320">
+        <circle cx="160" cy="160" r="150" fill="#d97706" stroke="#92400e" stroke-width="8"/>
+        <circle cx="160" cy="160" r="135" fill="#fbbf24"/>
+        <!-- القطعة المأكولة (شفافة) -->
+        <path d="M 160 160 L 160 25 A 135 135 0 0 1 295 160 Z" fill="#fef3c7" opacity="0.4"/>
+        <!-- خطوط التقسيم -->
+        <line x1="160" y1="25" x2="160" y2="295" stroke="#92400e" stroke-width="4"/>
+        <line x1="25" y1="160" x2="295" y2="160" stroke="#92400e" stroke-width="4"/>
+        <!-- قطع بيبروني (3 فقط) -->
+        <circle cx="100" cy="100" r="12" fill="#dc2626"/>
+        <circle cx="100" cy="220" r="12" fill="#dc2626"/>
+        <circle cx="220" cy="220" r="12" fill="#dc2626"/>
+        <circle cx="160" cy="160" r="10" fill="#dc2626"/>
+        <!-- سهم يشير للقطعة المأكولة -->
+        <text x="240" y="60" font-size="40" fill="#dc2626">←</text>
+        <text x="200" y="50" font-size="20" fill="#dc2626" font-weight="bold">مأكول</text>
+      </svg>
+      <div class="math-display">1 - ¼ = ¾</div>
+    </div>
+
+    <!-- ====== الخطوة 5: سؤال تفاعلي ====== -->
+    <div class="step-content" data-step="5">
+      <h1 class="title">سؤال تفاعلي 🎯</h1>
+      <div class="content-box">
+        <p>لو أكلنا قطعتين من البيتزا (من 4 قطع)،<br>كم باقي؟</p>
+      </div>
+      <div class="options-grid" id="options">
+        <div class="option" data-correct="false">1/4</div>
+        <div class="option" data-correct="true">2/4 = 1/2</div>
+        <div class="option" data-correct="false">3/4</div>
+        <div class="option" data-correct="false">4/4</div>
+      </div>
+    </div>
+
+    <!-- ====== الخطوة 6: احتفال ====== -->
+    <div class="step-content" data-step="6">
+      <div class="celebrate-icon">🎉</div>
+      <h1 class="title">أحسنتم يا أبطال!</h1>
+      <div class="content-box">
+        <p>تعلمتوا الكسور بشكل صحيح.<br>الدرس الجاي هيكون أحلى!</p>
+      </div>
+    </div>
+
+    <!-- شريط التقدم -->
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 16.66%;"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MANIFEST
+       ============================================================ -->
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "lesson-fractions-01",
+    "title": "الكسور - شرائح البيتزا",
+    "subtitle": "درس تفاعلي لتعلم الكسور بالبيتزا",
+    "totalSteps": 6,
+    "currentStep": 1,
+    "aspectRatio": "16:9",
+    "targetAge": "primary-upper",
+    "steps": [
+      {
+        "step": 1,
+        "title": "مقدمة الدرس",
+        "type": "content",
+        "script": "أهلاً يا شباب. النهاردة هنتعلم حاجة جديدة وممتعة. هنتعلم الكسور باستخدام البيتزا. ركزوا معايا كويس عشان الموضوع مهم جداً.",
+        "notes": "ابدأ بسؤال الطلاب: مين فيكم أكل بيتزا قبل كده؟ خليهم يشاركوا قصصهم. ده هيخلق جو من التفاعل قبل البدء.",
+        "autoSlideMs": 8000
+      },
+      {
+        "step": 2,
+        "title": "تعريف الكسر",
+        "type": "content",
+        "script": "الكسر هو جزء من كل. يعني لو عندنا بيتزا كاملة مقسومة 4 أجزاء متساوية. كل جزء بيساوي ربع. يعني واحد على أربعة.",
+        "notes": "اكتب المعادلة على السبورة: 1 ÷ 4 = ¼. استخدم أداة القلم (P) لرسمها يدوياً.",
+        "autoSlideMs": 10000
+      },
+      {
+        "step": 3,
+        "title": "البيتزا الكاملة",
+        "type": "content",
+        "script": "شوفوا البيتزا دي. هي مقسومة 4 أجزاء متساوية. كل الأجزاء موجودة. يعني 4 على 4 يساوي 1 كامل. البسط 4 في البسط والمقام 4 في المقام.",
+        "notes": "اشرح البسط (الرقم الفوقاني) والمقام (الرقم التحتاني). البسط = عدد الأجزاء الموجودة. المقام = العدد الكلي للأجزاء.",
+        "autoSlideMs": 9000
+      },
+      {
+        "step": 4,
+        "title": "أكلنا ربع البيتزا",
+        "type": "content",
+        "script": "دلوقتي أكلنا ربع البيتزا. يعني 1 على 4 اتأكل. باقي 3 أرباع. يعني 1 ناقص ربع يساوي 3 أرباع. شوفوا المعادلة على الشاشة.",
+        "notes": "اربط بالحساب: 4/4 - 1/4 = 3/4. البسط: 4-1=3، المقام يفضل 4. اسأل الطلاب: لو أكلنا قطعتين، كام باقي؟",
+        "autoSlideMs": 11000
+      },
+      {
+        "step": 5,
+        "title": "سؤال تفاعلي",
+        "type": "question",
+        "script": "السؤال: لو أكلنا قطعتين من البيتزا، يعني 2 من 4 قطع. كم باقي؟ فكروا كويس قبل ما تجاوبوا. الإجابات موجودة على الشاشة.",
+        "notes": "اضغط R لاختيار طالب عشوائي. الإجابة الصحيحة هي 2/4 = 1/2. لما الطالب يجاوب صح، اضغط زر 'إجابة صحيحة' في الشريط السفلي عشان يطلع كونفيتي. لو خطأ، اضغط 'إجابة خاطئة' لوميض أحمر.",
+        "question": {
+          "text": "لو أكلنا قطعتين من البيتزا (4 قطع)، كم باقي؟",
+          "correctAnswer": "2/4 = 1/2",
+          "options": ["1/4", "2/4 = 1/2", "3/4", "4/4"],
+          "rewardPoints": 3
+        },
+        "sound": {
+          "onSuccess": "success",
+          "onError": "error"
+        },
+        "effect": "confetti",
+        "autoSlideMs": 0
+      },
+      {
+        "step": 6,
+        "title": "احتفال وختام",
+        "type": "celebration",
+        "script": "أحسنتم يا أبطال! أنتوا تعلمتوا الكسور بشكل صحيح. شكراً ليكم على التركيز. الدرس الجاي هنتعلم الجمع والطرح في الكسور.",
+        "notes": "اطلب من الطلاب التصفيق لأنفسهم. يمكنك توزيع نقاط إضافية لكل الطلاب اللي شاركوا. استخدم زر '+5' في لوحة الطلاب.",
+        "effect": "confetti",
+        "autoSlideMs": 6000
+      }
+    ],
+    "assets": [
+      {
+        "id": "img_01_03_01",
+        "description": "رسم بيتزا كاملة مقسمة 4 أجزاء بألوان زاهية (أصفر وأحمر)",
+        "type": "illustration",
+        "status": "final"
+      },
+      {
+        "id": "img_01_04_01",
+        "description": "رسم بيتزا مأكول منها ربع مع سهم أحمر يشير للقطعة المأكولة",
+        "type": "illustration",
+        "status": "final"
+      },
+      {
+        "id": "img_01_05_01",
+        "description": "أيقونة سؤال تفاعلي مع علامة استفهام",
+        "type": "icon",
+        "status": "placeholder"
+      }
+    ]
+  }
+  </script>
+
+  <!-- ============================================================
+       CONTROLLER
+       ============================================================ -->
+  <script>
+    (function() {
+      let currentStep = 1;
+      const manifestEl = document.getElementById('slide-manifest');
+      
+      function getManifest() {
+        if (!manifestEl) return null;
+        try { return JSON.parse(manifestEl.textContent); } catch { return null; }
+      }
+      
+      function getTotalSteps() {
+        const m = getManifest();
+        return m ? m.totalSteps : 1;
+      }
+      
+      function showStep(step) {
+        currentStep = step;
+        document.querySelectorAll('.step-content').forEach(el => {
+          el.classList.remove('active');
+        });
+        const target = document.querySelector(`.step-content[data-step="${step}"]`);
+        if (target) target.classList.add('active');
+        
+        // تحديث عداد الخطوة
+        const numEl = document.getElementById('stepNum');
+        if (numEl) numEl.textContent = step;
+        
+        // تحديث شريط التقدم
+        const progressEl = document.getElementById('progressFill');
+        if (progressEl) {
+          const total = getTotalSteps();
+          progressEl.style.width = `${(step / total) * 100}%`;
+        }
+        
+        notifyShell({ type: 'STEP_CHANGED', step: step, totalSteps: getTotalSteps() });
+      }
+      
+      function notifyShell(msg) {
+        window.parent.postMessage(msg, '*');
+      }
+      
+      window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (!data || !data.type) return;
+        const total = getTotalSteps();
+        
+        switch (data.type) {
+          case 'GOTO_STEP':
+            showStep(data.step);
+            break;
+          case 'NEXT':
+            if (currentStep < total) showStep(currentStep + 1);
+            break;
+          case 'PREV':
+            if (currentStep > 1) showStep(currentStep - 1);
+            break;
+          case 'REQUEST_MANIFEST':
+            const m = getManifest();
+            if (m) { m.currentStep = currentStep; notifyShell({ type: 'MANIFEST', payload: m }); }
+            break;
+        }
+      });
+      
+      // التعامل مع اختيارات السؤال
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('option')) {
+          const isCorrect = e.target.dataset.correct === 'true';
+          // إزالة التحديد من كل الاختيارات
+          document.querySelectorAll('.option').forEach(opt => {
+            opt.classList.remove('correct', 'wrong');
+          });
+          if (isCorrect) {
+            e.target.classList.add('correct');
+            // أرسل إشارة للـ Shell
+            notifyShell({ type: 'STEP_CHANGED', step: currentStep, totalSteps: getTotalSteps() });
+          } else {
+            e.target.classList.add('wrong');
+          }
+        }
+      });
+      
+      window.addEventListener('load', function() {
+        notifyShell({ type: 'READY' });
+        const m = getManifest();
+        if (m) { m.currentStep = currentStep; notifyShell({ type: 'MANIFEST', payload: m }); }
+        showStep(1);
+      });
+    })();
+  </script>
+</body>
+</html>

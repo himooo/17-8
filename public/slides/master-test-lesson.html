@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المنهج التجريبي الشامل - بسلاسة v6.0</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- KaTeX for math equations (fractions, etc.) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body { width: 100vw; height: 100vh; overflow: hidden; background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); color: #1A1A1A; }
+    .slide-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; position: relative; }
+    .step-content { display: none; }
+    .step-content.active { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .title { font-size: 3rem; font-weight: 800; color: #0142A0; text-align: center; }
+    .content { font-size: 1.6rem; text-align: center; max-width: 900px; line-height: 1.7; }
+    .idea-tag { display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 700; color: white; margin-bottom: 12px; }
+    .idea-1 .idea-tag { background: #0142A0; }
+    .idea-2 .idea-tag { background: #DA151C; }
+    .idea-3 .idea-tag { background: #10b981; }
+    .idea-4 .idea-tag { background: #f59e0b; }
+    .question-box { background: white; border: 3px solid #0142A0; border-radius: 16px; padding: 24px; max-width: 700px; box-shadow: 0 8px 32px rgba(1, 66, 160, 0.15); }
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .option { background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; user-select: none; }
+    .option:hover { background: #0142A0; color: white; border-color: #0142A0; transform: translateY(-2px); }
+    .option.correct { background: #10b981 !important; color: white !important; border-color: #10b981 !important; }
+    .option.wrong { background: #ef4444 !important; color: white !important; border-color: #ef4444 !important; animation: shake 0.4s; }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    .feedback { margin-top: 12px; padding: 12px; border-radius: 8px; font-weight: 700; text-align: center; font-size: 1.1rem; opacity: 0; transition: opacity 0.3s; }
+    .feedback.show { opacity: 1; }
+    .feedback.correct { background: #d1fae5; color: #065f46; border: 2px solid #10b981; }
+    .feedback.wrong { background: #fee2e2; color: #991b1b; border: 2px solid #ef4444; }
+    .badge-comprehensive { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 8px 24px; border-radius: 24px; font-weight: 700; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+
+    <!-- ===== IDEA 1: تعريف الكسور (4 خطوات) ===== -->
+    <div class="step-content active idea-1" data-step="1" data-idea="idea-1">
+      <span class="idea-tag">💡 الفكرة 1: تعريف الكسور</span>
+      <h1 class="title">مرحباً بكم في عالم الكسور!</h1>
+      <p class="content">الكسر هو جزء من الكل. لو عندنا بيتزا مقسومة 8 قطع وأكلنا 3، نقول إننا أكلنا ثلاثة أثمان البيتزا: $\frac{3}{8}$</p>
+      <!-- Geometric figure: pizza divided into 8 slices, 3 highlighted -->
+      <svg width="220" height="220" viewBox="0 0 220 220" style="margin-top: 1.5rem;">
+        <defs>
+          <radialGradient id="pizzaGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fef3c7" />
+            <stop offset="100%" stop-color="#f59e0b" />
+          </radialGradient>
+        </defs>
+        <circle cx="110" cy="110" r="100" fill="url(#pizzaGrad)" stroke="#92400e" stroke-width="3" />
+        <!-- 8 slice lines -->
+        <g stroke="#92400e" stroke-width="2">
+          <line x1="110" y1="10" x2="110" y2="210" />
+          <line x1="10" y1="110" x2="210" y2="110" />
+          <line x1="39" y1="39" x2="181" y2="181" />
+          <line x1="181" y1="39" x2="39" y2="181" />
+        </g>
+        <!-- 3 highlighted slices (red) -->
+        <path d="M 110 110 L 110 10 A 100 100 0 0 1 181 39 Z" fill="#ef4444" opacity="0.7" />
+        <path d="M 110 110 L 181 39 A 100 100 0 0 1 210 110 Z" fill="#ef4444" opacity="0.7" />
+        <path d="M 110 110 L 210 110 A 100 100 0 0 1 181 181 Z" fill="#ef4444" opacity="0.7" />
+        <text x="110" y="115" text-anchor="middle" fill="#92400e" font-size="20" font-weight="bold">3/8</text>
+      </svg>
+    </div>
+    <div class="step-content idea-1" data-step="2" data-idea="idea-1">
+      <span class="idea-tag">💡 الفكرة 1: تعريف الكسور</span>
+      <h1 class="title">مكونات الكسر</h1>
+      <p class="content">الكسر يتكون من بسط ومقام. مثال: $\frac{3}{8}$ حيث 3 = البسط (الأجزاء المأخوذة) و 8 = المقام (العدد الكلي).</p>
+      <!-- Geometric figure: fraction visual -->
+      <svg width="280" height="120" viewBox="0 0 280 120" style="margin-top: 1.5rem;">
+        <!-- Numerator bar (3 filled of 8) -->
+        <rect x="10" y="20" width="260" height="30" fill="#e5e7eb" stroke="#1A1A1A" stroke-width="2" />
+        <rect x="10" y="20" width="97.5" height="30" fill="#0142A0" />
+        <rect x="107.5" y="20" width="97.5" height="30" fill="#0142A0" />
+        <rect x="205" y="20" width="32.5" height="30" fill="#0142A0" />
+        <text x="140" y="40" text-anchor="middle" fill="white" font-size="16" font-weight="bold">البسط = 3</text>
+        <!-- Fraction line -->
+        <line x1="10" y1="60" x2="270" y2="60" stroke="#1A1A1A" stroke-width="3" />
+        <!-- Denominator bar (8 of 8) -->
+        <rect x="10" y="65" width="260" height="30" fill="#DA151C" />
+        <text x="140" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="bold">المقام = 8</text>
+      </svg>
+    </div>
+    <div class="step-content idea-1" data-step="3" data-idea="idea-1">
+      <span class="idea-tag">💡 الفكرة 1: تعريف الكسور</span>
+      <div class="question-box">
+        <h2 class="title" style="font-size: 2rem;">سؤال: ما البسط في الكسر 3/8؟</h2>
+        <div class="options">
+          <div class="option" data-correct="true" onclick="handleOptionClick(this)">3</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">8</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">11</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">5</div>
+        </div>
+      
+        <div class="feedback"></div></div>
+    </div>
+    <div class="step-content idea-1" data-step="4" data-idea="idea-1">
+      <span class="idea-tag">💡 الفكرة 1: تعريف الكسور</span>
+      <div class="question-box">
+        <h2 class="title" style="font-size: 2rem;">سؤال: لو أكلنا 5 قطع من بيتزا مقسومة 8، ما الكسر؟</h2>
+        <div class="options">
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">8/5</div>
+          <div class="option" data-correct="true" onclick="handleOptionClick(this)">5/8</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">3/8</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">5/3</div>
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
+
+    <!-- ===== IDEA 2: جمع الكسور (4 خطوات) ===== -->
+    <div class="step-content idea-2" data-step="1" data-idea="idea-2">
+      <span class="idea-tag">💡 الفكرة 2: جمع الكسور</span>
+      <h1 class="title">جمع الكسور متساوية المقامات</h1>
+      <p class="content">لجمع كسرين لهما نفس المقام، نجمع البسط ونثبت المقام. مثال: $$\frac{1}{5} + \frac{2}{5} = \frac{3}{5}$$</p>
+    </div>
+    <div class="step-content idea-2" data-step="2" data-idea="idea-2">
+      <span class="idea-tag">💡 الفكرة 2: جمع الكسور</span>
+      <h1 class="title">خطوات الجمع</h1>
+      <p class="content">1) تأكد أن المقامات متساوية. 2) اجمع البسط. 3) اكتب الناتج على نفس المقام. مثل: $$\frac{a}{c} + \frac{b}{c} = \frac{a+b}{c}$$</p>
+    </div>
+    <div class="step-content idea-2" data-step="3" data-idea="idea-2">
+      <span class="idea-tag">💡 الفكرة 2: جمع الكسور</span>
+      <div class="question-box">
+        <h2 class="title" style="font-size: 2rem;">سؤال: احسب 2/7 + 3/7 = ؟</h2>
+        <div class="options">
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">5/14</div>
+          <div class="option" data-correct="true" onclick="handleOptionClick(this)">5/7</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">6/7</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">1/7</div>
+        </div>
+      
+        <div class="feedback"></div></div>
+    </div>
+    <div class="step-content idea-2" data-step="4" data-idea="idea-2">
+      <span class="idea-tag">💡 الفكرة 2: جمع الكسور</span>
+      <div class="question-box">
+        <h2 class="title" style="font-size: 2rem;">سؤال: لو أكلت 1/4 كعكة وأختي 2/4، كم أكلنا معاً؟</h2>
+        <div class="options">
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">2/4</div>
+          <div class="option" data-correct="true" onclick="handleOptionClick(this)">3/4</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">3/8</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">1/4</div>
+        </div>
+      
+        <div class="feedback"></div></div>
+    </div>
+
+    <!-- ===== IDEA 3: طرح الكسور (4 خطوات) ===== -->
+    <div class="step-content idea-3" data-step="1" data-idea="idea-3">
+      <span class="idea-tag">💡 الفكرة 3: طرح الكسور</span>
+      <h1 class="title">طرح الكسور متساوية المقامات</h1>
+      <p class="content">طرح الكسور يشبه الجمع: اطرح البسط وثبّت المقام. مثال: 5/8 - 2/8 = 3/8</p>
+    </div>
+    <div class="step-content idea-3" data-step="2" data-idea="idea-3">
+      <span class="idea-tag">💡 الفكرة 3: طرح الكسور</span>
+      <h1 class="title">قاعدة الطرح</h1>
+      <p class="content">نطرح البسط الثاني من البسط الأول. المقام يبقى كما هو. لا تنسَ التبسيط إن أمكن!</p>
+    </div>
+    <div class="step-content idea-3" data-step="3" data-idea="idea-3">
+      <span class="idea-tag">💡 الفكرة 3: طرح الكسور</span>
+      <div class="question-box">
+        <h2 class="title" style="font-size: 2rem;">سؤال: احسب 7/9 - 4/9 = ؟</h2>
+        <div class="options">
+          <div class="option" data-correct="true" onclick="handleOptionClick(this)">3/9</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">11/9</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">3/0</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">3/18</div>
+        </div>
+      
+        <div class="feedback"></div></div>
+    </div>
+    <div class="step-content idea-3" data-step="4" data-idea="idea-3">
+      <span class="idea-tag">💡 الفكرة 3: طرح الكسور</span>
+      <div class="question-box">
+        <h2 class="title" style="font-size: 2rem;">سؤال: لو كان معي 6/10 شوكولاتة وأكلت 2/10، كم تبقى؟</h2>
+        <div class="options">
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">8/10</div>
+          <div class="option" data-correct="true" onclick="handleOptionClick(this)">4/10</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">4/20</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">2/10</div>
+        </div>
+      
+        <div class="feedback"></div></div>
+    </div>
+
+    <!-- ===== IDEA 4: مقارنة الكسور (4 خطوات) ===== -->
+    <div class="step-content idea-4" data-step="1" data-idea="idea-4">
+      <span class="idea-tag">💡 الفكرة 4: مقارنة الكسور</span>
+      <h1 class="title">مقارنة الكسور</h1>
+      <p class="content">لمقارنة كسرين لهما نفس المقام، الكسر الأكبر هو الذي بسطه أكبر. مثال: 5/8 > 3/8</p>
+    </div>
+    <div class="step-content idea-4" data-step="2" data-idea="idea-4">
+      <span class="idea-tag">💡 الفكرة 4: مقارنة الكسور</span>
+      <h1 class="title">رموز المقارنة</h1>
+      <p class="content">&gt; أكبر من | &lt; أقل من | = يساوي. استخدمها للمقارنة بين كسرين أو أكثر.</p>
+    </div>
+    <div class="step-content idea-4" data-step="3" data-idea="idea-4">
+      <span class="idea-tag">💡 الفكرة 4: مقارنة الكسور</span>
+      <div class="question-box">
+        <h2 class="title" style="font-size: 2rem;">سؤال: أيهما أكبر: 7/12 أم 5/12؟</h2>
+        <div class="options">
+          <div class="option" data-correct="true" onclick="handleOptionClick(this)">7/12</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">5/12</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">متساويان</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">لا يمكن المقارنة</div>
+        </div>
+      
+        <div class="feedback"></div></div>
+    </div>
+    <div class="step-content idea-4" data-step="4" data-idea="idea-4">
+      <span class="idea-tag">💡 الفكرة 4: مقارنة الكسور</span>
+      <div class="question-box">
+        <h2 class="title" style="font-size: 2rem;">سؤال: رتب تصاعدياً: 1/6, 5/6, 3/6</h2>
+        <div class="options">
+          <div class="option" data-correct="true" onclick="handleOptionClick(this)">1/6, 3/6, 5/6</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">5/6, 3/6, 1/6</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">3/6, 1/6, 5/6</div>
+          <div class="option" data-correct="false" onclick="handleOptionClick(this)">1/6, 5/6, 3/6</div>
+        </div>
+      
+        <div class="feedback"></div></div>
+    </div>
+
+    <!-- ===== Final celebration ===== -->
+    <div class="step-content" data-step="1" data-idea="idea-final">
+      <span class="badge-comprehensive">🎉 اختبار شامل مكتمل!</span>
+      <h1 class="title">أحسنت! لقد أتممت الدرس</h1>
+      <p class="content">4 أفكار · 16 خطوة · 8 أسئلة · كل الميزات مُختبرة بنجاح</p>
+    </div>
+  </div>
+
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "lesson-master-test-v6",
+    "title": "المنهج التجريبي الشامل",
+    "subtitle": "اختبار كل ميزات بسلاسة v6.0",
+    "currentStep": 1,
+    "currentIdeaId": "idea-1",
+    "aspectRatio": "16:9",
+    "targetAge": "preparatory",
+    "ideas": [
+      {
+        "id": "idea-1",
+        "title": "تعريف الكسور",
+        "color": "blue",
+        "steps": [
+          { "step": 1, "title": "مقدمة", "type": "content", "script": "أهلاً بكم في عالم الكسور. الكسر جزء من الكل. مثال: بيتزا مقسومة 8 قطع، أكلنا 3، نقول ثلاثة أثمان." },
+          { "step": 2, "title": "المكونات", "type": "content", "script": "الكسر يتكون من بسط ومقام. البسط هو الأجزاء المأخوذة، والمقام هو العدد الكلي للأجزاء." },
+          { "step": 3, "title": "سؤال البسط", "type": "question", "script": "ما البسط في الكسر ثلاثة على ثمانية؟", "question": { "text": "ما البسط في الكسر 3/8؟", "correctAnswer": "3", "options": ["3","8","11","5"], "rewardPoints": 3 }, "effect": "confetti", "autoSlideMs": 0 },
+          { "step": 4, "title": "سؤال الكسر", "type": "question", "script": "لو أكلنا 5 قطع من 8، ما الكسر؟", "question": { "text": "ما الكسر المناسب لـ 5 قطع من بيتزا مقسومة 8؟", "correctAnswer": "5/8", "options": ["8/5","5/8","3/8","5/3"], "rewardPoints": 4 }, "effect": "confetti", "autoSlideMs": 0 }
+        ]
+      },
+      {
+        "id": "idea-2",
+        "title": "جمع الكسور",
+        "color": "red",
+        "steps": [
+          { "step": 1, "title": "مقدمة الجمع", "type": "content", "script": "لجمع كسرين بنفس المقام: اجمع البسط، وثبّت المقام. مثال: 1/5 + 2/5 = 3/5." },
+          { "step": 2, "title": "خطوات الجمع", "type": "content", "script": "تأكد أن المقامات متساوية. اجمع البسط. اكتب الناتج على نفس المقام." },
+          { "step": 3, "title": "تطبيق", "type": "question", "script": "احسب 2/7 + 3/7", "question": { "text": "احسب 2/7 + 3/7 = ؟", "correctAnswer": "5/7", "options": ["5/14","5/7","6/7","1/7"], "rewardPoints": 5 }, "effect": "confetti", "autoSlideMs": 0 },
+          { "step": 4, "title": "تطبيق عملي", "type": "question", "script": "أكلت 1/4 وأختي 2/4، كم أكلنا؟", "question": { "text": "لو أكلت 1/4 كعكة وأختي 2/4، كم أكلنا معاً؟", "correctAnswer": "3/4", "options": ["2/4","3/4","3/8","1/4"], "rewardPoints": 4 }, "effect": "confetti", "autoSlideMs": 0 }
+        ]
+      },
+      {
+        "id": "idea-3",
+        "title": "طرح الكسور",
+        "color": "green",
+        "steps": [
+          { "step": 1, "title": "مقدمة الطرح", "type": "content", "script": "طرح الكسور يشبه الجمع: اطرح البسط وثبّت المقام. مثال: 5/8 - 2/8 = 3/8." },
+          { "step": 2, "title": "قاعدة الطرح", "type": "content", "script": "نطرح البسط الثاني من البسط الأول. المقام يبقى كما هو. لا تنسَ التبسيط إن أمكن." },
+          { "step": 3, "title": "تطبيق", "type": "question", "script": "احسب 7/9 - 4/9", "question": { "text": "احسب 7/9 - 4/9 = ؟", "correctAnswer": "3/9", "options": ["3/9","11/9","3/0","3/18"], "rewardPoints": 5 }, "effect": "confetti", "autoSlideMs": 0 },
+          { "step": 4, "title": "تطبيق عملي", "type": "question", "script": "كان معي 6/10 وأكلت 2/10، كم تبقى؟", "question": { "text": "كان معي 6/10 شوكولاتة وأكلت 2/10، كم تبقى؟", "correctAnswer": "4/10", "options": ["8/10","4/10","4/20","2/10"], "rewardPoints": 4 }, "effect": "confetti", "autoSlideMs": 0 }
+        ]
+      },
+      {
+        "id": "idea-4",
+        "title": "مقارنة الكسور",
+        "color": "amber",
+        "steps": [
+          { "step": 1, "title": "مقدمة المقارنة", "type": "content", "script": "لمقارنة كسرين بنفس المقام، الكسر الأكبر بسطه أكبر. مثال: 5/8 > 3/8." },
+          { "step": 2, "title": "الرموز", "type": "content", "script": "أكبر من >، أقل من <، يساوي =. استخدمها للمقارنة." },
+          { "step": 3, "title": "تطبيق", "type": "question", "script": "أيهما أكبر 7/12 أم 5/12؟", "question": { "text": "أيهما أكبر: 7/12 أم 5/12؟", "correctAnswer": "7/12", "options": ["7/12","5/12","متساويان","لا يمكن المقارنة"], "rewardPoints": 4 }, "effect": "confetti", "autoSlideMs": 0 },
+          { "step": 4, "title": "ترتيب", "type": "question", "script": "رتب تصاعدياً 1/6, 5/6, 3/6", "question": { "text": "رتب تصاعدياً: 1/6, 5/6, 3/6", "correctAnswer": "1/6, 3/6, 5/6", "options": ["1/6, 3/6, 5/6","5/6, 3/6, 1/6","3/6, 1/6, 5/6","1/6, 5/6, 3/6"], "rewardPoints": 6 }, "effect": "confetti", "autoSlideMs": 0 }
+        ]
+      },
+      {
+        "id": "idea-final",
+        "title": "إتمام الدرس",
+        "color": "purple",
+        "steps": [
+          { "step": 1, "title": "أحسنت!", "type": "celebration", "script": "أحسنت! لقد أتممت الدرس بكل خطواته. 4 أفكار، 16 خطوة، 8 أسئلة. كل ميزات بسلاسة v6.0 مُختبرة بنجاح." }
+        ]
+      }
+    ],
+    "assets": [
+      { "id": "img_pizza", "description": "صورة بيتزا مقسومة 8 قطع", "type": "illustration", "status": "placeholder" },
+      { "id": "img_cake", "description": "صورة كعكة مقسومة 4 أجزاء", "type": "illustration", "status": "placeholder" },
+      { "id": "img_chocolate", "description": "صورة لوح شوكولاتة مقسوم 10", "type": "illustration", "status": "placeholder" }
+    ]
+  }
+  </script>
+
+  <script>
+    (function() {
+      let currentStep = 1;
+      let currentIdeaId = 'idea-1';
+
+      function getManifest() {
+        const el = document.getElementById('slide-manifest');
+        if (!el) return null;
+        try { return JSON.parse(el.textContent); } catch { return null; }
+      }
+
+      function getCurrentIdea() {
+        const m = getManifest();
+        if (!m || !m.ideas) return null;
+        return m.ideas.find(i => i.id === currentIdeaId) || m.ideas[0];
+      }
+
+      function showStep(step, ideaId) {
+        if (ideaId) currentIdeaId = ideaId;
+        currentStep = step;
+        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+        const selector = `.step-content[data-idea="${currentIdeaId}"][data-step="${step}"]`;
+        const target = document.querySelector(selector);
+        if (target) target.classList.add('active');
+        const idea = getCurrentIdea();
+        const totalSteps = idea ? idea.steps.length : 1;
+        notifyShell({ type: 'STEP_CHANGED', step: step, totalSteps: totalSteps, ideaId: currentIdeaId });
+      }
+
+      function notifyShell(msg) { window.parent.postMessage(msg, '*'); }
+
+      function nextStep() {
+        const m = getManifest();
+        const idea = getCurrentIdea();
+        if (!idea || !m) return;
+        if (currentStep < idea.steps.length) {
+          showStep(currentStep + 1, currentIdeaId);
+        } else {
+          const idx = m.ideas.findIndex(i => i.id === currentIdeaId);
+          if (idx < m.ideas.length - 1) {
+            showStep(1, m.ideas[idx + 1].id);
+          }
+        }
+      }
+
+      function prevStep() {
+        const m = getManifest();
+        if (currentStep > 1) {
+          showStep(currentStep - 1, currentIdeaId);
+        } else {
+          const idx = m.ideas.findIndex(i => i.id === currentIdeaId);
+          if (idx > 0) {
+            const prevIdea = m.ideas[idx - 1];
+            showStep(prevIdea.steps.length, prevIdea.id);
+          }
+        }
+      }
+
+      window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (!data || !data.type) return;
+        switch (data.type) {
+          case 'GOTO_STEP': showStep(data.step, data.ideaId); break;
+          case 'NEXT': nextStep(); break;
+          case 'PREV': prevStep(); break;
+          case 'GOTO_IDEA': showStep(data.step || 1, data.ideaId); break;
+          case 'REQUEST_MANIFEST':
+            const m = getManifest();
+            if (m) {
+              m.currentStep = currentStep;
+              m.currentIdeaId = currentIdeaId;
+              notifyShell({ type: 'MANIFEST', payload: m });
+            }
+            break;
+        }
+      });
+
+      window.addEventListener('load', function() {
+        notifyShell({ type: 'READY' });
+        const m = getManifest();
+        if (m) {
+          m.currentStep = currentStep;
+          m.currentIdeaId = currentIdeaId;
+          notifyShell({ type: 'MANIFEST', payload: m });
+        }
+        showStep(1, currentIdeaId);
+      });
+    })();
+  </script>
+
+<script>
+  function handleOptionClick(el) {
+    // Find parent question-box
+    const box = el.closest('.question-box');
+    if (!box) return;
+    const feedback = box.querySelector('.feedback');
+    const isCorrect = el.dataset.correct === 'true';
+    // Reset all options in this box
+    box.querySelectorAll('.option').forEach(o => {
+      o.classList.remove('correct', 'wrong');
+    });
+    if (isCorrect) {
+      el.classList.add('correct');
+      if (feedback) {
+        feedback.className = 'feedback show correct';
+        feedback.textContent = '✓ إجابة صحيحة! أحسنت';
+      }
+      // Notify shell
+      window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'success' }, '*');
+    } else {
+      el.classList.add('wrong');
+      // Highlight the correct one
+      box.querySelectorAll('.option').forEach(o => {
+        if (o.dataset.correct === 'true') o.classList.add('correct');
+      });
+      if (feedback) {
+        feedback.className = 'feedback show wrong';
+        feedback.textContent = '✗ إجابة خاطئة - الإجابة الصحيحة محددة بالأخضر';
+      }
+      // Notify shell
+      window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'error' }, '*');
+    }
+    // Disable further clicks in this box
+    box.querySelectorAll('.option').forEach(o => o.style.pointerEvents = 'none');
+    setTimeout(() => {
+      if (feedback) {
+        feedback.classList.remove('show');
+      }
+      box.querySelectorAll('.option').forEach(o => {
+        o.style.pointerEvents = '';
+        o.classList.remove('correct', 'wrong');
+      });
+    }, 2500);
+  }
+</script>
+
+</body>
+</html>

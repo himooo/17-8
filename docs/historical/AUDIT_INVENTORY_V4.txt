@@ -1,0 +1,69 @@
+PROJECT=/home/ubuntu/bisalasa-full-audit
+TSX=94
+TS=36
+API_ROUTES=5
+COMPONENTS=91
+PANELS=12
+GAMES=10
+
+API_FILES
+src/app/api/ai/route.ts
+src/app/api/backup/route.ts
+src/app/api/db/[operation]/route.ts
+src/app/api/route.ts
+src/app/api/tts/route.ts
+
+PANEL_FILES
+AiPanel.tsx
+AssetsPanel.tsx
+ClassesPanel.tsx
+CurriculumPanel.tsx
+GiftsPanel.tsx
+GroupsPanel.tsx
+NotesPanel.tsx
+PrizesPanel.tsx
+ReportsPanel.tsx
+SettingsPanel.tsx
+SoundsPanel.tsx
+StudentsPanel.tsx
+
+GAME_FILES
+DiceRollGame.tsx
+HotPotatoGame.tsx
+LuckyWheelGame.tsx
+MathChallengeGame.tsx
+MemoryGame.tsx
+MysteryBoxGame.tsx
+QuestionChallengeGame.tsx
+QuickFireGame.tsx
+QuizShowGame.tsx
+ReactionTimeGame.tsx
+
+ACTIVE_PANEL_REFERENCES
+activePanel = useShellStore((s) => s.activePanel)
+activePanel === item.id}
+activePanel === item.id}
+activePanel === item.id}
+activePanel === "settings"}
+activePanel && (
+activePanel)?.label}
+activePanel === "curriculum" && <CurriculumPanel />}
+activePanel === "students" && <StudentsPanel />}
+activePanel === "classes" && <ClassesPanel />}
+activePanel === "groups" && <GroupsPanel />}
+activePanel === "prizes" && <PrizesPanel />}
+activePanel === "gifts" && <GiftsPanel />}
+activePanel === "sounds" && <SoundsPanel />}
+activePanel === "blueprint" && <LessonBlueprint />}
+activePanel === "ai" && <AiPanel />}
+activePanel === "reports" && <ReportsPanel />}
+activePanel === "quickgift" && <QuickGiftPanel onClose={() => useShellStore.getState().togglePanel(null)} />}
+activePanel === "assets" && <AssetsPanel />}
+activePanel === "notes" && <NotesPanel />}
+activePanel === "settings" && <SettingsPanel />}
+activePanel: "curriculum" | "students" | "assets" | "notes" | "settings" | "prizes" | "gifts" | "classes" | "groups" | "sounds" | "celebrations" | "blueprint" | "quickgift" | "ai" | "reports" | null
+activePanel"]) => void
+activePanel"]) => void
+activePanel: null,
+activePanel: p }),
+activePanel: s.activePanel === p ? null : p })),

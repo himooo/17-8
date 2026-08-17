@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>درس React - الجبر الخطي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body { width: 100vw; height: 100vh; overflow: hidden; background: #0f172a; color: #e2e8f0; }
+
+    /* React-like styling */
+    .app-root { width: 100%; height: 100%; }
+    .slide-container {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px; position: relative;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    .step-content { display: none; }
+    .step-content.active {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1.5rem;
+      animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .title {
+      font-size: 3.5rem; font-weight: 800;
+      background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent; text-align: center;
+    }
+    .content {
+      font-size: 1.7rem; text-align: center;
+      max-width: 900px; line-height: 1.7; color: #cbd5e1;
+    }
+
+    .math-display {
+      font-family: 'Times New Roman', serif;
+      font-size: 3.5rem;
+      background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+      padding: 1.5rem 2.5rem;
+      border-radius: 12px;
+      direction: ltr; display: inline-block;
+      border: 2px solid rgba(96, 165, 250, 0.3);
+      background-color: rgba(30, 64, 175, 0.05);
+    }
+
+    .equation-card {
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 2rem 3rem;
+      border-radius: 16px;
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .options-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1rem; max-width: 700px; width: 100%;
+    }
+    .option {
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(96, 165, 250, 0.4);
+      padding: 1.5rem 2rem; border-radius: 16px;
+      font-size: 1.6rem; font-weight: 700;
+      color: #e2e8f0; text-align: center; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .option:hover {
+      transform: translateY(-3px);
+      border-color: rgba(96, 165, 250, 0.8);
+      box-shadow: 0 8px 24px rgba(96, 165, 250, 0.3);
+    }
+    .option.correct {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white; border-color: #10b981;
+      animation: pulse 0.6s ease-in-out;
+    }
+    .option.wrong {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white; border-color: #ef4444;
+      animation: shake 0.4s;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); box-shadow: 0 0 40px rgba(16, 185, 129, 0.8); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .badge {
+      position: absolute; top: 20px; left: 20px;
+      padding: 8px 18px; border-radius: 20px;
+      font-size: 14px; font-weight: 700;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    }
+
+    .step-counter {
+      position: absolute; top: 20px; right: 20px;
+      background: rgba(30, 41, 59, 0.9);
+      color: #60a5fa; padding: 8px 18px;
+      border-radius: 20px; font-size: 14px; font-weight: 600;
+      border: 1px solid rgba(96, 165, 250, 0.3);
+    }
+    .step-counter .num { color: #fbbf24; font-weight: 800; }
+
+    .nav-buttons {
+      position: absolute; bottom: 30px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 1rem;
+    }
+    .nav-btn {
+      background: rgba(30, 41, 59, 0.9);
+      color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.3);
+      padding: 0.5rem 1.5rem; border-radius: 8px;
+      font-size: 14px; cursor: pointer; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: rgba(96, 165, 250, 0.6);
+    }
+
+    .number-line {
+      width: 600px; height: 4px;
+      background: linear-gradient(90deg, #ef4444 0%, #fbbf24 50%, #10b981 100%);
+      border-radius: 2px; position: relative;
+      margin: 2rem 0;
+    }
+    .number-point {
+      position: absolute; top: -8px;
+      width: 20px; height: 20px;
+      border-radius: 50%; background: white;
+      border: 3px solid #3b82f6;
+      transform: translateX(-50%);
+      transition: all 0.3s;
+    }
+    .number-label {
+      position: absolute; top: 20px;
+      transform: translateX(-50%);
+      font-size: 1.2rem; font-weight: 700; color: #60a5fa;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-root" id="root"></div>
+
+  <!-- ============================================================
+       MANIFEST - عقد البيانات
+       ============================================================ -->
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "react-algebra-01",
+    "title": "الجبر الخطي - معادلات الدرجة الأولى",
+    "subtitle": "درس React تجريبي للاختبار",
+    "contentType": "react",
+    "totalSteps": 6,
+    "currentStep": 1,
+    "aspectRatio": "16:9",
+    "targetAge": "preparatory",
+    "steps": [
+      {
+        "step": 1,
+        "title": "مقدمة في الجبر",
+        "type": "content",
+        "script": "أهلاً يا شباب في درس جديد. النهاردة هنتعلم الجبر الخطي. ده من أهم مواضيع الرياضيات. هنتعلم نحل معادلات من الدرجة الأولى.",
+        "notes": "هذا درس تجريبي بُني بـ React للتأكد من توافق المنصة. ابدأ بسؤال الطلاب عن معرفتهم السابقة بالمعادلات.",
+        "autoSlideMs": 8000
+      },
+      {
+        "step": 2,
+        "title": "تعريف المعادلة الخطية",
+        "type": "content",
+        "script": "المعادلة الخطية هي معادلة على الصورة ax + b = 0. حيث a و b أعداد حقيقية. و a لا يساوي صفر.",
+        "notes": "اشرح أن a يجب أن لا يساوي صفر، وإلا تصبح المعادلة ثابتة وليست خطية.",
+        "autoSlideMs": 9000
+      },
+      {
+        "step": 3,
+        "title": "خط الأعداد",
+        "type": "content",
+        "script": "خط الأعداد أداة مهمة جداً. بنستخدمه لتمثيل الحلول. شوفوا النقاط على الخط. كل نقطة بتمثل عدد.",
+        "notes": "اشرح أن خط الأعداد يمتد من -∞ إلى +∞. الصفر في المنتصف. الأعداد الموجبة على اليمين، السالبة على اليسار.",
+        "autoSlideMs": 10000
+      },
+      {
+        "step": 4,
+        "title": "مثال محلول",
+        "type": "content",
+        "script": "تعالوا نحل معادلة. عندنا 2x + 6 = 0. هننقل 6 للطرف الآخر. يبقى 2x = -6. نقسم على 2. يبقى x = -3.",
+        "notes": "اشرح خطوة بخطوة. 1) انقل الثابت للطرف الآخر. 2) اقسم على معامل x. النتيجة: x = -3.",
+        "autoSlideMs": 12000
+      },
+      {
+        "step": 5,
+        "title": "سؤال تفاعلي",
+        "type": "question",
+        "script": "السؤال: حل المعادلة 3x - 9 = 0. اختاروا الإجابة الصحيحة من الاختيارات.",
+        "notes": "الإجابة الصحيحة: x = 3. الحل: 3x = 9، x = 9/3 = 3. استخدم R لاختيار طالب عشوائي.",
+        "question": {
+          "text": "حل المعادلة 3x - 9 = 0",
+          "correctAnswer": "x = 3",
+          "options": ["x = 3", "x = -3", "x = 9", "x = 0"],
+          "rewardPoints": 3
+        },
+        "effect": "confetti",
+        "autoSlideMs": 0
+      },
+      {
+        "step": 6,
+        "title": "ختام الدرس",
+        "type": "celebration",
+        "script": "أحسنتم يا أبطال! تعلمتوا حل المعادلات الخطية. الدرس الجاي هنتعلم المعادلات بكسرين. شكراً ليكم.",
+        "notes": "وزع نقاط على الطلاب المشاركين. استخدم زر النجمة (+5) لمن أجاب بشكل ممتاز.",
+        "effect": "confetti",
+        "autoSlideMs": 5000
+      }
+    ],
+    "assets": []
+  }
+  </script>
+
+  <!-- ============================================================
+       REACT APP (built inline)
+       هذا الكود يحاكي React Component لكنه مكتوب بـ JS عادي
+       ليعمل داخل iframe بدون build step
+       ============================================================ -->
+  <script>
+    (function() {
+      // ===== App State =====
+      let currentStep = 1;
+      const totalSteps = 6;
+
+      // ===== Manifest =====
+      function getManifest() {
+        const el = document.getElementById('slide-manifest');
+        if (!el) return null;
+        try { return JSON.parse(el.textContent); } catch { return null; }
+      }
+
+      // ===== Render Function (مثل React Component) =====
+      function render() {
+        const root = document.getElementById('root');
+        const manifest = getManifest();
+        if (!manifest) return;
+
+        const step = manifest.steps.find(s => s.step === currentStep);
+        const stepData = step || {};
+
+        // Build HTML
+        let contentHTML = '';
+
+        if (currentStep === 1) {
+          contentHTML = `
+            <h1 class="title">الجبر الخطي</h1>
+            <div class="equation-card">
+              <p class="content">تعلم حل معادلات الدرجة الأولى<br/>بطريقة تفاعلية وممتعة</p>
+            </div>
+            <div class="math-display">ax + b = 0</div>
+          `;
+        } else if (currentStep === 2) {
+          contentHTML = `
+            <h1 class="title">تعريف المعادلة الخطية</h1>
+            <div class="equation-card">
+              <p class="content">المعادلة الخطية على الصورة:</p>
+              <div class="math-display" style="margin-top: 1rem;">ax + b = 0</div>
+              <p class="content" style="margin-top: 1rem; font-size: 1.3rem; color: #94a3b8;">
+                حيث a ≠ 0 و a, b ∈ ℝ
+              </p>
+            </div>
+          `;
+        } else if (currentStep === 3) {
+          contentHTML = `
+            <h1 class="title">خط الأعداد</h1>
+            <div class="number-line">
+              <div class="number-point" style="left: 16.66%;"></div>
+              <div class="number-label" style="left: 16.66%;">-3</div>
+              <div class="number-point" style="left: 33.33%;"></div>
+              <div class="number-label" style="left: 33.33%;">-1</div>
+              <div class="number-point" style="left: 50%; background: #3b82f6;"></div>
+              <div class="number-label" style="left: 50%;">0</div>
+              <div class="number-point" style="left: 66.66%;"></div>
+              <div class="number-label" style="left: 66.66%;">1</div>
+              <div class="number-point" style="left: 83.33%;"></div>
+              <div class="number-label" style="left: 83.33%;">3</div>
+            </div>
+            <p class="content">كل نقطة تمثل عدداً حقيقياً</p>
+          `;
+        } else if (currentStep === 4) {
+          contentHTML = `
+            <h1 class="title">مثال محلول</h1>
+            <div class="equation-card">
+              <div class="math-display">2x + 6 = 0</div>
+              <p class="content" style="margin: 1rem 0; color: #94a3b8;">ننقل 6 للطرف الآخر:</p>
+              <div class="math-display">2x = -6</div>
+              <p class="content" style="margin: 1rem 0; color: #94a3b8;">نقسم على 2:</p>
+              <div class="math-display" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">x = -3 ✓</div>
+            </div>
+          `;
+        } else if (currentStep === 5) {
+          contentHTML = `
+            <h1 class="title">سؤال تفاعلي 🎯</h1>
+            <div class="equation-card">
+              <p class="content">حل المعادلة:</p>
+              <div class="math-display">3x - 9 = 0</div>
+            </div>
+            <div class="options-grid" id="options">
+              <div class="option" data-correct="true">x = 3</div>
+              <div class="option" data-correct="false">x = -3</div>
+              <div class="option" data-correct="false">x = 9</div>
+              <div class="option" data-correct="false">x = 0</div>
+            </div>
+          `;
+        } else if (currentStep === 6) {
+          contentHTML = `
+            <div style="font-size: 8rem;">🎉</div>
+            <h1 class="title">أحسنتم يا أبطال!</h1>
+            <div class="equation-card">
+              <p class="content">تعلمتوا حل المعادلات الخطية بنجاح<br/>الدرس الجاي هنتعلم المزيد</p>
+            </div>
+          `;
+        }
+
+        root.innerHTML = `
+          <div class="slide-container">
+            <div class="badge">درس React</div>
+            <div class="step-counter">
+              خطوة <span class="num">${currentStep}</span> من <span class="num">${totalSteps}</span>
+            </div>
+            <div class="step-content active">
+              ${contentHTML}
+            </div>
+            <div class="nav-buttons">
+              <button class="nav-btn" onclick="prevStep()" ${currentStep === 1 ? 'disabled' : ''}>← السابق</button>
+              <button class="nav-btn" onclick="nextStep()" ${currentStep === totalSteps ? 'disabled' : ''}>التالي →</button>
+            </div>
+          </div>
+        `;
+
+        // Attach option click handlers (for question step)
+        const options = root.querySelectorAll('.option');
+        options.forEach(opt => {
+          opt.addEventListener('click', function() {
+            const isCorrect = this.dataset.correct === 'true';
+            options.forEach(o => o.classList.remove('correct', 'wrong'));
+            if (isCorrect) {
+              this.classList.add('correct');
+              window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'success' }, '*');
+            } else {
+              this.classList.add('wrong');
+              window.parent.postMessage({ type: 'REQUEST_SOUND', sound: 'error' }, '*');
+            }
+          });
+        });
+      }
+
+      // ===== Navigation =====
+      function showStep(step) {
+        currentStep = step;
+        render();
+        window.parent.postMessage({
+          type: 'STEP_CHANGED',
+          step: step,
+          totalSteps: totalSteps
+        }, '*');
+      }
+
+      window.nextStep = function() {
+        if (currentStep < totalSteps) showStep(currentStep + 1);
+      };
+
+      window.prevStep = function() {
+        if (currentStep > 1) showStep(currentStep - 1);
+      };
+
+      // ===== Listen for Shell messages =====
+      window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (!data || !data.type) return;
+        switch (data.type) {
+          case 'GOTO_STEP':
+            showStep(data.step);
+            break;
+          case 'NEXT':
+            window.nextStep();
+            break;
+          case 'PREV':
+            window.prevStep();
+            break;
+          case 'REQUEST_MANIFEST':
+            const m = getManifest();
+            if (m) {
+              m.currentStep = currentStep;
+              window.parent.postMessage({ type: 'MANIFEST', payload: m }, '*');
+            }
+            break;
+        }
+      });
+
+      // ===== Initialize =====
+      window.addEventListener('load', function() {
+        window.parent.postMessage({ type: 'READY' }, '*');
+        const m = getManifest();
+        if (m) {
+          m.currentStep = currentStep;
+          window.parent.postMessage({ type: 'MANIFEST', payload: m }, '*');
+        }
+        render();
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>درس تجريبي - المعادلات التربيعية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    body { width: 100vw; height: 100vh; overflow: hidden; background: #fff; color: #1A1A1A; }
+    .slide-container {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px;
+      position: relative;
+    }
+    .slide-title {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #0142A0;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .slide-content {
+      font-size: 2rem;
+      text-align: center;
+      max-width: 900px;
+      line-height: 1.6;
+    }
+    .math-equation {
+      font-size: 3rem;
+      font-family: 'Times New Roman', serif;
+      margin: 2rem 0;
+      color: #1A1A1A;
+      direction: ltr;
+      background: #f5f5f5;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      border-right: 6px solid #DA151C;
+      display: inline-block;
+    }
+    .pizza-container {
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #FFD700 0deg 90deg,
+        #FFA500 90deg 180deg,
+        #FF6347 180deg 270deg,
+        #FF4500 270deg 360deg
+      );
+      border: 8px solid #8B4513;
+      position: relative;
+      margin: 2rem auto;
+      transition: all 0.6s ease;
+    }
+    .pizza-slice {
+      position: absolute;
+      top: 0; left: 50%;
+      width: 4px; height: 50%;
+      background: #8B4513;
+      transform-origin: bottom center;
+    }
+    .slice-1 { transform: translateX(-50%) rotate(0deg); }
+    .slice-2 { transform: translateX(-50%) rotate(90deg); }
+    .slice-3 { transform: translateX(-50%) rotate(180deg); }
+    .slice-4 { transform: translateX(-50%) rotate(270deg); }
+
+    .pizza-taken {
+      opacity: 0;
+      transform: scale(0.8) translateY(-100px);
+      transition: all 0.8s ease;
+    }
+
+    .step-indicator {
+      position: absolute;
+      top: 20px; left: 20px;
+      background: #0142A0;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .step-counter { color: #FFD700; }
+
+    .question-mark {
+      font-size: 8rem;
+      color: #DA151C;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #0142A0 0%, #1a4fb0 100%);
+      color: white;
+      padding: 1.5rem 2.5rem;
+      border-radius: 16px;
+      font-size: 1.8rem;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(1, 66, 160, 0.3);
+      margin: 1rem 0;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      max-width: 600px;
+      margin: 1rem auto;
+    }
+    .option {
+      background: #f0f4ff;
+      border: 3px solid #0142A0;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #0142A0;
+      text-align: center;
+      cursor: pointer;
+    }
+    .option.correct {
+      background: #1A8754;
+      color: white;
+      border-color: #1A8754;
+      animation: glow 1s ease-in-out;
+    }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 0 rgba(26, 135, 84, 0); }
+      50% { box-shadow: 0 0 30px rgba(26, 135, 84, 0.8); }
+    }
+    .hidden { display: none !important; }
+    .fade-in { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container" id="slide-container">
+    <div class="step-indicator">
+      خطوة <span class="step-counter" id="step-counter">1</span> من 5
+    </div>
+
+    <!-- Step 1: Title -->
+    <div class="step-content" data-step="1">
+      <h1 class="slide-title">المعادلات التربيعية</h1>
+      <div class="highlight-box">
+        اليوم هنتعلم نحل المعادلات من الدرجة الثانية
+      </div>
+    </div>
+
+    <!-- Step 2: Definition -->
+    <div class="step-content hidden" data-step="2">
+      <h1 class="slide-title">تعريف المعادلة التربيعية</h1>
+      <div class="slide-content">
+        المعادلة التربيعية هي معادلة على الصورة:
+      </div>
+      <div class="math-equation">ax² + bx + c = 0</div>
+      <div class="slide-content" style="font-size: 1.4rem; color: #666;">
+        حيث a ≠ 0 ، و a, b, c أعداد حقيقية
+      </div>
+    </div>
+
+    <!-- Step 3: Example with pizza visualization -->
+    <div class="step-content hidden" data-step="3">
+      <h1 class="slide-title">مثال: البيتزا والكسور</h1>
+      <div class="pizza-container" id="pizza">
+        <div class="pizza-slice slice-1" id="slice-1"></div>
+        <div class="pizza-slice slice-2" id="slice-2"></div>
+        <div class="pizza-slice slice-3" id="slice-3"></div>
+        <div class="pizza-slice slice-4" id="slice-4"></div>
+      </div>
+      <div class="slide-content" id="pizza-text">
+        عندنا بيتزا كاملة مقسّمة لـ 4 أجزاء متساوية
+      </div>
+    </div>
+
+    <!-- Step 4: Take slices -->
+    <div class="step-content hidden" data-step="4">
+      <h1 class="slide-title">أكلنا ربع البيتزا</h1>
+      <div class="pizza-container">
+        <div class="pizza-slice slice-1 pizza-taken"></div>
+        <div class="pizza-slice slice-2"></div>
+        <div class="pizza-slice slice-3"></div>
+        <div class="pizza-slice slice-4"></div>
+      </div>
+      <div class="math-equation">1 - 1/4 = 3/4</div>
+      <div class="slide-content">باقي 3/4 من البيتزا</div>
+    </div>
+
+    <!-- Step 5: Question -->
+    <div class="step-content hidden" data-step="5">
+      <h1 class="slide-title">سؤال تفاعلي 🎯</h1>
+      <div class="slide-content" style="margin-bottom: 1.5rem;">
+        إذا أكلنا قطعتين من البيتزا (4 قطع)، كم باقي؟
+      </div>
+      <div class="options-grid">
+        <div class="option" data-correct="false">1/4</div>
+        <div class="option" data-correct="true">2/4 = 1/2</div>
+        <div class="option" data-correct="false">3/4</div>
+        <div class="option" data-correct="false">4/4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide Manifest - THIS IS THE CONTRACT -->
+  <!-- The Shell reads this to display notes, scripts, questions, and assets -->
+  <script type="application/json" id="slide-manifest">
+  {
+    "lessonId": "demo-lesson-01",
+    "title": "المعادلات التربيعية - درس تجريبي",
+    "subtitle": "مثال على الـ Slide Manifest Schema",
+    "totalSteps": 5,
+    "currentStep": 1,
+    "aspectRatio": "16:9",
+    "targetAge": "preparatory",
+    "steps": [
+      {
+        "step": 1,
+        "title": "مقدمة الدرس",
+        "type": "content",
+        "script": "أهلاً يا شباب. النهاردة هنتعلم حاجة جديدة ومهمة جداً. هنتعلم نحل المعادلات التربيعية. ده من أهم مواضيع الرياضيات في المرحلة الإعدادية.",
+        "notes": "ابدأ بسؤال الطلاب: مين يعرف يعملي معادلة فيها x²؟ خليهم يحاولوا قبل ما تعرّف المعادلة التربيعية رسمياً.",
+        "autoSlideMs": 8000
+      },
+      {
+        "step": 2,
+        "title": "تعريف المعادلة التربيعية",
+        "type": "content",
+        "script": "المعادلة التربيعية هي معادلة على الصورة ax² + bx + c = 0. لازم a ميكونش صفر، عشان لو a = 0 المعادلة تبقى خطية مش تربيعية.",
+        "notes": "نبه الطلاب إن ترتيب الحروف مهم. a دايماً مع x². لو المعادلة مكتوبة bx + c + ax² = 0 لازم نعيد ترتيبها الأول.",
+        "autoSlideMs": 10000
+      },
+      {
+        "step": 3,
+        "title": "مثال البيتزا - مقدمة",
+        "type": "content",
+        "script": "تعالوا ناخد مثال بسيط الأول قبل ما ندخل في المعادلات. تخيلوا عندنا بيتزا مقسّمة 4 أجزاء متساوية.",
+        "notes": "البيتزا هنا تمثيل بصري للكسور. الهدف توصيل فكرة أن الكل ممكن يتقسم لأجزاء متساوية. اسألهم: لو أكلت قطعة، كام باقي؟",
+        "autoSlideMs": 7000
+      },
+      {
+        "step": 4,
+        "title": "أكلنا ربع البيتزا",
+        "type": "content",
+        "script": "دلوقتي أكلنا ربع البيتزا. يعني 1 من 4. باقي 3 أرباع. زي ما الاحتياج الحسابي بيقول: 1 ناقص ربع يساوي 3 أرباع.",
+        "notes": "اربط المثال بالرياضيات: 1 = 4/4. 4/4 - 1/4 = 3/4. ده أساس الطرح مع الكسور، ومهم جداً قبل الجمع.",
+        "autoSlideMs": 9000
+      },
+      {
+        "step": 5,
+        "title": "سؤال تفاعلي",
+        "type": "question",
+        "script": "دلوقتي السؤال: لو أكلنا قطعتين من البيتزا (4 قطع)، كم باقي؟ فكروا كويس قبل ما تجاوبوا.",
+        "notes": "استخدم زر الاختيار العشوائي لاختيار طالب. الإجابة الصحيحة هي 2/4 = 1/2. لو الطالب جاوب صح، اضغط على زر 'إجابة صحيحة' في الشريط السفلي لتشغيل الكونفيتي والصوت.",
+        "question": {
+          "text": "إذا أكلنا قطعتين من البيتزا (4 قطع)، كم باقي؟",
+          "correctAnswer": "2/4 = 1/2",
+          "options": ["1/4", "2/4 = 1/2", "3/4", "4/4"],
+          "rewardPoints": 3
+        },
+        "sound": {
+          "onSuccess": "success",
+          "onError": "error"
+        },
+        "effect": "confetti",
+        "autoSlideMs": 0
+      }
+    ],
+    "assets": [
+      {
+        "id": "img_01_03_01",
+        "description": "رسم بيتزا كاملة مقسمة لـ 4 أجزاء متساوية بألوان زاهية",
+        "type": "illustration",
+        "status": "placeholder"
+      },
+      {
+        "id": "img_01_04_01",
+        "description": "رسم بيتزا مأكول منها ربع مع سهم يشير للقطعة المأكولة",
+        "type": "illustration",
+        "status": "placeholder"
+      },
+      {
+        "id": "img_01_05_01",
+        "description": "أيقونة سؤال تفاعلي مع علامة استفهام كبيرة",
+        "type": "icon",
+        "status": "placeholder"
+      }
+    ]
+  }
+  </script>
+
+  <script>
+    // ====================================================================
+    //  Slide Controller - يتلقى أوامر الـ Shell ويعرض الخطوات
+    // ====================================================================
+    (function() {
+      let currentStep = 1;
+      const totalSteps = 5;
+
+      // Get manifest from embedded script
+      function getManifest() {
+        const el = document.getElementById('slide-manifest');
+        if (!el) return null;
+        try { return JSON.parse(el.textContent); } catch { return null; }
+      }
+
+      // Show a specific step
+      function showStep(step) {
+        currentStep = step;
+        // Hide all steps
+        document.querySelectorAll('.step-content').forEach(el => {
+          el.classList.add('hidden');
+        });
+        // Show current step
+        const target = document.querySelector(`.step-content[data-step="${step}"]`);
+        if (target) {
+          target.classList.remove('hidden');
+          target.classList.add('fade-in');
+          setTimeout(() => target.classList.remove('fade-in'), 600);
+        }
+        // Update step counter
+        const counter = document.getElementById('step-counter');
+        if (counter) counter.textContent = step;
+
+        // Notify Shell
+        notifyShell({ type: 'STEP_CHANGED', step: step, totalSteps: totalSteps });
+      }
+
+      // Send message to Shell
+      function notifyShell(msg) {
+        window.parent.postMessage(msg, '*');
+      }
+
+      // Listen for messages from Shell
+      window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (!data || !data.type) return;
+
+        switch (data.type) {
+          case 'GOTO_STEP':
+            showStep(data.step);
+            break;
+          case 'NEXT':
+            if (currentStep < totalSteps) showStep(currentStep + 1);
+            break;
+          case 'PREV':
+            if (currentStep > 1) showStep(currentStep - 1);
+            break;
+          case 'REQUEST_MANIFEST':
+            const manifest = getManifest();
+            if (manifest) {
+              manifest.currentStep = currentStep;
+              notifyShell({ type: 'MANIFEST', payload: manifest });
+            }
+            break;
+          case 'REQUEST_CURRENT_STEP':
+            notifyShell({ type: 'STEP_CHANGED', step: currentStep, totalSteps: totalSteps });
+            break;
+        }
+      });
+
+      // On load, notify Shell we're ready
+      window.addEventListener('load', function() {
+        notifyShell({ type: 'READY' });
+        // Also send manifest immediately
+        const manifest = getManifest();
+        if (manifest) {
+          manifest.currentStep = currentStep;
+          notifyShell({ type: 'MANIFEST', payload: manifest });
+        }
+      });
+
+      // Handle option clicks on question step
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('option')) {
+          const isCorrect = e.target.dataset.correct === 'true';
+          if (isCorrect) {
+            e.target.classList.add('correct');
+            notifyShell({ type: 'STEP_CHANGED', step: currentStep, totalSteps: totalSteps });
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

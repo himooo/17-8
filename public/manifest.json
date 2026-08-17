@@ -1,0 +1,41 @@
+{
+  "name": "بسلاسة - غرفة عمليات المدرس",
+  "short_name": "بسلاسة",
+  "description": "إطار تفاعلي متكامل للمدرس - عرض الشرائح، السبورة الذكية، إدارة الطلاب، والتحفيز التراكمي",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0e1a",
+  "theme_color": "#0142A0",
+  "categories": ["education", "productivity", "teaching"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "المنهج",
+      "short_name": "المنهج",
+      "description": "استيراد وإدارة شرائح الدروس",
+      "url": "/?panel=curriculum"
+    },
+    {
+      "name": "الطلاب",
+      "short_name": "الطلاب",
+      "description": "إدارة الطلاب والنقاط",
+      "url": "/?panel=students"
+    }
+  ]
+}

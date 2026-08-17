@@ -1,0 +1,41 @@
+src/lib/shell-store.ts:240:  activePanel: "curriculum" | "students" | "assets" | "notes" | "settings" | "prizes" | "gifts" | "classes" | "groups" | "sounds" | "celebrations" | "blueprint" | "quickgift" | null;
+src/lib/shell-store.ts:241:  setActivePanel: (p: ShellState["activePanel"]) => void;
+src/lib/shell-store.ts:242:  togglePanel: (p: ShellState["activePanel"]) => void;
+src/lib/shell-store.ts:1112:      activePanel: null,
+src/lib/shell-store.ts:1113:      setActivePanel: (p) => set({ activePanel: p }),
+src/lib/shell-store.ts:1114:      togglePanel: (p) =>
+src/lib/shell-store.ts:1115:        set((s) => ({ activePanel: s.activePanel === p ? null : p })),
+src/components/shell/FloatingSideRail.tsx:54:import { SettingsPanel } from "./panels/SettingsPanel";
+src/components/shell/FloatingSideRail.tsx:125:  const activePanel = useShellStore((s) => s.activePanel);
+src/components/shell/FloatingSideRail.tsx:126:  const togglePanel = useShellStore((s) => s.togglePanel);
+src/components/shell/FloatingSideRail.tsx:187:            active={activePanel === item.id}
+src/components/shell/FloatingSideRail.tsx:188:            onClick={() => togglePanel(item.id)}
+src/components/shell/FloatingSideRail.tsx:200:            active={activePanel === item.id}
+src/components/shell/FloatingSideRail.tsx:201:            onClick={() => togglePanel(item.id)}
+src/components/shell/FloatingSideRail.tsx:214:            active={item.id === "celebrations" ? showCelebrationsOverlay : activePanel === item.id}
+src/components/shell/FloatingSideRail.tsx:222:                togglePanel(item.id);
+src/components/shell/FloatingSideRail.tsx:638:          active={activePanel === "settings"}
+src/components/shell/FloatingSideRail.tsx:639:          onClick={() => togglePanel("settings")}
+src/components/shell/FloatingSideRail.tsx:648:      {activePanel && (
+src/components/shell/FloatingSideRail.tsx:668:                  {[...RAIL_GROUPS[0].items, ...RAIL_GROUPS[1].items, ...RAIL_GROUPS[2].items, ...RAIL_GROUPS[3].items].find((i) => i.id === activePanel)?.label}
+src/components/shell/FloatingSideRail.tsx:685:                {activePanel === "curriculum" && <CurriculumPanel />}
+src/components/shell/FloatingSideRail.tsx:686:                {activePanel === "students" && <StudentsPanel />}
+src/components/shell/FloatingSideRail.tsx:687:                {activePanel === "classes" && <ClassesPanel />}
+src/components/shell/FloatingSideRail.tsx:688:                {activePanel === "groups" && <GroupsPanel />}
+src/components/shell/FloatingSideRail.tsx:689:                {activePanel === "prizes" && <PrizesPanel />}
+src/components/shell/FloatingSideRail.tsx:690:                {activePanel === "gifts" && <GiftsPanel />}
+src/components/shell/FloatingSideRail.tsx:691:                {activePanel === "sounds" && <SoundsPanel />}
+src/components/shell/FloatingSideRail.tsx:693:                {activePanel === "blueprint" && <LessonBlueprint />}
+src/components/shell/FloatingSideRail.tsx:694:                {activePanel === "quickgift" && <QuickGiftPanel onClose={() => useShellStore.getState().togglePanel(null)} />}
+src/components/shell/FloatingSideRail.tsx:695:                {activePanel === "assets" && <AssetsPanel />}
+src/components/shell/FloatingSideRail.tsx:696:                {activePanel === "notes" && <NotesPanel />}
+src/components/shell/FloatingSideRail.tsx:697:                {activePanel === "settings" && <SettingsPanel />}
+src/components/shell/FloatingSideRail.tsx:706:        <CelebrationsPanel onClose={() => setShowCelebrationsOverlay(false)} />
+src/components/shell/HelperAssetsPanel.tsx:174:    <CanvasPanel open onClose={onClose} title={`الأدوات المساعدة${activeLesson ? ` - ${activeLesson.title}` : ""}`} accentColor="#0142A0" widthPercent={85} heightPercent={85}>
+src/components/shell/HelperAssetsPanel.tsx:308:    </CanvasPanel>
+src/components/shell/panels/StudentsPanel.tsx:866:        <StudentReportPanel
+src/components/shell/panels/SettingsPanel.tsx:60: * SettingsPanel - لوحة الإعدادات والاختصارات
+src/components/shell/panels/SettingsPanel.tsx:62:export function SettingsPanel() {
+src/components/shell/panels/SettingsPanel.tsx:105:      console.error("[SettingsPanel] failed to load DB info:", err);
+src/components/shell/BottomControlBar.tsx:738:      {showCelebrations && <CelebrationsPanel onClose={() => setShowCelebrations(false)} />}
+src/components/shell/WhiteboardContextMenu.tsx:172:    return <HelperAssetsPanel onClose={() => setShowHelperAssets(false)} />;

@@ -1,0 +1,342 @@
+{
+  "ok": true,
+  "total": 33,
+  "passed": 32,
+  "skipped": 1,
+  "skippedSuites": [
+    "master-plan-static-audit"
+  ],
+  "failed": 0,
+  "results": [
+    {
+      "label": "master-plan-static-audit",
+      "command": "bash scripts/master_plan_audit.sh",
+      "passed": false,
+      "skipped": true,
+      "status": null,
+      "timedOut": false,
+      "durationMs": 0,
+      "error": "bash not available (WSL not installed)"
+    },
+    {
+      "label": "v10-contract-probes",
+      "command": "node scripts/v10-contract-probes.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1789,
+      "base": "http://127.0.0.1:3051",
+      "output": "PASS | health endpoint\nPASS | security headers\nPASS | cross-origin mutation rejected\nPASS | SQL injection does not destroy students table\nPASS | AI safety gate\nPASS | AI input limit\nPASS | local lesson search\nPASS | AI image compatibility alias with mock\nPASS | AI STT compatibility alias with mock\nPASS | AI compare alias is routed\nPASS | Telegram retry alias is routed\n{\n  \"ok\": true,\n  \"total\": 11,\n  \"passed\": 11,\n  \"failed\": 0,\n  \"results\": [\n    {\n      \"label\": \"health endpoint\",\n      \"passed\": true,\n      \"status\": 200\n    },\n    {\n      \"label\": \"security headers\",\n      \"passed\": true,\n      \"status\": 200\n    },\n    {\n      \"label\": \"cross-origin mutation rejected\",\n      \"passed\": true,\n      \"status\": 403\n    },\n    {\n      \"label\": \"SQL injection does not destroy students table\",\n      \"passed\": true,\n      \"status\": 200\n    },\n    {\n      \"label\": \"AI safety gate\",\n      \"passed\": true,\n      \"status\": 400\n    },\n    {\n      \"label\": \"AI input limit\",\n      \"passed\": true,\n      \"status\": 400\n    },\n    {\n      \"label\": \"local lesson search\",\n      \"passed\": true,\n      \"status\": 200,\n      \"count\": 0\n    },\n    {\n      \"label\": \"AI image compatibility alias with mock\",\n      \"passed\": true,\n      \"status\": 200\n    },\n    {\n      \"label\": \"AI STT compatibility alias with mock\",\n      \"passed\": true,\n      \"status\": 200\n    },\n    {\n      \"label\": \"AI compare alias is routed\",\n      \"passed\": true,\n      \"status\": 400\n    },\n    {\n      \"label\": \"Telegram retry alias is routed\",\n      \"passed\": true,\n      \"status\": 200\n    }\n  ]\n}\n"
+    },
+    {
+      "label": "v10-operational-suite",
+      "command": "node scripts/v10-operational-suite.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 2850,
+      "base": "http://127.0.0.1:3052",
+      "output": "PASS | raw lesson text max 120000\nPASS | bulk question limit 500\nPASS | warm health p95 < 100ms\nPASS | 1000 students direct data-layer stress\nPASS | 100 game results data-layer stress\n{\n  \"ok\": true,\n  \"total\": 5,\n  \"passed\": 5,\n  \"failed\": 0,\n  \"results\": [\n    {\n      \"label\": \"raw lesson text max 120000\",\n      \"passed\": true,\n      \"status\": 400\n    },\n    {\n      \"label\": \"bulk question limit 500\",\n      \"passed\": true,\n      \"status\": 400\n    },\n    {\n      \"label\": \"warm health p95 < 100ms\",\n      \"passed\": true,\n      \"samples\": 100,\n      \"p95\": 5\n    },\n    {\n      \"label\": \"1000 students direct data-layer stress\",\n      \"passed\": true,\n      \"count\": 1000,\n      \"durationMs\": 203\n    },\n    {\n      \"label\": \"100 game results data-layer stress\",\n      \"passed\": true,\n      \"count\": 100,\n      \"durationMs\": 31\n    }\n  ]\n}\n"
+    },
+    {
+      "label": "math",
+      "command": "node --experimental-strip-types scripts/math-engine-smoke.ts",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 154,
+      "base": "http://127.0.0.1:3040",
+      "output": "PASS fraction normalization\nPASS fraction parsing\nPASS negative mixed fraction parsing\nPASS fraction addition\nPASS safe arithmetic\nPASS safe arithmetic precedence\nPASS rectangle\nPASS circle\nPASS triangle\nPASS reject invalid triangle sides\nPASS pythagoras\nPASS volume\nPASS length conversion\nPASS mean\nPASS median\nPASS mode\nPASS reject zero denominator\nPASS reject unsafe expression\nPASS reject division by zero\nPASS reject non-finite coordinates\nSUMMARY 20 passed, 0 failed\n(node:10496) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/ebrah/Downloads/%D8%A8%D8%B3%D9%84%D8%A7%D8%B3%D8%A9%2016-8/scripts/math-engine-smoke.ts is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to C:\\Users\\ebrah\\Downloads\\بسلاسة 16-8\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "label": "question-contract",
+      "command": "node --experimental-strip-types scripts/question-contract-smoke.ts",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 136,
+      "base": "http://127.0.0.1:3040",
+      "output": "SUMMARY question-contract: 4 scenarios passed, 0 failed\n(node:8280) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/ebrah/Downloads/%D8%A8%D8%B3%D9%84%D8%A7%D8%B3%D8%A9%2016-8/scripts/question-contract-smoke.ts is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to C:\\Users\\ebrah\\Downloads\\بسلاسة 16-8\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "label": "smart-context",
+      "command": "node --experimental-strip-types scripts/smart-context-smoke.ts",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 144,
+      "base": "http://127.0.0.1:3040",
+      "output": "{\n  \"ok\": true,\n  \"suite\": \"smart-context-smoke\",\n  \"checks\": 6,\n  \"chars\": 1278,\n  \"truncated\": false\n}\n(node:8008) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/ebrah/Downloads/%D8%A8%D8%B3%D9%84%D8%A7%D8%B3%D8%A9%2016-8/scripts/smart-context-smoke.ts is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to C:\\Users\\ebrah\\Downloads\\بسلاسة 16-8\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "label": "ai-mock-e2e",
+      "command": "node scripts/ai-mock-e2e.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1737,
+      "base": "http://127.0.0.1:3056",
+      "output": "{\n  \"total\": 21,\n  \"passed\": 21,\n  \"failed\": 0,\n  \"failures\": []\n}\n"
+    },
+    {
+      "label": "ai-limits-e2e",
+      "command": "node scripts/ai-limits-e2e.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1612,
+      "base": "http://127.0.0.1:3057",
+      "output": "{\n  \"ok\": true,\n  \"suite\": \"ai-limits-e2e\",\n  \"checks\": 7,\n  \"firstKeyUsed\": \"cmswe1cnp0000kj786qtz9f5n\",\n  \"fallbackKeyUsed\": \"cmswe1cp70001kj78zyfep3b2\",\n  \"firstRpmLimit\": 1,\n  \"secondSuccessCount\": 1\n}\n"
+    },
+    {
+      "label": "integrations-demo-e2e",
+      "command": "node scripts/integrations-demo-e2e.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 3432,
+      "base": "http://127.0.0.1:3058",
+      "output": "{\n  \"total\": 32,\n  \"passed\": 32,\n  \"failed\": 0,\n  \"failures\": []\n}\n"
+    },
+    {
+      "label": "db-relational-concurrency",
+      "command": "node scripts/db-relational-concurrency-e2e.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 3402,
+      "base": "http://127.0.0.1:3059",
+      "output": "{\n  \"base\": \"http://127.0.0.1:3059\",\n  \"prefix\": \"rel-1786920015731-\",\n  \"total\": 50,\n  \"passed\": 50,\n  \"failed\": 0,\n  \"results\": [\n    {\n      \"name\": \"create relational class\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create relational student 1\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create relational student 2\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create relational student 3\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"start session with class snapshot\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"session snapshot contains exactly class students\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"snapshot rows are unique per student\",\n      \"ok\": true,\n      \"detail\": {\n        \"ids\": [\n          \"rel-1786920015731-s1\",\n          \"rel-1786920015731-s2\",\n          \"rel-1786920015731-s3\"\n        ]\n      }\n    },\n    {\n      \"name\": \"20 concurrent awardCorrect requests succeed\",\n      \"ok\": true,\n      \"detail\": {\n        \"statuses\": [\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200\n        ]\n      }\n    },\n    {\n      \"name\": \"concurrent increments are atomic\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"concurrent awards create 20 badges\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"first student state is returned\",\n      \"ok\": true,\n      \"detail\": {\n        \"id\": \"rel-1786920015731-s1\"\n      }\n    },\n    {\n      \"name\": \"badge count matches award count\",\n      \"ok\": true,\n      \"detail\": {}\n    },\n    {\n      \"name\": \"session delta reflects concurrent awards\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"attendance creates one record\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"attendance same date updates existing record\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"attendance list has one record for date\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"attendance update persists latest absent id\",\n      \"ok\": true,\n      \"detail\": {}\n    },\n    {\n      \"name\": \"save relational group\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"15 concurrent group point updates succeed\",\n      \"ok\": true,\n      \"detail\": {\n        \"statuses\": [\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200,\n          200\n        ]\n      }\n    },\n    {\n      \"name\": \"group points increments are atomic\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create game result linked to session\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"add game participant\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"add game question\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"recent game includes nested participant and question\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"game result relation is nested\",\n      \"ok\": true,\n      \"detail\": {\n        \"id\": \"cmswe1hv2001ckj6kvhmixduw\"\n      }\n    },\n    {\n      \"name\": \"create student note\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"list note by student and session\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"mark note shared\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create student activity\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"aggregate activity by type\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"activity aggregate is present\",\n      \"ok\": true,\n      \"detail\": {\n        \"aggregate\": [\n          {\n            \"type\": \"game-correct\",\n            \"count\": 1,\n            \"pointsDelta\": 3\n          }\n        ]\n      }\n    },\n    {\n      \"name\": \"create celebration event linked to student/session\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"list celebration by student\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"list celebration by session\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"save QA gift\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"award gift to student\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"list gift by student\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"save QA prize\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"save QA sound\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"settings merge preserves existing keys\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"settings get returns QA flag\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"settings response is object\",\n      \"ok\": true,\n      \"detail\": {\n        \"keys\": 2\n      }\n    },\n    {\n      \"name\": \"stats summary includes class students and sessions\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"end session persists statsJson\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"session list returns ended session\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"delete relational class cascades relation rows\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"class deletion removes students\",\n      \"ok\": true,\n      \"detail\": {\n        \"ok\": true,\n        \"data\": []\n      }\n    },\n    {\n      \"name\": \"class deletion removes groups\",\n      \"ok\": true,\n      \"detail\": {\n        \"ok\": true,\n        \"data\": []\n      }\n    },\n    {\n      \"name\": \"class deletion nulls sessions\",\n      \"ok\": true,\n      \"detail\": {\n        \"ok\": true,\n        \"data\": []\n      }\n    },\n    {\n      \"name\": \"class deletion preserves historical game shell and anonymizes student references\",\n      \"ok\": true,\n      \"detail\": {\n        \"game\": {\n          \"id\": \"cmswe1hv2001ckj6kvhmixduw\",\n          \"sessionId\": \"cmswe1gqg0001kj6k6r7bi2qb\",\n          \"gameType\": \"quiz-show\",\n          \"gameMode\": \"individual\",\n          \"startedAt\": \"2026-08-16T22:40:17.583Z\",\n          \"endedAt\": null,\n          \"durationMs\": null,\n          \"ideaId\": \"fractions\",\n          \"questionCount\": 2,\n          \"configJson\": \"{\\\"source\\\":\\\"lesson\\\"}\",\n          \"participants\": [],\n          \"questions\": [\n            {\n              \"id\": \"cmswe1hwj001gkj6k8mraxf9w\",\n              \"gameResultId\": \"cmswe1hv2001ckj6kvhmixduw\",\n              \"questionId\": null,\n              \"questionText\": \"ما نصف 1؟\",\n              \"studentId\": null,\n              \"studentAnswer\": \"1/2\",\n              \"isCorrect\": true,\n              \"pointsEarned\": 3,\n              \"answeredAt\": \"2026-08-16T22:40:17.636Z\"\n            }\n          ]\n        }\n      }\n    }\n  ]\n}\n"
+    },
+    {
+      "label": "student-class-group-e2e",
+      "command": "node scripts/student-class-group-e2e.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 2500,
+      "base": "http://127.0.0.1:3060",
+      "output": "{\n  \"base\": \"http://127.0.0.1:3060\",\n  \"prefix\": \"qa-1786920019363-\",\n  \"total\": 73,\n  \"passed\": 73,\n  \"failed\": 0,\n  \"results\": [\n    {\n      \"name\": \"create empty class A\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create empty class B\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class C for cascade\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"list classes includes all created\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"class list is array\",\n      \"ok\": true,\n      \"detail\": {\n        \"count\": 3\n      }\n    },\n    {\n      \"name\": \"create student without class\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"orphan appears in global list\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"orphan list result is array\",\n      \"ok\": true,\n      \"detail\": {\n        \"count\": 1\n      }\n    },\n    {\n      \"name\": \"move orphan into class A\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"move student back to no class\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 1\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 2\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 3\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 4\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 5\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 6\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 7\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 8\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 9\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 10\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 11\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create class-A student 12\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"listByClass returns 12 class-A students\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"all class-A students have class A\",\n      \"ok\": true,\n      \"detail\": {\n        \"bad\": []\n      }\n    },\n    {\n      \"name\": \"create same name in different class\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"duplicate check finds same name in class A\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"duplicate check does not confuse class B record\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"duplicate check is blank-safe\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"duplicate studentCode is rejected\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 400,\n        \"error\": \"studentCode مستخدم بالفعل لطالب آخر\"\n      }\n    },\n    {\n      \"name\": \"update student profile and title\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"updated student has no unexpected field\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"updated student is in global list\",\n      \"ok\": true,\n      \"detail\": {\n        \"id\": \"qa-1786920019363-s1\"\n      }\n    },\n    {\n      \"name\": \"student update with no valid field is safe skip\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"move student from A to B\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"class A count decreases after move\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"class B contains moved student\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"move counts are consistent\",\n      \"ok\": true,\n      \"detail\": {\n        \"a\": 11,\n        \"b\": 2\n      }\n    },\n    {\n      \"name\": \"mark one student absent\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"set title on present student\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"award points is additive\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"award correct updates counters\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"award wrong updates counters\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"award good try updates counters\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"award badge creates linked record\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"reset session clears lastCalled for class\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"set absent false restores student\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"autoSplit creates requested groups\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"autoSplit excludes moved student\",\n      \"ok\": true,\n      \"detail\": {\n        \"moved\": \"qa-1786920019363-s2\"\n      }\n    },\n    {\n      \"name\": \"autoSplit distributes active class-A students exactly once\",\n      \"ok\": true,\n      \"detail\": {\n        \"total\": 11,\n        \"expected\": 11\n      }\n    },\n    {\n      \"name\": \"save custom group\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"add group points is additive\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"list groups for class\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"autoSplit rejects zero groups\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 400,\n        \"error\": \"groups.autoSplit: عدد المجموعات يجب أن يكون بين 1 و32\"\n      }\n    },\n    {\n      \"name\": \"autoSplit rejects more than 32 groups\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 400,\n        \"error\": \"groups.autoSplit: عدد المجموعات يجب أن يكون بين 1 و32\"\n      }\n    },\n    {\n      \"name\": \"autoSplit rejects non-integer groups\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 400,\n        \"error\": \"groups.autoSplit: عدد المجموعات يجب أن يكون بين 1 و32\"\n      }\n    },\n    {\n      \"name\": \"groups.save requires an id\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 400,\n        \"error\": \"groups.save: missing id\"\n      }\n    },\n    {\n      \"name\": \"delete student removes it from group JSON\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"group membership cleans deleted student\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"group cleanup covers all groups\",\n      \"ok\": true,\n      \"detail\": {\n        \"groupCount\": 4\n      }\n    },\n    {\n      \"name\": \"delete custom group\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"delete missing student is safe skip\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"update missing student is safe skip\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"award missing student is safe skip\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create cascade student\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"create cascade group\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"delete class cascades students and groups\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"cascade removed class students\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"cascade removed class groups\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"cascade queries return empty arrays\",\n      \"ok\": true,\n      \"detail\": {\n        \"cascadeStudents\": [],\n        \"cascadeGroups\": []\n      }\n    },\n    {\n      \"name\": \"student without required name is rejected\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 400,\n        \"error\": \"اسم الطالب مطلوب\"\n      }\n    },\n    {\n      \"name\": \"delete class A\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"delete class B\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    },\n    {\n      \"name\": \"delete orphan student\",\n      \"ok\": true,\n      \"detail\": {\n        \"status\": 200\n      }\n    }\n  ]\n}\n"
+    },
+    {
+      "label": "fairness",
+      "command": "cmd /c npx --yes tsx scripts/fairness-v10-smoke.ts",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 5455,
+      "base": "http://127.0.0.1:3040",
+      "output": "{\n  \"ok\": true,\n  \"suite\": \"fairness-v10-smoke\",\n  \"checks\": 11,\n  \"failed\": 0\n}\n"
+    },
+    {
+      "label": "whiteboard-games",
+      "command": "node --experimental-strip-types scripts/whiteboard-games-v10-smoke.ts",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 196,
+      "base": "http://127.0.0.1:3040",
+      "output": "WHITEBOARD_GAMES_V10_SMOKE PASS 22 checks\n(node:7496) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/ebrah/Downloads/%D8%A8%D8%B3%D9%84%D8%A7%D8%B3%D8%A9%2016-8/scripts/whiteboard-games-v10-smoke.ts is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to C:\\Users\\ebrah\\Downloads\\بسلاسة 16-8\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "label": "settings-ai",
+      "command": "node --experimental-strip-types scripts/settings-ai-v10-smoke.ts",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 165,
+      "base": "http://127.0.0.1:3040",
+      "output": "PASS settings export schema\nPASS settings import roundtrip\nPASS settings rejects unknown key\nPASS settings rejects invalid temperature\nPASS settings conflict older revision\nPASS settings accepts newer revision\nPASS section search Arabic\nPASS AI context override\nPASS specialty math\nPASS specialty image\nPASS capability parse\nPASS scope allow operation\nPASS scope deny unrelated\nPASS safety safe prompt\nPASS safety blocks risky prompt\nPASS webhook blocks localhost\nPASS webhook accepts https\nPASS provider preset openrouter\nPASS provider preset anthropic\nPASS provider preset image capability\nSETTINGS_AI_V10_SMOKE PASS 20/20 checks\n(node:8900) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/ebrah/Downloads/%D8%A8%D8%B3%D9%84%D8%A7%D8%B3%D8%A9%2016-8/scripts/settings-ai-v10-smoke.ts is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to C:\\Users\\ebrah\\Downloads\\بسلاسة 16-8\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "label": "reports-telegram",
+      "command": "node --experimental-strip-types scripts/reports-telegram-v10-smoke.ts",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 186,
+      "base": "http://127.0.0.1:3040",
+      "output": "{\"ok\":true,\"suite\":\"reports-telegram-v10-smoke\",\"checks\":18,\"names\":[\"template normalization\",\"default templates\",\"template rendering\",\"command parse\",\"command link arg\",\"keyboard scope\",\"callback parse\",\"callback reject\",\"retry backoff\",\"idempotency\",\"rate limit first\",\"rate limit second\",\"rate limit rejects third\",\"rate limit resets\",\"parent preference allowlist\",\"attendance aggregation\",\"comparative report\",\"csv escaping\"]}\n(node:4840) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/ebrah/Downloads/%D8%A8%D8%B3%D9%84%D8%A7%D8%B3%D8%A9%2016-8/scripts/reports-telegram-v10-smoke.ts is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to C:\\Users\\ebrah\\Downloads\\بسلاسة 16-8\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "label": "rewards-assets",
+      "command": "node scripts/rewards-assets-v13-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1872,
+      "base": "http://127.0.0.1:3040",
+      "output": "PASS gift file rocket-star\nPASS gift alpha rocket-star\nPASS gift file rainbow-medal\nPASS gift alpha rainbow-medal\nPASS gift file magic-book\nPASS gift alpha magic-book\nPASS gift file math-trophy\nPASS gift alpha math-trophy\nPASS gift file super-pencil\nPASS gift alpha super-pencil\nPASS gift file idea-lamp\nPASS gift alpha idea-lamp\nPASS gift file comet-sticker\nPASS gift alpha comet-sticker\nPASS gift file golden-crown\nPASS gift alpha golden-crown\nPASS gift file team-badge\nPASS gift alpha team-badge\nPASS gift file confetti-box\nPASS gift alpha confetti-box\nPASS gift file planet-puzzle\nPASS gift alpha planet-puzzle\nPASS gift file heart-encouragement\nPASS gift alpha heart-encouragement\nPASS sound file bisalasa-success-bright.wav\nPASS sound probe bisalasa-success-bright.wav\nPASS sound duration bisalasa-success-bright.wav\nPASS sound file bisalasa-success-perfect.wav\nPASS sound probe bisalasa-success-perfect.wav\nPASS sound duration bisalasa-success-perfect.wav\nPASS sound file bisalasa-gift-reveal.wav\nPASS sound probe bisalasa-gift-reveal.wav\nPASS sound duration bisalasa-gift-reveal.wav\nPASS sound file bisalasa-celebration-class.wav\nPASS sound probe bisalasa-celebration-class.wav\nPASS sound duration bisalasa-celebration-class.wav\nPASS sound file bisalasa-gentle-correction.wav\nPASS sound probe bisalasa-gentle-correction.wav\nPASS sound duration bisalasa-gentle-correction.wav\nPASS sound file bisalasa-level-up.wav\nPASS sound probe bisalasa-level-up.wav\nPASS sound duration bisalasa-level-up.wav\nPASS sound file bisalasa-fireworks-impact.wav\nPASS sound probe bisalasa-fireworks-impact.wav\nPASS sound duration bisalasa-fireworks-impact.wav\nPASS sound file bisalasa-session-finish.wav\nPASS sound probe bisalasa-session-finish.wav\nPASS sound duration bisalasa-session-finish.wav\nPASS sound file bisalasa-student-picker.wav\nPASS sound probe bisalasa-student-picker.wav\nPASS sound duration bisalasa-student-picker.wav\nPASS gift mapping rocket-star\nPASS gift mapping rainbow-medal\nPASS gift mapping magic-book\nPASS gift mapping math-trophy\nPASS gift mapping super-pencil\nPASS gift mapping idea-lamp\nPASS gift mapping comet-sticker\nPASS gift mapping golden-crown\nPASS gift mapping team-badge\nPASS gift mapping confetti-box\nPASS gift mapping planet-puzzle\nPASS gift mapping heart-encouragement\nPASS sound mapping bisalasa-success-bright.wav\nPASS sound mapping bisalasa-success-perfect.wav\nPASS sound mapping bisalasa-gift-reveal.wav\nPASS sound mapping bisalasa-celebration-class.wav\nPASS sound mapping bisalasa-gentle-correction.wav\nPASS sound mapping bisalasa-level-up.wav\nPASS sound mapping bisalasa-fireworks-impact.wav\nPASS sound mapping bisalasa-session-finish.wav\nPASS sound mapping bisalasa-student-picker.wav\nPASS success alias uses new sound\nPASS gift alias uses new sound\n{\"ok\":true,\"suite\":\"rewards-assets-v13-smoke\",\"checks\":74}\n"
+    },
+    {
+      "label": "curriculum-factory",
+      "command": "node scripts/curriculum-factory-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1712,
+      "base": "http://127.0.0.1:3066",
+      "output": "CURRICULUM_FACTORY_SMOKE PASS 25 checks\n"
+    },
+    {
+      "label": "moodle-security",
+      "command": "node --experimental-strip-types scripts/moodle-security-smoke.ts",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 201,
+      "base": "http://127.0.0.1:3040",
+      "output": "{\"passed\":4,\"failed\":0,\"encryptedHasPlaintext\":false}\n(node:9632) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/ebrah/Downloads/%D8%A8%D8%B3%D9%84%D8%A7%D8%B3%D8%A9%2016-8/scripts/moodle-security-smoke.ts is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to C:\\Users\\ebrah\\Downloads\\بسلاسة 16-8\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    {
+      "label": "scenario-matrix-25000",
+      "command": "python scripts/qa_scenario_matrix_extended.py",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 2395,
+      "base": "http://127.0.0.1:3068",
+      "output": "{\r\n  \"seed\": 20260814,\r\n  \"target\": 25000,\r\n  \"generated\": 25000,\r\n  \"passed\": 25000,\r\n  \"failed\": 0,\r\n  \"playable\": 9952,\r\n  \"blocked\": 15048\r\n}\r\n"
+    },
+    {
+      "label": "db-deep-checks",
+      "command": "node scripts/db_deep_checks.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1372,
+      "base": "http://127.0.0.1:3069",
+      "output": "{\n  \"orphanEvents\": [],\n  \"sessions\": [],\n  \"lessonShapes\": [],\n  \"settings\": [\n    {\n      \"id\": \"singleton\",\n      \"keys\": [\n        \"apiToken\"\n      ],\n      \"hasEncryptedSecrets\": false\n    }\n  ],\n  \"celebrations\": [],\n  \"usage\": []\n}\n"
+    },
+    {
+      "label": "whiteboard-sync",
+      "command": "node scripts/whiteboard-sync-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1051,
+      "base": "http://127.0.0.1:3070",
+      "output": "{\n  \"ok\": true,\n  \"suite\": \"whiteboard-sync-smoke\",\n  \"checks\": 8,\n  \"channel\": true,\n  \"revisionGuard\": true,\n  \"storageFallback\": true,\n  \"boundedSnapshot\": true\n}\n"
+    },
+    {
+      "label": "live-sync",
+      "command": "node scripts/live-sync-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1647,
+      "base": "http://127.0.0.1:3071",
+      "output": "{\n  \"ok\": true,\n  \"suite\": \"live-sync-smoke\",\n  \"checks\": 8,\n  \"accepted\": 1,\n  \"duplicateSuppressed\": 1,\n  \"feedEvents\": 1\n}\n"
+    },
+    {
+      "label": "live-sync-concurrency",
+      "command": "node scripts/live-sync-concurrency-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1813,
+      "base": "http://127.0.0.1:3072",
+      "output": "{\"ok\":true,\"suite\":\"live-sync-concurrency-smoke\",\"checks\":4,\"accepted\":1,\"duplicates\":19,\"attempts\":1}\n"
+    },
+    {
+      "label": "reports-unified",
+      "command": "node scripts/reports-unified-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1709,
+      "base": "http://127.0.0.1:3073",
+      "output": "{\"ok\":true,\"suite\":\"reports-unified-smoke\",\"checks\":16,\"student\":{\"interactive\":2,\"games\":7,\"activities\":3},\"classRows\":2}\n"
+    },
+    {
+      "label": "reports-large-class",
+      "command": "node scripts/reports-large-class-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 10000,
+      "base": "http://127.0.0.1:3074",
+      "output": "{\"ok\":true,\"suite\":\"reports-large-class-smoke\",\"checks\":5,\"students\":100,\"upsertMs\":4231,\"reportMs\":242,\"totalMs\":4473,\"rows\":100}\n"
+    },
+    {
+      "label": "performance-smoke",
+      "command": "node scripts/performance-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 2138,
+      "base": "http://127.0.0.1:3075",
+      "output": "{\n  \"ok\": true,\n  \"base\": \"http://127.0.0.1:3075\",\n  \"samples\": 10,\n  \"results\": [\n    {\n      \"name\": \"teacher-shell\",\n      \"status\": 200,\n      \"minMs\": 12.08,\n      \"p50Ms\": 14.63,\n      \"p95Ms\": 329.18,\n      \"avgMs\": 46.52\n    },\n    {\n      \"name\": \"student-shell\",\n      \"status\": 200,\n      \"minMs\": 7.02,\n      \"p50Ms\": 10.42,\n      \"p95Ms\": 20.46,\n      \"avgMs\": 11.12\n    },\n    {\n      \"name\": \"grades-all\",\n      \"status\": 200,\n      \"minMs\": 4.71,\n      \"p50Ms\": 6.34,\n      \"p95Ms\": 37.39,\n      \"avgMs\": 9.11\n    },\n    {\n      \"name\": \"grades-class\",\n      \"status\": 200,\n      \"minMs\": 4.54,\n      \"p50Ms\": 5,\n      \"p95Ms\": 7.75,\n      \"avgMs\": 5.45\n    },\n    {\n      \"name\": \"classes-api\",\n      \"status\": 200,\n      \"minMs\": 6.3,\n      \"p50Ms\": 7.62,\n      \"p95Ms\": 142.82,\n      \"avgMs\": 21.4\n    },\n    {\n      \"name\": \"report-class-api\",\n      \"status\": 200,\n      \"minMs\": 5.09,\n      \"p50Ms\": 6.32,\n      \"p95Ms\": 7.47,\n      \"avgMs\": 6.09\n    }\n  ],\n  \"limits\": {\n    \"teacher-shell\": 1500,\n    \"student-shell\": 1000,\n    \"grades-all\": 1500,\n    \"grades-class\": 1500,\n    \"classes-api\": 500,\n    \"report-class-api\": 1000\n  },\n  \"failures\": []\n}\n"
+    },
+    {
+      "label": "moodle-advanced",
+      "command": "node scripts/moodle-advanced-integration-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 2357,
+      "base": "http://127.0.0.1:3076",
+      "output": "{\n  \"ok\": true,\n  \"suite\": \"moodle-advanced-integration-smoke\",\n  \"checks\": 40,\n  \"sections\": 2,\n  \"activities\": 3,\n  \"liveNextPollMs\": 10000,\n  \"webhookDuplicateSuppressed\": true,\n  \"validationPending\": true,\n  \"reconciliation\": true,\n  \"healthProbe\": true,\n  \"retryQueue\": true\n}\n"
+    },
+    {
+      "label": "moodle-mapping",
+      "command": "node scripts/moodle-mapping-e2e.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 2014,
+      "base": "http://127.0.0.1:3077",
+      "output": "{\n  \"ok\": true,\n  \"suite\": \"moodle-mapping-e2e\",\n  \"checks\": 18,\n  \"courseId\": 77,\n  \"groups\": 2,\n  \"mappedStudents\": 2,\n  \"sharedLessons\": 1,\n  \"ideas\": 1,\n  \"activities\": 1,\n  \"homeworks\": 1,\n  \"untaggedFallback\": \"supported-by-null-ideaKey\"\n}\n"
+    },
+    {
+      "label": "moodle-live",
+      "command": "node scripts/moodle-live-sync-e2e.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 5865,
+      "base": "http://127.0.0.1:3078",
+      "output": "{\n  \"ok\": true,\n  \"suite\": \"moodle-live-sync-e2e\",\n  \"checks\": 12,\n  \"first\": {\n    \"courseId\": 77,\n    \"mode\": \"initial\",\n    \"cursor\": \"2026-08-16T22:03:07.000Z\",\n    \"nextPollMs\": 5000,\n    \"students\": 3,\n    \"attempts\": 8,\n    \"changed\": 4,\n    \"skipped\": 1,\n    \"requests\": 8,\n    \"homeworkSnapshots\": 3,\n    \"homeworkQuestions\": 100,\n    \"failures\": []\n  },\n  \"second\": {\n    \"courseId\": 77,\n    \"mode\": \"delta\",\n    \"cursor\": \"2026-08-16T22:03:07.000Z\",\n    \"nextPollMs\": 10000,\n    \"students\": 3,\n    \"attempts\": 0,\n    \"changed\": 0,\n    \"skipped\": 6,\n    \"requests\": 6,\n    \"homeworkSnapshots\": 0,\n    \"homeworkQuestions\": 0,\n    \"failures\": []\n  },\n  \"ahmed\": {\n    \"snapshots\": 1,\n    \"questionResults\": 50,\n    \"attempts\": 4\n  },\n  \"sara\": {\n    \"status\": \"not_submitted\"\n  }\n}\n"
+    },
+    {
+      "label": "moodle-homework",
+      "command": "node scripts/moodle-homework-results-e2e.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 2546,
+      "base": "http://127.0.0.1:3079",
+      "output": "{\n  \"ok\": true,\n  \"suite\": \"moodle-homework-results-e2e\",\n  \"checks\": 16,\n  \"totalQuestions\": 50,\n  \"submitted\": {\n    \"studentId\": \"student-ahmed-1786920065497\",\n    \"completionPct\": 90,\n    \"successOnAnsweredPct\": 88.89,\n    \"successOnTotalPct\": 80\n  },\n  \"notSubmitted\": {\n    \"studentId\": \"student-sara-1786920065497\",\n    \"status\": \"not_submitted\"\n  },\n  \"ideaBuckets\": [\n    \"idea01\",\n    \"idea02\",\n    \"lesson_unmapped\"\n  ]\n}\n"
+    },
+    {
+      "label": "settings-ai-api",
+      "command": "node scripts/settings-ai-v10-api-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 1736,
+      "base": "http://127.0.0.1:3080",
+      "output": "PASS settings profile save\nPASS settings profile list\nPASS settings profile conflict\nPASS conversation history persistence\nPASS AI memory upsert/list\nPASS AI retry claim\nPASS AI retry complete\nPASS prompt library\nPASS embedding persistence\nPASS mock embeddings capability\nPASS mock image capability\nPASS mock vision capability\nPASS AI safety gate\nPASS webhook target save\nPASS webhook target list redacted\nPASS REST API denied without key\nSETTINGS_AI_V10_API_SMOKE PASS 16/16 checks\n"
+    },
+    {
+      "label": "reports-telegram-api",
+      "command": "node scripts/reports-telegram-v10-api-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 3475,
+      "base": "http://127.0.0.1:3081",
+      "output": "{\"ok\":true,\"suite\":\"reports-telegram-v10-api-smoke\",\"checks\":23,\"processedQueue\":\"cmswe2nq7000nkjv4scnf08k3\"}\n"
+    },
+    {
+      "label": "whiteboard-games-api",
+      "command": "node scripts/whiteboard-games-v10-api-smoke.cjs",
+      "passed": true,
+      "status": 0,
+      "timedOut": false,
+      "durationMs": 2363,
+      "base": "http://127.0.0.1:3082",
+      "output": "WHITEBOARD_GAMES_V10_API_SMOKE PASS 18 checks\n"
+    }
+  ]
+}
